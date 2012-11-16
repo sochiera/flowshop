@@ -1,0 +1,95 @@
+\documentclass[10pt]{beamer}
+\usetheme{Warsaw}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{parskip}
+\usepackage{latexsym,gensymb,amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{url}
+
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title[Flow Shop Scheduling Problem]{Flow~Shop~Scheduling~Problem}
+\author[Krzysztof Chrobak\and Jan Sochiera]{Krzysztof~Chrobak \and Jan~Sochiera}
+	
+
+\institute[Algorytmy Ewolucyjne 2012]{\normalsize Algorytmy Ewolucyjne 2012}
+\subject{Computational Sciences}
+
+
+\begin{document}
+
+  \frame
+  {
+    \titlepage
+  }
+
+
+
+  \section{Definicja problemu}
+
+
+  \frame
+  {
+    \frametitle{Definicja problemu}
+
+    \begin{itemize}
+    	\item<1-> $n$ zadań
+    	\item<2-> $m$ maszyn
+	\item<3-> Każde zadanie musi być wykonane na każdej maszynie
+	\item<4-> Każda maszyna musi wykonaywać zadania w tej samej kolejności
+	\item<5-> Jedno zadanie nie może być wykonywane jednocześnie na więcej niż jednej maszynie
+    \end{itemize}
+  }
+
+  \section{Przestrzeń poszukiwań}
+
+\frame
+	{
+	\frametitle{Przestrzeń poszukiwań}
+	\begin{center}
+	Każda permutacja kolejności zadań jest możliwa do wykonania, dlatego przestrzeń poszukiwań staje się przestrzenią permutacji zbioru $n$-elementowego.  
+	\end{center}
+	}
+
+\section{Funkcja celu}
+\frame
+	{
+	\frametitle{Funkcja celu}
+	\begin{description}
+		
+		\item[$t_{i,j}$] Czas wykonywania $i$-tego zadania na $j$-tej maszynie
+		\item[$S_n$] Przestrzeń poszukiwań
+  		\item[$\pi \in S_n$] Kolejność wykonywnia zadań
+  		\item[$b(i,j)$] Czas rozpoczęcia $\pi(i)$-tego zadania na $j$-tej maszynie
+  		\item[$c(\pi)$] Czas pomiędzy początkiem pierwszego a końcem ostatniego zadania \hfill \\
+				$c(\pi) = b(n,m) + t_{\pi (n), m}$
+		
+	\end{description}
+	}
+
+\frame
+	{
+	\frametitle{Algorytm obliczania funkcji celu}
+	
+	$b(1,1) = 0$\\~\\
+	$b(1,n) = b(1,n-1) + t_{\pi(1),n-1}$\\~\\
+	$b(i,1) = b(i-1,1) + t_{\pi(i-1),1}$\\~\\
+	$b(i,j) = max(b(i-1, j) + t_{\pi(i-1),j},$\\$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;b(i, j-1) + t_{\pi(i),j-1})$
+	
+	}
+
+\end{document}
+
+
+
+
+
+
+
+
