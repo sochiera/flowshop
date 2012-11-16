@@ -11,3 +11,19 @@
 *.lai
 *.la
 *.a
+
+# from python
+*.pyc
+
+# vim
+*.swp
+
+# gedit
+*.*~
+
+# latex
+*.log
+*.pdf
+*.toc
+*.dvi
+*.ps
