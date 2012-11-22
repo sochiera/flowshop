@@ -12,8 +12,27 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 find_package(OpenMP)
 add_definitions(${OpenMP_CXX_FLAGS})
 
-set(
-  SOURCES
+find_package(GTest)
+include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(include)
+
+
+set(SOURCES
+  src/random.cpp 
+  src/permutation.cpp
+  src/ox.cpp
+  src/ux.cpp
+  src/pmx.cpp
+  src/mutation.cpp
+)
+
+
+set(TESTS
+  test/random.cpp
+  test/permutation.cpp
+  test/ux.cpp
+  test/ox.cpp
+  test/pmx.cpp
 )
 
 
@@ -25,4 +44,5 @@ target_link_libraries(flowshop
   gomp
   )
 
-
+add_executable(ut ${TESTS})
+target_link_libraries(ut flowshop ${GTEST_BOTH_LIBRARIES})
