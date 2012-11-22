@@ -2,8 +2,6 @@
 #include <algorithm>
 #include <random.h>
 
-using namespace genetic;
-
 typedef Permutation P;
 
 
@@ -12,7 +10,7 @@ UX::UX(int num){
 }
 
 
-Crossover::Result genetic::UX::operator() 
+Crossover::Result UX::operator() 
   (const Permutation & a, const Permutation & b)
 {
   // select random subset  

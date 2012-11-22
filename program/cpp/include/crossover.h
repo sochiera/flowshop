@@ -4,8 +4,6 @@
 #include <permutation.h>
 #include <utility>
 
-namespace genetic{
-
 
 class Crossover{
   public:
@@ -55,7 +53,5 @@ class UX : public Crossover{
     double num_exchanged_;
 };
 
-
-};
 
 #endif

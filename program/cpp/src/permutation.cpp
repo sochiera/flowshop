@@ -3,12 +3,12 @@
 #include <algorithm>
 
 
-genetic::Permutation::Permutation(int size)
+Permutation::Permutation(int size)
   : std::vector<int>(size) 
 {}
 
 
-genetic::Permutation::Permutation(const char * code)
+Permutation::Permutation(const char * code)
   : std::vector<int>(strlen(code))
 {
   int n = strlen(code);
@@ -18,7 +18,7 @@ genetic::Permutation::Permutation(const char * code)
 }
 
 
-bool genetic::Permutation::operator == (const Permutation & other) const{
+bool Permutation::operator == (const Permutation & other) const{
   for(int i = 0; i < size(); i++){
     if(at(i) != other[i])
       return false;
@@ -27,7 +27,7 @@ bool genetic::Permutation::operator == (const Permutation & other) const{
 }
 
 
-bool genetic::Permutation::valid() const{
+bool Permutation::valid() const{
   bool was[size()];
   std::fill(was, was + size(), false);
   for(int i = 0; i < size(); i++){
@@ -41,7 +41,7 @@ bool genetic::Permutation::valid() const{
 
 
 
-std::ostream & genetic::operator << 
+std::ostream & operator << 
   (std::ostream & out, const Permutation & p)
 {
   for(int i = 0; i < p.size(); i ++)
@@ -51,12 +51,12 @@ std::ostream & genetic::operator <<
 }
 
 
-void genetic::Permutation::swap(int i, int j){
+void Permutation::swap(int i, int j){
   std::swap(at(i), at(j));
 }
 
 
-void  genetic::Permutation::randomize(){
+void  Permutation::randomize(){
   for(int i = 0; i < size(); i++)
     at(i) = i;
   std::random_shuffle(begin(), end());

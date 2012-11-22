@@ -4,7 +4,6 @@
 #include <vector>
 #include <istream>
 
-namespace genetic{
 
 class Permutation : public std::vector<int>{
   public:
@@ -21,7 +20,6 @@ class Permutation : public std::vector<int>{
 
 
 std::ostream & operator << (std::ostream & out, const Permutation & p);
-};
 
 
 #endif

@@ -1,7 +1,6 @@
 #include <crossover.h>
 #include <gtest/gtest.h>
 
-using namespace genetic;
 
 TEST(UX, Crossover){
   Permutation mom("02134");

@@ -3,11 +3,10 @@
 #include <random.h>
 #include <cassert>
 
-using namespace genetic;
 
 typedef Permutation P;
 
-Crossover::Result genetic::OX::operator () (const P & mom, const P & dad){
+Crossover::Result OX::operator () (const P & mom, const P & dad){
   Result r;
   std::pair<int, int> ab = randpair(mom.size()); 
   r.first = cross(ab.first, ab.second, mom, dad);
@@ -16,7 +15,7 @@ Crossover::Result genetic::OX::operator () (const P & mom, const P & dad){
 }
 
 
-P genetic::OX::cross(int a, int b, const P & mom, const P & dad){
+P OX::cross(int a, int b, const P & mom, const P & dad){
   assert(mom.valid());
   assert(dad.valid());
   

@@ -2,29 +2,29 @@
 
 #include <algorithm>
   
-int genetic::randint(int a, int b){
+int randint(int a, int b){
   return rand() % (b - a) + a; 
 }
 
 
-int genetic::randint(int a){
+int randint(int a){
   return randint(0, a);
 }
 
 
-bool genetic::randbool(double true_prob){
+bool randbool(double true_prob){
   return double(rand()) / double(RAND_MAX) < true_prob;
 }
 
 
-std::pair<int, int> genetic::randpair(int n){
+std::pair<int, int> randpair(int n){
   int b = randint(1, n);
   int a = randint(0, b);
   return std::make_pair(a, b);
 }
 
 
-std::vector< std::pair<int, int> > genetic::randpart(int n){
+std::vector< std::pair<int, int> > randpart(int n){
   int * elems = new int[n];
   for(int i = 0; i < n; i++) 
     elems[i] = i;
@@ -40,7 +40,7 @@ std::vector< std::pair<int, int> > genetic::randpart(int n){
 }
 
 
-std::vector<int> genetic::randsubset(int n, int k){
+std::vector<int> randsubset(int n, int k){
   std::vector<int> xs(k);
   int p = -1;
   for(int i = 0; i < k; i++){

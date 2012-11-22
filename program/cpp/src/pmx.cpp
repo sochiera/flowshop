@@ -2,12 +2,11 @@
 #include <algorithm>
 #include <random.h>
 
-using namespace genetic;
 
 typedef Permutation P;
 
 
-genetic::PMX::PMX(int seg){
+PMX::PMX(int seg){
   max_seg_ = seg;
 }
 
@@ -22,7 +21,7 @@ Crossover::Result PMX::operator () (const P & mom, const P & dad){
 
 
 
-P genetic::PMX::cross(int a, int b, const P & mom, const P & dad){
+P PMX::cross(int a, int b, const P & mom, const P & dad){
   P child(mom.size());
 
   b = std::min(b, a + max_seg_);

@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 TEST(Permutation, ReadsItselfFromString){
-  genetic::Permutation p("0123");
+  Permutation p("0123");
 
   ASSERT_EQ(4, p.size());
   for(int i = 0; i < 4; i++){
@@ -12,7 +12,7 @@ TEST(Permutation, ReadsItselfFromString){
 
 
 TEST(Permutation, ChecksValidity){
-  genetic::Permutation p(3);
+  Permutation p(3);
   ASSERT_FALSE(p.valid());
 
   p[0] = 2;
