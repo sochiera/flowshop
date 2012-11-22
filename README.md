@@ -1,5 +1,12 @@
 TODO
 ====
-  * Ogarnięcie boost::python + openMP
-  * Ogarnięcie Python RPC
-  * Napisanie parsera do benchmarków
+
+
+
+Potrzebne biblioteki i programy
+===============================
+  
+  * boost::python
+  * openMP 
+  * cmake
+  * python 2.7
