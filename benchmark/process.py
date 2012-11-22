@@ -18,6 +18,7 @@ while i != len(numbers):
   problem = {}
   jobs = numbers[i]; i += 1
   machines = numbers[i]; i += 2
+  problem['number'] = len(problems)
   problem['jobs'] = jobs
   problem['machines'] = machines
   problem['upper_bound'] = numbers[i]; i += 1 
