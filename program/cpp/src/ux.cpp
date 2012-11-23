@@ -35,7 +35,7 @@ P UX::cross(const std::vector<int> & ind, const P & mom, const P & dad){
   std::fill(in, in + n, false);
   std::fill(was, was + n, false);
 
-  for(int i = 0; i < n; i++){
+  for(unsigned int i = 0; i < ind.size(); i++){
     child[ind[i]] = mom[ind[i]];
     was[child[ind[i]]] = true;
     in[ind[i]] = true;
@@ -45,7 +45,7 @@ P UX::cross(const std::vector<int> & ind, const P & mom, const P & dad){
   for(int i = 0; i < n; i++)
     where[dad[i]] = i;
 
-  for(int i = 0; i < n; i++){
+  for(unsigned int i = 0; i < ind.size(); i++){
     int j = ind[i];
     if(was[dad[j]])
       continue;

@@ -24,6 +24,7 @@ set(SOURCES
   src/ux.cpp
   src/pmx.cpp
   src/mutation.cpp
+  bindings.cpp
 )
 
 
@@ -46,3 +47,15 @@ target_link_libraries(flowshop
 
 add_executable(ut ${TESTS})
 target_link_libraries(ut flowshop ${GTEST_BOTH_LIBRARIES})
+
+
+find_package(PythonInterp)
+add_custom_target( 
+  copy_bindings_test ALL
+  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/binding_test.py ${CMAKE_CURRENT_BINARY_DIR}/binding_test.py)
+
+
+enable_testing()
+add_test(UnitTests ${CMAKE_CURRENT_BINARY_DIR}/ut)
+add_test(Bindings ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/binding_test.py)
+
