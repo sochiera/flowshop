@@ -1,9 +1,9 @@
 #ifndef MUTATION_H_
 #define MUTATION_H_
 
-#include <permutation.h>
+#include <individual.h>
 
-void mutate_transpose(int n, Permutation & p);
+void mutate_transpose(int n, Individual & p);
 
 
 #endif

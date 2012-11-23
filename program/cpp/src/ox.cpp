@@ -4,7 +4,7 @@
 #include <cassert>
 
 
-typedef Permutation P;
+typedef Individual P;
 
 Crossover::Result OX::operator () (const P & mom, const P & dad){
   Result r;

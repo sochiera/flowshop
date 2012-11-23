@@ -1,8 +1,8 @@
-#include <permutation.h>
+#include <individual.h>
 #include <gtest/gtest.h>
 
-TEST(Permutation, ReadsItselfFromString){
-  Permutation p("0123");
+TEST(Individual, ReadsItselfFromString){
+  Individual p("0123");
 
   ASSERT_EQ(4, p.size());
   for(int i = 0; i < 4; i++){
@@ -11,8 +11,8 @@ TEST(Permutation, ReadsItselfFromString){
 }
 
 
-TEST(Permutation, ChecksValidity){
-  Permutation p(3);
+TEST(Individual, ChecksValidity){
+  Individual p(3);
   ASSERT_FALSE(p.valid());
 
   p[0] = 2;

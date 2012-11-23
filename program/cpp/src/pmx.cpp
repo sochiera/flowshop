@@ -3,7 +3,7 @@
 #include <random.h>
 
 
-typedef Permutation P;
+typedef Individual P;
 
 
 PMX::PMX(int seg){

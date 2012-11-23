@@ -19,7 +19,7 @@ include_directories(include)
 
 set(SOURCES
   src/random.cpp 
-  src/permutation.cpp
+  src/individual.cpp
   src/ox.cpp
   src/ux.cpp
   src/pmx.cpp
@@ -29,7 +29,7 @@ set(SOURCES
 
 set(TESTS
   test/random.cpp
-  test/permutation.cpp
+  test/individual.cpp
   test/ux.cpp
   test/ox.cpp
   test/pmx.cpp

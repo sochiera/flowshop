@@ -3,9 +3,9 @@
 
 
 TEST(PMX, Crossover){
-  Permutation mom("8473625190");
-  Permutation dad("0123456789");
-  Permutation child("0743625189");
+  Individual mom("8473625190");
+  Individual dad("0123456789");
+  Individual child("0743625189");
 
   PMX pmx;
 
@@ -17,10 +17,10 @@ TEST(PMX, Crossover){
 TEST(PMX, BigRandom){
   PMX pmx;
   for(int i = 0; i < 1000; i ++){
-    Permutation a(20);
+    Individual a(20);
     a.randomize();
 
-    Permutation b(20);
+    Individual b(20);
     b.randomize();
 
     Crossover::Result res = pmx(a, b);

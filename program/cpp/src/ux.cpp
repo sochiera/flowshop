@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <random.h>
 
-typedef Permutation P;
+typedef Individual P;
 
 
 UX::UX(int num){
@@ -11,7 +11,7 @@ UX::UX(int num){
 
 
 Crossover::Result UX::operator() 
-  (const Permutation & a, const Permutation & b)
+  (const Individual & a, const Individual & b)
 {
   // select random subset  
   std::vector<int> indices = randsubset(a.size(), num_exchanged_);
@@ -35,7 +35,7 @@ P UX::cross(const std::vector<int> & ind, const P & mom, const P & dad){
   std::fill(in, in + n, false);
   std::fill(was, was + n, false);
 
-  for(int i = 0; i < ind.size(); i++){
+  for(int i = 0; i < n; i++){
     child[ind[i]] = mom[ind[i]];
     was[child[ind[i]]] = true;
     in[ind[i]] = true;
@@ -45,7 +45,7 @@ P UX::cross(const std::vector<int> & ind, const P & mom, const P & dad){
   for(int i = 0; i < n; i++)
     where[dad[i]] = i;
 
-  for(int i = 0; i < ind.size(); i++){
+  for(int i = 0; i < n; i++){
     int j = ind[i];
     if(was[dad[j]])
       continue;
