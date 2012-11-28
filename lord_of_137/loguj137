@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for host in `sort -R ~/.hosts137`; do
+	if ping -c1 $host -w 1 >/dev/null; then
+		echo "Trying $host"
+		if ssh $host $*; then
+			exit;
+		fi
+	else
+		echo "$host is not responding"
+	fi
+done
