@@ -2,6 +2,7 @@
 #define CROSSOVER_H_
 
 #include <individual.h>
+#include <algorithm_state.h>
 #include <utility>
 
 
@@ -53,5 +54,12 @@ class UX : public Crossover{
     double num_exchanged_;
 };
 
+
+class CrossoverStrategy{
+  public:
+    virtual std::vector<Individual *> operator() (
+      AlgorithmState & state, 
+      std::vector<const Individual *> parents) const = 0;
+};
 
 #endif

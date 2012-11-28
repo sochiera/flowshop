@@ -24,6 +24,11 @@ set(SOURCES
   src/ux.cpp
   src/pmx.cpp
   src/mutation.cpp
+  src/population.cpp
+  src/algorithm_state.cpp
+  src/instance.cpp
+  src/termination.cpp
+  src/solver.cpp
   bindings.cpp
 )
 
@@ -34,6 +39,7 @@ set(TESTS
   test/ux.cpp
   test/ox.cpp
   test/pmx.cpp
+  test/instance.cpp
 )
 
 

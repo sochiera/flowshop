@@ -71,6 +71,14 @@ void Individual::set_cost(double cost){
   cost_ = cost;
 }
 
+double Individual::adaptation() const{
+  return adaptation_;
+}
+
+void Individual::set_adaptation(double adaptation){
+  adaptation_ = adaptation;
+}
+
 
 bool Individual::operator < (const Individual & other) const{
   return cost_ < other.cost_;

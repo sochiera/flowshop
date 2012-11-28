@@ -21,8 +21,12 @@ class Individual : public std::vector<int>{
     double cost() const;
     void set_cost(double cost);
 
+    double adaptation() const;
+    void set_adaptation(double adaptation);
+
   private:
     double cost_;
+    double adaptation_;
 };
 
 
