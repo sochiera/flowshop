@@ -23,6 +23,19 @@ Potrzebne biblioteki i programy
 ===============================
   
   * boost::python
-  * openMP 
+  * openMP (prawdopodobnie jest już wbudowane w kompilator)
   * cmake
   * python 2.7
+
+
+
+Kompilacja
+==========
+  1. wejdź do program/cpp/build 
+  2. cmake ..
+  3. make
+
+
+Dodawanie nowego pliku .cpp 
+===========================
+  W program/cpp/CMakeLists.txt trzeba dopisać jego nazwę do set(SOURCES ...)
