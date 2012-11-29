@@ -29,7 +29,6 @@ set(SOURCES
   src/instance.cpp
   src/termination.cpp
   src/solver.cpp
-  bindings.cpp
 )
 
 
