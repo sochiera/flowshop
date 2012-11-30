@@ -55,6 +55,19 @@ class UX : public Crossover{
 };
 
 
+class Composition : public Crossover{
+  public: 
+    Composition();
+    
+    virtual Result operator() 
+      (const Individual & a, const Individual & b);
+    
+    Individual cross(const Individual & mom, const Individual & dad);
+  
+
+};
+
+
 class CrossoverStrategy{
   public:
     virtual std::vector<Individual *> operator() (
