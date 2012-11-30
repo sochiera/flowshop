@@ -7,7 +7,7 @@
 
 class Mutation{
 	virtual void operator() 
-      (Individual & a, const Crossover & c) = 0;
+      (Individual & a, Crossover & c) = 0;
 
 };
 
@@ -17,7 +17,7 @@ class RandomPermutationCrossover : public Mutation{
   public:  
   	static const double Constancy = 0.75;
     virtual void operator() 
-      (Individual & a, const Crossover & c);
+      (Individual & a, Crossover & c);
 
 
 };
@@ -31,3 +31,4 @@ class MutationStrategy{
 
 #endif
   
+

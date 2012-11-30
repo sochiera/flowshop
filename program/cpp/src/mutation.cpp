@@ -16,7 +16,7 @@ void mutate_transpose(int n, Individual & p){
 }
 
 
-void RandomPermutationCrossover::operator() (Individual & a, Crossover & c){
+ void RandomPermutationCrossover::operator () (Individual & a, Crossover & c){
 	const int n = a.size();
 	P randPerm(n);
 	std::vector<int> vConst;
@@ -24,8 +24,7 @@ void RandomPermutationCrossover::operator() (Individual & a, Crossover & c){
 
 	for(int i = 0; i < n; i++){
 
-		//do poprawki
-		if(randbool(0.75)) vConst.push_back(i);
+		if(randbool(Constancy)) vConst.push_back(i);
 		else vDiff.push_back(i);
 	}
 
@@ -47,14 +46,15 @@ void RandomPermutationCrossover::operator() (Individual & a, Crossover & c){
 
 	Crossover::Result r = c(a, randPerm);
 
-	if(r.first() > r.second()){
-		std::copy((r.first()).begin(), (r.first()).end(), a.begin());
+	if( r.first > r.second ){
+		std::copy(r.first.begin(), r.first.end(), a.begin());
 	}
-	else{}
-		std::copy((r.second()).begin(), (r.second()).end(), a.begin());
+	else{
+		std::copy(r.second.begin(), r.second.end(), a.begin());
 	}
 
-	assert(a.valid());
+
+	assert( a.valid() );
 }
 
 
