@@ -3,19 +3,21 @@
 
 #include <individual.h>
 #include <algorithm_state.h>
+#include <crossover.h>
 
 class Mutation{
 	virtual void operator() 
-      (Individual & a, Crossover & c) = 0;
+      (Individual & a, const Crossover & c) = 0;
+
 };
 
 
 class RandomPermutationCrossover : public Mutation{
-  typedef 0.75 Constancy;
 
   public:  
+  	static const double Constancy = 0.75;
     virtual void operator() 
-      (Individual & a, Crossover & c);
+      (Individual & a, const Crossover & c);
 
 
 };

@@ -1,6 +1,7 @@
 #include <crossover.h>
 #include <algorithm>
 #include <random.h>
+#include <cassert>
 
 
 typedef Individual P;
@@ -8,10 +9,9 @@ typedef Individual P;
 
 
 Crossover::Result Composition::operator () (const P & mom, const P & dad){
-  Result r;
-  std::pair<int, int> ab = randpair(mom.size()); 
-  r.first = cross(ab.first, ab.second, mom, dad);
-  r.second = cross(ab.first, ab.second, dad, mom);
+  Crossover::Result r;
+  r.first = cross(mom, dad);
+  r.second = cross(dad, mom);
   return r;
 }
 
