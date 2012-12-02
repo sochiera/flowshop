@@ -20,6 +20,7 @@ include_directories(include)
 set(SOURCES
   src/random.cpp 
   src/individual.cpp
+  src/composition.cpp
   src/ox.cpp
   src/ux.cpp
   src/pmx.cpp

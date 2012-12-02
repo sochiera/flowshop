@@ -3,10 +3,36 @@
 
 #include <individual.h>
 #include <algorithm_state.h>
+#include <crossover.h>
 
 class Mutation{
+	virtual void operator() 
+      (Individual & a, Crossover & c) = 0;
 
 };
+
+
+class RandomPermutationCrossover : public Mutation{
+
+  public:  
+  	static const double Constancy = 0.75;
+    virtual void operator() 
+      (Individual & a, Crossover & c);
+
+
+};
+
+
+class PermutationShift : public Mutation{
+
+  public:  
+  	static const double Shift = 0.15;
+    virtual void operator() 
+      (Individual & a, Crossover & c);
+
+
+};
+
 
 
 class MutationStrategy{
@@ -18,3 +44,4 @@ class MutationStrategy{
 
 #endif
   
+
