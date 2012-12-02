@@ -12,8 +12,9 @@ TEST(Instance, CalculatesIndividualCost){
 
   const int tasks = 3;
   const int machines = 3;
+  const int solution = 16.0;
 
-  FlowshopInstance instance(machines, tasks);
+  FlowshopInstance instance(machines, tasks, solution);
   for(int m = 0; m < machines; m++)
     for(int t = 0; t < tasks; t++)
       instance(m, t) = cost[m][t];
@@ -29,6 +30,6 @@ TEST(Instance, CalculatesIndividualCost){
 TEST(Instance, HandlesBigData){
   Individual ind(10000); 
   ind.randomize();
-  FlowshopInstance instance(100, 10000);
+  FlowshopInstance instance(100, 10000, 10000.0);
   instance.evaluate(&ind);
 }

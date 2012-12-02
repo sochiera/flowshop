@@ -12,6 +12,7 @@ include_directories(include)
 
 
 set(SOURCES
+  src/flowshop_parser.cpp
   src/random.cpp 
   src/individual.cpp
   src/composition.cpp
