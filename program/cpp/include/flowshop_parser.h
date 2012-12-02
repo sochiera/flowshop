@@ -9,6 +9,7 @@
 class FlowshopParser{
   public:
     FlowshopInstance Parse(int n);
+
   private:
     const static int BenchmarkCount = 120;
 };

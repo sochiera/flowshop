@@ -54,3 +54,9 @@ target_link_libraries(flowshop gomp)
 
 add_executable(ut ${TESTS})
 target_link_libraries(ut flowshop ${GTEST_BOTH_LIBRARIES})
+
+add_custom_target(
+  copy_bindings_test ALL
+  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/../../benchmark/* ${CMAKE_CURRENT_BINARY_DIR}/)
+
+
