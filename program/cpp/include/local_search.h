@@ -9,57 +9,40 @@ typedef Individual P;
 
 
 class LocalSearch{
-	virtual operator() 
-      (P * Ind) = 0;
-
   public:
-    P transpose(const P * Ind, int a, int b){
-      const int n = Ind->size();
-      if(a > b){
-        std::swap(a,b);
-      }
 
-      Individual J(*Ind);
-      std::swap(J[a],J[b]);
-      return J;
-    }  
+    typedef std::pair<Individual, Individual> Result;	
 
-    P insert(const P * Ind, const int elemIdx, const int i){
-      P t(*Ind);
-      int x = t[elemIdx];
-      if(elemIdx > i){
-        for(int j = e; j > i; j--){
-          t[j] = t[j-1];
-        }
-        t[i] = x;
-      }
-      if(elemIdx < i){
-        for(int j = e; j < i; j++){
-          t[j] = t[j+1];
-        }
-        t[i] = x;
-      }
+    P transpose(const P * Ind, int a, int b);
 
-      return t;
-    }
+    P insert(const P * Ind, const int elemIdx, const int i);
+
+    virtual Result operator() 
+      (P * Ind) = 0;
 };
 
 
 class SimulatedAnnealing : public LocalSearch{
 
   public:  
-    P operator() 
-      (P * a);
+    Result operator() 
+      (const P * a);
 
 };
 
 
-class SinglePointOperator : public LocalSearch{
+
+
+class GradualSinglePointOperator : public LocalSearch{
 
   public:  
-    P operator() 
-      (P * a);
+    GradualSinglePointOperator(double effectiveness = 1.0);
+    Result operator() 
+      (const P * a);
 
+
+  private:
+    double Effectiveness;
 };
 
 
