@@ -14,7 +14,7 @@ RandomPermutationCrossover::RandomPermutationCrossover(double c){
 }
 
 
-void RandomPermutationCrossover::operator () (Individual * a){
+void RandomPermutationCrossover::operator () (Individual * a) const{
 	const int n = a->size();
 	P randPerm(n);
 	std::vector<int> vConst;
@@ -61,7 +61,7 @@ PermutationShift::PermutationShift(double s){
 	Shift = s;
 }
 
-void PermutationShift::operator () (Individual * a){
+void PermutationShift::operator () (Individual * a) const{
 	const int n = a->size();
 	
 	const int s = (int)((float)(n) * Shift);
@@ -80,4 +80,13 @@ void PermutationShift::operator () (Individual * a){
 
 }
 
+
+
+void RandomMutationStrategy::operator() (AlgorithmState & state, 
+  std::vector<Individual *> & children) const
+{
+  for(unsigned int i = 0; i < children.size(); i++)
+    if(randbool(p_))
+      mutation_(children[i]);
+}
 
