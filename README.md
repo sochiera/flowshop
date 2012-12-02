@@ -1,6 +1,6 @@
 TODO
 ====
-  * mutacje - JS
+  * mutacje - JS - zrobione
     * złożenie z losową premutacją o ~75% punktów stałych
     * cykliczne przesunięcie całej permutacji
   * metody przeszukiwania lokalnego - JS

@@ -57,7 +57,6 @@ class UX : public Crossover{
 
 class Composition : public Crossover{
   public: 
-    Composition();
     
     virtual Result operator() 
       (const Individual & a, const Individual & b);

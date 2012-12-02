@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstdlib>
+#include <crossover.h>
 
 typedef Individual P;
 
@@ -15,9 +16,13 @@ void mutate_transpose(int n, Individual & p){
   }
 }
 
+RandomPermutationCrossover::RandomPermutationCrossover(double c){
+	Constancy = c;
+}
 
-void RandomPermutationCrossover::operator () (Individual & a, Crossover & c){
-	const int n = a.size();
+
+void RandomPermutationCrossover::operator () (Individual * a){
+	const int n = a->size();
 	P randPerm(n);
 	std::vector<int> vConst;
 	std::vector<int> vDiff;
@@ -44,36 +49,41 @@ void RandomPermutationCrossover::operator () (Individual & a, Crossover & c){
 	}
 
 
-	Crossover::Result r = c(a, randPerm);
+	Composition c;
+	Crossover::Result r = c(*a, randPerm);
 
 	if( r.first > r.second ){
-		std::copy(r.first.begin(), r.first.end(), a.begin());
+		std::copy(r.first.begin(), r.first.end(), a->begin());
 	}
 	else{
-		std::copy(r.second.begin(), r.second.end(), a.begin());
+		std::copy(r.second.begin(), r.second.end(), a->begin());
 	}
 
 
-	assert( a.valid() );
+	assert( a->valid() );
 }
 
 
+PermutationShift::PermutationShift(double s){
+	Shift = s;
+}
 
-void PermutationShift::operator () (Individual & a, Crossover & c){
-	const int n = a.size();
+void PermutationShift::operator () (Individual * a){
+	const int n = a->size();
 	
-	const int shift = Shift + randint(1, 2*Shift);
+	const int s = (int)((float)(n) * Shift);
+	const int shift = randint(1, 2*s);
 
 	P shiftedPerm(n);
 
 	for(int i = 0; i < n; i++){
 		int x = (i + shift >=  n) ? (i+shift - n) : (i+shift);
-		shiftedPerm[i] = a[x];
+		shiftedPerm[i] = (*a)[x];
 	}
 
-	std::copy(shiftedPerm.begin(), shiftedPerm.end(), a.begin());
+	std::copy(shiftedPerm.begin(), shiftedPerm.end(), a->begin());
 
-	assert( a.valid() );
+	assert( a->valid() );
 
 }
 

@@ -38,6 +38,7 @@ set(TESTS
   test/pmx.cpp
   test/instance.cpp
   test/parent_selector.cpp
+  test/composition.cpp
 )
 
 
