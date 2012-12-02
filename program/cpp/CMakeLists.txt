@@ -28,6 +28,7 @@ set(SOURCES
   src/stat_utils.cpp
   src/parent_selector.cpp
   src/crossover.cpp
+  src/local_search.cpp
 )
 
 
