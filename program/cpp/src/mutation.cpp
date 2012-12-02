@@ -65,7 +65,7 @@ void PermutationShift::operator () (Individual * a){
 	const int n = a->size();
 	
 	const int s = (int)((float)(n) * Shift);
-	const int shift = s + randint(1, 2*s);
+	const int shift = randint(1, 2*s);
 
 	P shiftedPerm(n);
 
