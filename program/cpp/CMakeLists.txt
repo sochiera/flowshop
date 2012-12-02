@@ -3,12 +3,6 @@ cmake_minimum_required(VERSION 2.8)
 
 add_definitions(-Wall)
 
-find_package(Boost COMPONENTS python)
-include_directories(${Boost_INCLUDE_DIRS})
-
-find_package(PythonLibs)
-include_directories(${PYTHON_INCLUDE_DIRS})
-
 find_package(OpenMP)
 add_definitions(${OpenMP_CXX_FLAGS})
 
@@ -45,25 +39,8 @@ set(TESTS
 )
 
 
-add_library(flowshop SHARED ${SOURCES})
-set_target_properties(flowshop PROPERTIES PREFIX "")
-target_link_libraries(flowshop
-  ${Boost_LIBRARIES} 
-  ${PYTHON_LIBRARIES}
-  gomp
-  )
+add_library(flowshop ${SOURCES})
+target_link_libraries(flowshop gomp)
 
 add_executable(ut ${TESTS})
 target_link_libraries(ut flowshop ${GTEST_BOTH_LIBRARIES})
-
-
-find_package(PythonInterp)
-add_custom_target( 
-  copy_bindings_test ALL
-  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/binding_test.py ${CMAKE_CURRENT_BINARY_DIR}/binding_test.py)
-
-
-enable_testing()
-add_test(UnitTests ${CMAKE_CURRENT_BINARY_DIR}/ut)
-add_test(Bindings ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/binding_test.py)
-
