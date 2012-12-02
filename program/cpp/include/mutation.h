@@ -22,6 +22,19 @@ class RandomPermutationCrossover : public Mutation{
 
 };
 
+
+class PermutationShift : public Mutation{
+
+  public:  
+  	static const double Shift = 0.15;
+    virtual void operator() 
+      (Individual & a, Crossover & c);
+
+
+};
+
+
+
 class MutationStrategy{
   public:
     virtual void operator() (AlgorithmState & state, 

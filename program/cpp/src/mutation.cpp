@@ -16,7 +16,7 @@ void mutate_transpose(int n, Individual & p){
 }
 
 
- void RandomPermutationCrossover::operator () (Individual & a, Crossover & c){
+void RandomPermutationCrossover::operator () (Individual & a, Crossover & c){
 	const int n = a.size();
 	P randPerm(n);
 	std::vector<int> vConst;
@@ -55,6 +55,26 @@ void mutate_transpose(int n, Individual & p){
 
 
 	assert( a.valid() );
+}
+
+
+
+void PermutationShift::operator () (Individual & a, Crossover & c){
+	const int n = a.size();
+	
+	const int shift = Shift + randint(1, 2*Shift);
+
+	P shiftedPerm(n);
+
+	for(int i = 0; i < n; i++){
+		int x = (i + shift >=  n) ? (i+shift - n) : (i+shift)
+		shiftedPerm[i] = a[x];
+	}
+
+	std::copy(shiftedPerm.begin(), shiftedPerm.end(), a.begin());
+
+	assert( a.valid() );
+
 }
 
 
