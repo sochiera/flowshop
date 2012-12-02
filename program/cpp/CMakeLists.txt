@@ -26,6 +26,7 @@ set(SOURCES
   src/solver.cpp
   src/adaptation.cpp
   src/stat_utils.cpp
+  src/parent_selector.cpp
 )
 
 
@@ -36,6 +37,7 @@ set(TESTS
   test/ox.cpp
   test/pmx.cpp
   test/instance.cpp
+  test/parent_selector.cpp
 )
 
 

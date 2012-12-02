@@ -15,6 +15,9 @@ int randint(int a);
 // returns true with probability true_prob
 bool randbool(double true_prob);
 
+// returns uniform random from [0, 1)
+double randu();
+
 // returns pair <a, b>   0 <= a < b < n
 std::pair<int, int> randpair(int n);
 

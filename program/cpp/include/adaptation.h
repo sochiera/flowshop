@@ -12,21 +12,21 @@ class AdaptationScaler{
 };
 
 
-class IdentityScaler{
+class IdentityScaler : public AdaptationScaler{
   public:
     virtual double scale(const AlgorithmState & state, 
             const Individual * individual) const;
 };
 
 
-class SimpleScaler{
+class SimpleScaler : public AdaptationScaler{
   public:
     virtual double scale(const AlgorithmState & state, 
             const Individual * individual) const;
 };
 
 
-class SigmaScaler{
+class SigmaScaler : public AdaptationScaler{
   public:
     SigmaScaler(double c) : c_(c) {}
 
@@ -37,7 +37,7 @@ class SigmaScaler{
 };
 
 
-class RankingScaler{
+class RankingScaler : public AdaptationScaler{
   public:
     RankingScaler(double num_best_offsprings)
       : num_best_offsprings_(num_best_offsprings) {}

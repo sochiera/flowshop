@@ -17,6 +17,11 @@ bool randbool(double true_prob){
 }
 
 
+double randu(){
+  return double(rand()) / double(RAND_MAX);
+}
+
+
 std::pair<int, int> randpair(int n){
   int b = randint(1, n);
   int a = randint(0, b);
