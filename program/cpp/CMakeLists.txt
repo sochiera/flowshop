@@ -29,6 +29,7 @@ set(SOURCES
   src/parent_selector.cpp
   src/crossover.cpp
   src/local_search.cpp
+  src/replacement.cpp
 )
 
 
@@ -43,6 +44,7 @@ set(TESTS
   test/composition.cpp
   test/population.cpp
   test/adaptation.cpp
+  test/best_of_replacement.cpp
 )
 
 

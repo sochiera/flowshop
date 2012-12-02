@@ -26,7 +26,7 @@ class Population{
     double worst_adaptation() const;
 
     void add(Individual * individual);
-    void remove(Individual * individual);
+    void clear();
     
     bool needs_update() const;
     

@@ -10,7 +10,15 @@ class ReplacementStrategy{
     // it should delete children that go into population 
     // from children list
     virtual void operator() (AlgorithmState & state, 
-      std::vector<Individual *> & children) const; 
+      std::vector<Individual *> & children) const = 0; 
+};
+
+
+
+class BestOfReplacement{
+  public:
+    virtual void operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children) const;
 };
 
 #endif

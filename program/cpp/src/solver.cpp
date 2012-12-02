@@ -26,10 +26,6 @@ void FlowshopSolver::run(
     // replacement
     replacement_strategy(state, children);
 
-    // delete unwanted children
-    for(unsigned int i = 0; i < children.size(); i++)
-      delete children[i];
-
     // evaluate again
     update_population(instance);
 

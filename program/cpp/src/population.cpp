@@ -18,10 +18,8 @@ void Population::add(Individual * individual){
 }
 
 
-void Population::remove(Individual * individual){ 
-  needs_update_ = true;
-  std::remove(individuals_.begin(), individuals_.end(), individual);
-  delete individual;
+void Population::clear(){
+  individuals_.clear();
 }
 
 
@@ -70,7 +68,7 @@ void Population::update_stats(){
   }
 
   needs_update_ = false;
-  delete tmp;
+  delete [] tmp;
 }
 
 

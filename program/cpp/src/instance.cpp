@@ -8,6 +8,7 @@ FlowshopInstance::FlowshopInstance(int m, int t){
   num_tasks_ = t;
   
   data_ = new double[m * t];
+  std::fill(data_, data_ + m * t, 0);
 }
 
 
@@ -48,8 +49,11 @@ void FlowshopInstance::update_cost(AlgorithmState & state) const{
 double FlowshopInstance::evaluate(const Individual * individual) const{
   const FlowshopInstance & T = *this;
   const Individual & pi = *individual;
-  
-  double b[num_machines_][num_tasks_];
+ 
+  double ** b = new double * [num_machines_];
+  for(int i = 0; i < num_machines(); i++)
+    b[i] = new double[num_tasks_];
+
   b[0][0] = 0;
   for(int t = 1; t < num_tasks_; t++)
     b[0][t] = b[0][t-1] + T(0, pi[t]);
@@ -64,5 +68,10 @@ double FlowshopInstance::evaluate(const Individual * individual) const{
  
   double cost = b[num_machines_ - 1][num_tasks_ - 1] + 
     T(num_machines_ - 1, pi[num_tasks_ - 1]);
+
+  for(int i = 0; i < num_machines(); i++)
+    delete [] b[i];
+  delete [] b;
+
   return cost;
 }
