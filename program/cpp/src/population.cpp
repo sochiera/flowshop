@@ -1,6 +1,7 @@
 #include <population.h>
 #include <algorithm>
 #include <stat_utils.h>
+#include <iostream>
 
 
 
@@ -59,7 +60,7 @@ void Population::update_stats(){
   }   
   else{
     for(int i = 0; i < size(); i++){
-      double a = (individuals_[i]->adaptation() - worst_) / scale; 
+      double a = (individuals_[i]->cost() - worst_) / scale; 
       tmp[i] = a;
       individuals_[i]->set_adaptation(a);
     }

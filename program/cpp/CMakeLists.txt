@@ -39,6 +39,8 @@ set(TESTS
   test/instance.cpp
   test/parent_selector.cpp
   test/composition.cpp
+  test/population.cpp
+  test/adaptation.cpp
 )
 
 
