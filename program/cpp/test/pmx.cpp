@@ -9,7 +9,7 @@ TEST(PMX, Crossover){
 
   PMX pmx;
 
-  ASSERT_EQ(child, pmx.cross(3, 8, mom, dad));
+  ASSERT_EQ(child, pmx.cross(3, 8, &mom, &dad));
 }
 
 
@@ -23,7 +23,7 @@ TEST(PMX, BigRandom){
     Individual b(20);
     b.randomize();
 
-    Crossover::Result res = pmx(a, b);
+    Crossover::Result res = pmx(&a, &b);
     ASSERT_TRUE(res.first.valid());
     ASSERT_TRUE(res.second.valid());
   }

@@ -11,9 +11,9 @@ PMX::PMX(int seg){
 }
 
 
-Crossover::Result PMX::operator () (const P & mom, const P & dad){
+Crossover::Result PMX::operator () (const P * mom, const P * dad){
   Result r;
-  std::pair<int, int> ab = randpair(mom.size()); 
+  std::pair<int, int> ab = randpair(mom->size()); 
   r.first = cross(ab.first, ab.second, mom, dad);
   r.second = cross(ab.first, ab.second, dad, mom);
   return r;
@@ -21,7 +21,10 @@ Crossover::Result PMX::operator () (const P & mom, const P & dad){
 
 
 
-P PMX::cross(int a, int b, const P & mom, const P & dad){
+P PMX::cross(int a, int b, const P * m, const P * d){
+  const P & mom = *m;
+  const P & dad = *d;
+
   P child(mom.size());
 
   b = std::min(b, a + max_seg_);

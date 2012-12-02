@@ -8,7 +8,7 @@ TEST(Composition, Crossover){
 
   Composition c;
   
-  Individual child = c.cross(mom, dad);
+  Individual child = c.cross(&mom, &dad);
   ASSERT_EQ(Individual("52304716"), child);
 }
 

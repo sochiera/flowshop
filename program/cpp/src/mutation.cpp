@@ -43,7 +43,7 @@ void RandomPermutationCrossover::operator () (Individual * a){
 
 
 	Composition c;
-	Crossover::Result r = c(*a, randPerm);
+	Crossover::Result r = c(a, &randPerm);
 
 	if( r.first > r.second ){
 		std::copy(r.first.begin(), r.first.end(), a->begin());

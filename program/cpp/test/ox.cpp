@@ -8,10 +8,10 @@ TEST(OX, Crossover){
 
   OX ox;
   
-  Individual child = ox.cross(2, 5, mom, dad);
+  Individual child = ox.cross(2, 5, &mom, &dad);
   ASSERT_EQ(Individual("24307156"), child);
 
-  child = ox.cross(2, 5, dad, mom);
+  child = ox.cross(2, 5, &dad, &mom);
   ASSERT_EQ(Individual("04372165"),child);
 }
 
@@ -26,7 +26,7 @@ TEST(OX, BigRandom){
     Individual b(20);
     b.randomize();
 
-    Crossover::Result res = ox(a, b);
+    Crossover::Result res = ox(&a, &b);
     ASSERT_TRUE(res.first.valid());
     ASSERT_TRUE(res.second.valid());
   }

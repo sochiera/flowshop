@@ -8,7 +8,7 @@ typedef Individual P;
 
 
 
-Crossover::Result Composition::operator () (const P & mom, const P & dad){
+Crossover::Result Composition::operator () (const P * mom, const P * dad){
   Crossover::Result r;
   r.first = cross(mom, dad);
   r.second = cross(dad, mom);
@@ -17,7 +17,9 @@ Crossover::Result Composition::operator () (const P & mom, const P & dad){
 
 
 
-P Composition::cross(const P & mom, const P & dad){
+P Composition::cross(const P * m, const P * d){
+  const Individual & mom = *m;
+  const Individual & dad = *d;
   const int n = mom.size();
   P child(n);
 

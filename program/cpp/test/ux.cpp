@@ -12,7 +12,7 @@ TEST(UX, Crossover){
 
   UX ux(2);
   
-  ASSERT_EQ(Individual("31204"), ux.cross(indices, dad, mom));
+  ASSERT_EQ(Individual("31204"), ux.cross(indices, &dad, &mom));
 }
 
 TEST(UX, BigRandom){
@@ -24,7 +24,7 @@ TEST(UX, BigRandom){
     Individual b(20);
     b.randomize();
 
-    Crossover::Result res = ux(a, b);
+    Crossover::Result res = ux(&a, &b);
     ASSERT_TRUE(res.first.valid());
     ASSERT_TRUE(res.second.valid());
   }
