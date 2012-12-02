@@ -6,7 +6,7 @@
 
 typedef Individual P;
 
-Crossover::Result OX::operator () (const P * mom, const P * dad){
+Crossover::Result OX::operator () (const P * mom, const P * dad) const{
   Result r;
   std::pair<int, int> ab = randpair(mom->size()); 
   r.first = cross(ab.first, ab.second, mom, dad);
@@ -15,7 +15,7 @@ Crossover::Result OX::operator () (const P * mom, const P * dad){
 }
 
 
-P OX::cross(int a, int b, const P * m, const P * d){
+P OX::cross(int a, int b, const P * m, const P * d) const{
   const P & mom = *m;
   const P & dad = *d;
 

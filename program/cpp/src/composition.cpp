@@ -1,5 +1,4 @@
 #include <crossover.h>
-#include <algorithm>
 #include <random.h>
 #include <cassert>
 
@@ -7,8 +6,7 @@
 typedef Individual P;
 
 
-
-Crossover::Result Composition::operator () (const P * mom, const P * dad){
+Crossover::Result Composition::operator () (const P * mom, const P * dad) const{
   Crossover::Result r;
   r.first = cross(mom, dad);
   r.second = cross(dad, mom);
@@ -17,7 +15,7 @@ Crossover::Result Composition::operator () (const P * mom, const P * dad){
 
 
 
-P Composition::cross(const P * m, const P * d){
+P Composition::cross(const P * m, const P * d) const{
   const Individual & mom = *m;
   const Individual & dad = *d;
   const int n = mom.size();

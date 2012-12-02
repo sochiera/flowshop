@@ -11,7 +11,7 @@ UX::UX(int num){
 
 
 Crossover::Result UX::operator() 
-  (const P * a, const P * b)
+  (const P * a, const P * b) const
 {
   // select random subset  
   std::vector<int> indices = randsubset(a->size(), num_exchanged_);
@@ -24,7 +24,7 @@ Crossover::Result UX::operator()
 }
 
 
-P UX::cross(const std::vector<int> & ind, const P * m, const P * d){
+P UX::cross(const std::vector<int> & ind, const P * m, const P * d) const{
   const Individual & mom = * m;
   const Individual & dad = * d;
 

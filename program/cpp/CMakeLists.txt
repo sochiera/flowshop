@@ -27,6 +27,7 @@ set(SOURCES
   src/adaptation.cpp
   src/stat_utils.cpp
   src/parent_selector.cpp
+  src/crossover.cpp
 )
 
 
