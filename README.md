@@ -15,7 +15,7 @@ TODO
     * najlepsze
     * najlepsze z czwórki (rodzice, dzieci)
   * RPC - KCH
-  * szkielet algorytmu - KCH
+  * szkielet algorytmu - KCH - zrobione
 
 
   
