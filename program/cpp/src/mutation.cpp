@@ -67,7 +67,7 @@ void PermutationShift::operator () (Individual & a, Crossover & c){
 	P shiftedPerm(n);
 
 	for(int i = 0; i < n; i++){
-		int x = (i + shift >=  n) ? (i+shift - n) : (i+shift)
+		int x = (i + shift >=  n) ? (i+shift - n) : (i+shift);
 		shiftedPerm[i] = a[x];
 	}
 
