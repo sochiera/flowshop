@@ -15,3 +15,8 @@ void AlgorithmState::inc_iteration() {
 Population & AlgorithmState::population(){
   return population_;
 }
+
+
+const Population & AlgorithmState::population() const{
+  return population_;
+}

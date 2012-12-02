@@ -9,7 +9,7 @@ void FlowshopSolver::run(
   // generate random population TODO
   
   // evaluate individuals, sort them etc.
-  state.population().update(instance);
+  update_population(instance);
 
   while( !termination(state) ){
     // select parents
@@ -31,10 +31,16 @@ void FlowshopSolver::run(
       delete children[i];
 
     // evaluate again
-    state.population().update(instance);
+    update_population(instance);
 
     // one more iteration...
     state.inc_iteration();
   }
+}
 
+
+void FlowshopSolver::update_population(const FlowshopInstance & instance){
+  instance.update_cost(state);
+  state.population().update_stats();
+  adaptation.update(state);
 }

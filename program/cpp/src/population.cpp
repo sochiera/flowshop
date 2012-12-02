@@ -1,5 +1,7 @@
 #include <population.h>
 #include <algorithm>
+#include <stat_utils.h>
+
 
 
 Population::Population(){
@@ -27,26 +29,47 @@ bool ind_ptr_cmp(const Individual * a, const Individual * b){
 }
 
 
-void Population::update(const FlowshopInstance & instance){
-  mean_ = 0;
-  variance_ = 0;
+inline double sq(double x){
+  return x * x;
+}
 
-  for(int i = 0; i < size(); i++)
-    mean_ += individuals_[i]->cost();
 
-  for(int i = 0; i < size(); i++){
-    double x = mean_ - individuals_[i]->cost();
-    x = x * x;
-    variance_ += x;
-  }
-
-  // TODO: parallelize 
-  for(int i = 0; i < size(); i++)
-    individuals_[i]->set_cost(instance.evaluate(individuals_[i]));
+void Population::update_stats(){
+  if(!size())
+    return;
 
   std::sort(individuals_.begin(), individuals_.end(), ind_ptr_cmp);
+ 
+  best_ = individuals_.front()->cost();
+  worst_ = individuals_.back()->cost();
+
+  double * tmp = new double[size()];
+
+  for(int i = 0; i < size(); i++) tmp[i] = individuals_[i]->cost();
+  std::pair<double, double> mav = mean_and_variance(tmp, size());
+  mean_ = mav.first;
+  variance_ = mav.second;
+
+  double scale = size() * (mean_ - worst_);
+  if(scale == 0){
+    adaptation_mean_ = 1.0 / size();
+    adaptation_variance_ = 0;
+    for(int i = 0; i < size(); i++)
+      individuals_[i]->set_adaptation(adaptation_mean_);
+  }   
+  else{
+    for(int i = 0; i < size(); i++){
+      double a = (individuals_[i]->adaptation() - worst_) / scale; 
+      tmp[i] = a;
+      individuals_[i]->set_adaptation(a);
+    }
+    mav = mean_and_variance(tmp, size());
+    adaptation_mean_ = mav.first;
+    adaptation_variance_ = mav.second;
+  }
 
   needs_update_ = false;
+  delete tmp;
 }
 
 
@@ -70,8 +93,35 @@ bool Population::needs_update() const{
 }
 
 
+double Population::adaptation_mean() const{
+  return adaptation_mean_;
+}
+
+
+double Population::adaptation_variance() const{
+  return adaptation_variance_;
+}
+
+
+double Population::worst_adaptation() const{
+  return individuals_[size() - 1]->adaptation();
+}
+
+
+const Individual * Population::operator[] (int i ) const{
+  return individuals_[i];
+}
+
+
+Individual * Population::operator[] (int i ){
+  return individuals_[i];
+}
+
+
 Population::~Population(){
   for(int i = 0; i < size(); i++){
     delete individuals_[i]; 
   }
 }
+
+

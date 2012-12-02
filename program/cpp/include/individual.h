@@ -24,9 +24,13 @@ class Individual : public std::vector<int>{
     double adaptation() const;
     void set_adaptation(double adaptation);
 
+    double scaled_adaptation() const;
+    void set_scaled_adaptation(double scaled);
+
   private:
     double cost_;
     double adaptation_;
+    double scaled_adaptation_;
 };
 
 

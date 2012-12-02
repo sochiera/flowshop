@@ -1,14 +1,17 @@
 #ifndef FLOWSHOP_INSTANCE_H_
 #define FLOWSHOP_INSTANCE_H_
 
-#include <individual.h>
 #include <vector>
+
+#include <algorithm_state.h>
 
 class FlowshopInstance{
   public:
     FlowshopInstance(int num_machines, int num_tasks);
     virtual ~FlowshopInstance();
     double evaluate(const Individual * individual) const; 
+
+    void update_cost(AlgorithmState & state) const;
 
     double & operator() (int machine, int task);
     double operator() (int machine, int task) const;

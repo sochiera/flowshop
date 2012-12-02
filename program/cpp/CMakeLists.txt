@@ -29,6 +29,8 @@ set(SOURCES
   src/instance.cpp
   src/termination.cpp
   src/solver.cpp
+  src/adaptation.cpp
+  src/stat_utils.cpp
 )
 
 

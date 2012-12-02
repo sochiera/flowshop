@@ -6,7 +6,7 @@ TODO
   * metody przeszukiwania lokalnego - JS
     * w jakimś promieniu od osobnika
     * coś mądrzejszego, np. tak jak w wyżażaniu
-  * instancja problemu - KCH
+  * instancja problemu - KCH - zrobione
     * wyliczanie kosztu osobnika
   * wybór rodziców - KCH
     * k najlepszych

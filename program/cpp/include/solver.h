@@ -8,6 +8,8 @@
 #include <mutation.h>
 #include <replacement.h>
 #include <termination.h>
+#include <adaptation.h>
+#include <instance.h>
 
 
 class FlowshopSolver{
@@ -16,11 +18,14 @@ class FlowshopSolver{
       const ParentSelector & selector,
       const CrossoverStrategy & crossover,
       const MutationStrategy & mutation,
-      const ReplacementStrategy & replacement)
+      const ReplacementStrategy & replacement,
+      const AdaptationScaler & fadaptation
+      )
     : parent_selector(selector), 
       crossover_strategy(crossover),
       mutation_strategy(mutation), 
-      replacement_strategy(replacement)
+      replacement_strategy(replacement),
+      adaptation(fadaptation)
     {}
 
     void run(
@@ -34,6 +39,9 @@ class FlowshopSolver{
     const CrossoverStrategy & crossover_strategy;
     const MutationStrategy & mutation_strategy;
     const ReplacementStrategy & replacement_strategy;  
+    const AdaptationScaler & adaptation;
+
+    void update_population(const FlowshopInstance & instance);
 };
 
 #endif

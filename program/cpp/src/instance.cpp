@@ -36,6 +36,15 @@ double FlowshopInstance::operator() (int machine, int task) const{
 }
 
 
+void FlowshopInstance::update_cost(AlgorithmState & state) const{
+  Population & P = state.population();
+  for(int i = 0; i < P.size(); i++){
+    double cost = evaluate(P[i]);
+    P[i]->set_cost(cost);
+  }
+}
+
+
 double FlowshopInstance::evaluate(const Individual * individual) const{
   const FlowshopInstance & T = *this;
   const Individual & pi = *individual;

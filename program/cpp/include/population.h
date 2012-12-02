@@ -3,19 +3,27 @@
 
 #include <vector>
 #include <individual.h>
-#include <instance.h>
 
 
 class Population{
   public:
     Population();
     virtual ~Population();
-    
-    void update(const FlowshopInstance & instance);
+
+    const Individual * operator[] (int i) const;
+    Individual * operator[] (int i);
+
+    void update_stats();
+
     double mean() const;
     double variance() const;
     double best() const;
+    double worst() const;
     int size() const;
+
+    double adaptation_mean() const;
+    double adaptation_variance() const;
+    double worst_adaptation() const;
 
     void add(Individual * individual);
     void remove(Individual * individual);
@@ -31,6 +39,11 @@ class Population{
     double mean_;
     double variance_;
     double best_;
+    double worst_;
+
+    double adaptation_mean_;
+    double adaptation_variance_;
+
     bool needs_update_;
 };
 

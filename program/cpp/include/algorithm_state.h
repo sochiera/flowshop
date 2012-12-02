@@ -10,6 +10,7 @@ class AlgorithmState{
     int iteration() const; 
     void inc_iteration(); 
     Population & population();   
+    const Population & population() const;
 
   private:
     Population population_;
