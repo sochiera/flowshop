@@ -36,6 +36,7 @@ set(TESTS
   test/ox.cpp
   test/pmx.cpp
   test/instance.cpp
+  test/composition.cpp
 )
 
 
