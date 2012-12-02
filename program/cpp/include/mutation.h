@@ -15,22 +15,23 @@ class Mutation{
 class RandomPermutationCrossover : public Mutation{
 
   public:  
-  	static const double Constancy = 0.75;
+    RandomPermutationCrossover(double constancy = 0.75);
     virtual void operator() 
       (Individual * a);
 
-
+  private:
+    double Constancy;
 };
 
 
 class PermutationShift : public Mutation{
 
   public:  
-  	static const double Shift = 0.15;
+    PermutationShift(double shift = 0.15);
     virtual void operator() 
       (Individual * a);
-
-
+  private:
+    double Shift;
 };
 
 

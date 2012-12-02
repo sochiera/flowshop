@@ -16,6 +16,10 @@ void mutate_transpose(int n, Individual & p){
   }
 }
 
+RandomPermutationCrossover::RandomPermutationCrossover(double c){
+	Constancy = c;
+}
+
 
 void RandomPermutationCrossover::operator () (Individual * a){
 	const int n = a->size();
@@ -60,6 +64,9 @@ void RandomPermutationCrossover::operator () (Individual * a){
 }
 
 
+PermutationShift::PermutationShift(double s){
+	Shift = s;
+}
 
 void PermutationShift::operator () (Individual * a){
 	const int n = a->size();
