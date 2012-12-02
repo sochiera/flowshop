@@ -12,6 +12,14 @@
 #include <instance.h>
 
 
+struct IterationInfo{
+  double cost_mean;
+  double cost_variance;
+  double best_cost;
+};
+
+
+
 class FlowshopSolver{
   public:
     FlowshopSolver(
@@ -32,6 +40,8 @@ class FlowshopSolver{
       const FlowshopInstance & instance,
       const TerminationCondition & termination);
 
+    const std::vector<IterationInfo> & iterations() const;
+
   private:
     AlgorithmState state;
 
@@ -41,7 +51,10 @@ class FlowshopSolver{
     const ReplacementStrategy & replacement_strategy;  
     const AdaptationScaler & adaptation;
 
+    std::vector<IterationInfo> iterations_;
+
     void update_population(const FlowshopInstance & instance);
+    void save_iteration_info();
 };
 
 #endif
