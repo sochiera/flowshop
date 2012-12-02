@@ -3,10 +3,10 @@
 #include <cstdio>
 
 
-FlowshopInstance::FlowshopInstance(int m, int t){
+FlowshopInstance::FlowshopInstance(int m, int t, double s){
   num_machines_ = m;
   num_tasks_ = t;
-  
+  feasible_solution_ = s;
   data_ = new double[m * t];
 }
 
@@ -25,6 +25,9 @@ int FlowshopInstance::num_tasks() const{
   return num_tasks_;
 }
 
+int FlowshopInstance::feasible_solution() const{
+  return feasible_solution_;
+}
 
 double & FlowshopInstance::operator() (int machine, int task){
   return data_[num_tasks_ * machine + task];

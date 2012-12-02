@@ -7,7 +7,7 @@
 
 class FlowshopInstance{
   public:
-    FlowshopInstance(int num_machines, int num_tasks);
+    FlowshopInstance(int num_machines, int num_tasks, double feasible_solution);
     virtual ~FlowshopInstance();
     double evaluate(const Individual * individual) const; 
 
@@ -18,11 +18,13 @@ class FlowshopInstance{
 
     int num_machines() const;
     int num_tasks() const;
+    int feasible_solution() const;
   
   private:
     double * data_;
     int num_machines_;
     int num_tasks_;
+    double feasible_solution_;
 };
 
 #endif
