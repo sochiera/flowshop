@@ -50,11 +50,14 @@ set(TESTS
 )
 
 
-add_library(flowshop ${SOURCES})
-target_link_libraries(flowshop gomp)
+add_library(flowshoplib ${SOURCES})
+target_link_libraries(flowshoplib gomp)
 
 add_executable(ut ${TESTS})
-target_link_libraries(ut flowshop ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(ut flowshoplib ${GTEST_BOTH_LIBRARIES})
+
+add_executable(flowshop flowshop.cpp)
+target_link_libraries(flowshop flowshoplib)
 
 add_custom_target(
   copy_bindings_test ALL

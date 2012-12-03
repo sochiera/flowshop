@@ -13,9 +13,9 @@ class ReplacementStrategy{
 
 
 
-class BestOfReplacement{
+class BestOfReplacement : public ReplacementStrategy{
   public:
-    virtual void operator() (AlgorithmState & state, 
+    void operator() (AlgorithmState & state, 
       std::vector<Individual *> & children) const;
 };
 

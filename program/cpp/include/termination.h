@@ -10,10 +10,10 @@ class TerminationCondition{
 };
 
 
-class NumIterationsCondition{
+class NumIterationsCondition : public TerminationCondition{
   public:
     NumIterationsCondition(int max_iterations);
-    virtual bool operator() (const AlgorithmState & state) const;
+    bool operator() (const AlgorithmState & state) const;
 
   private:
     int max_iterations_;

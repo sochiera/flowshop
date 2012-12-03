@@ -1,12 +1,22 @@
 #include <solver.h>
 #include <vector>
+#include <cstdio>
+#include <cassert>
+
 
 void FlowshopSolver::run(
   const FlowshopInstance & instance,
-  const TerminationCondition & termination  
+  const TerminationCondition & termination,
+  int population_size
 )
 {
-  // generate random population TODO
+  // generate random population
+  for(int i = 0; i < population_size; i++){
+    Individual * next = new Individual(instance.num_tasks());
+    next->randomize();
+    next->set_cost(instance.evaluate(next));
+    state.population().add(next);
+  }
   
   // evaluate individuals, sort them etc.
   update_population(instance);
@@ -23,6 +33,12 @@ void FlowshopSolver::run(
     // mutation
     mutation_strategy(state, children);
 
+    // evaluate children
+    for(unsigned int i = 0; i < children.size(); i++){
+      double c = instance.evaluate(children[i]); 
+      children[i]->set_cost(c);
+    }
+
     // replacement
     replacement_strategy(state, children);
 
@@ -32,13 +48,16 @@ void FlowshopSolver::run(
     // one more iteration...
     state.inc_iteration();
 
+    printf("\033[1Gcurrent iteration : %5d best: %lf",
+      state.iteration(), state.population().best());
+    fflush(stdout);
+
     save_iteration_info();
   }
 }
 
 
 void FlowshopSolver::update_population(const FlowshopInstance & instance){
-  instance.update_cost(state);
   state.population().update_stats();
   adaptation.update(state);
 }

@@ -38,7 +38,9 @@ class FlowshopSolver{
 
     void run(
       const FlowshopInstance & instance,
-      const TerminationCondition & termination);
+      const TerminationCondition & termination,
+      int population_size
+      );
 
     const std::vector<IterationInfo> & iterations() const;
 
