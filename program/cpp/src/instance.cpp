@@ -3,11 +3,11 @@
 #include <cstdio>
 
 
-FlowshopInstance::FlowshopInstance(int m, int t, double s){
+FlowshopInstance::FlowshopInstance(int m, int t, int s){
   num_machines_ = m;
   num_tasks_ = t;
   feasible_solution_ = s;
-  data_ = new double[m * t];
+  data_ = new int[m * t];
   std::fill(data_, data_ + m * t, 0);
 }
 
@@ -30,12 +30,12 @@ int FlowshopInstance::feasible_solution() const{
   return feasible_solution_;
 }
 
-double & FlowshopInstance::operator() (int machine, int task){
+int & FlowshopInstance::operator() (int machine, int task){
   return data_[num_tasks_ * machine + task];
 }
 
 
-double FlowshopInstance::operator() (int machine, int task) const{
+int FlowshopInstance::operator() (int machine, int task) const{
   return data_[num_tasks_ * machine + task];
 }
 
@@ -43,19 +43,19 @@ double FlowshopInstance::operator() (int machine, int task) const{
 void FlowshopInstance::update_cost(AlgorithmState & state) const{
   Population & P = state.population();
   for(int i = 0; i < P.size(); i++){
-    double cost = evaluate(P[i]);
+    int cost = evaluate(P[i]);
     P[i]->set_cost(cost);
   }
 }
 
 
-double FlowshopInstance::evaluate(const Individual * individual) const{
+int FlowshopInstance::evaluate(const Individual * individual) const{
   const FlowshopInstance & T = *this;
   const Individual & pi = *individual;
  
-  double ** b = new double * [num_machines_];
+  int ** b = new int * [num_machines_];
   for(int i = 0; i < num_machines(); i++)
-    b[i] = new double[num_tasks_];
+    b[i] = new int [num_tasks_];
 
   b[0][0] = 0;
   for(int t = 1; t < num_tasks_; t++)
@@ -69,7 +69,7 @@ double FlowshopInstance::evaluate(const Individual * individual) const{
         b[m][t-1] + T(m, pi[t-1]), 
         b[m-1][t] + T(m-1, pi[t]));
  
-  double cost = b[num_machines_ - 1][num_tasks_ - 1] + 
+  int cost = b[num_machines_ - 1][num_tasks_ - 1] + 
     T(num_machines_ - 1, pi[num_tasks_ - 1]);
 
   for(int i = 0; i < num_machines(); i++)
