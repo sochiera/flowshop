@@ -12,7 +12,6 @@ include_directories(include)
 
 
 set(SOURCES
-  src/flowshop_parser.cpp
   src/random.cpp 
   src/individual.cpp
   src/composition.cpp
@@ -31,6 +30,7 @@ set(SOURCES
   src/crossover.cpp
   src/local_search.cpp
   src/replacement.cpp
+  src/benchmark_collection.cpp
 )
 
 
@@ -46,6 +46,7 @@ set(TESTS
   test/population.cpp
   test/adaptation.cpp
   test/best_of_replacement.cpp
+  test/benchmark_collection.cpp
 )
 
 

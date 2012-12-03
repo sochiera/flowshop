@@ -12,5 +12,5 @@ text = ''.join(lines)
 numbers = map(int, text.split())
 sys.stdout.write(str(len(numbers)))
 for n in numbers:
-  sys.stdout.write(" ")
+  sys.stdout.write("\n")
   sys.stdout.write(str(n))
