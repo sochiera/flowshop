@@ -75,3 +75,8 @@ void FlowshopSolver::save_iteration_info(){
   info.best_cost = state.population().best();
   iterations_.push_back(info);
 }
+
+
+double FlowshopSolver::solution() const{
+  return state.population().best();
+}

@@ -44,6 +44,8 @@ class FlowshopSolver{
 
     const std::vector<IterationInfo> & iterations() const;
 
+    double solution() const;
+
   private:
     AlgorithmState state;
 

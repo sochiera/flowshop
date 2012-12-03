@@ -1,6 +1,7 @@
 #include <benchmark_collection.h>
 #include <cstdio>
 #include <cassert>
+#include <exception>
 
 
 IntStream::IntStream(FILE * f){
@@ -37,6 +38,8 @@ int BenchmarkCollection::size() const{
 void BenchmarkCollection::load(const char * path){
   instances_.clear(); 
   FILE * f = fopen(path, "r");
+  if(!f)
+    throw std::exception();
   IntStream is(f);
 
   while(!is.empty())
