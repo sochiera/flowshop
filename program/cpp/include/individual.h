@@ -18,8 +18,8 @@ class Individual : public std::vector<int>{
     void swap(int i, int j);
     void randomize();
 
-    double cost() const;
-    void set_cost(double cost);
+    int cost() const;
+    void set_cost(int cost);
 
     double adaptation() const;
     void set_adaptation(double adaptation);
@@ -28,7 +28,7 @@ class Individual : public std::vector<int>{
     void set_scaled_adaptation(double scaled);
 
   private:
-    double cost_;
+    int cost_;
     double adaptation_;
     double scaled_adaptation_;
 };

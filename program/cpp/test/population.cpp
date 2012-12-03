@@ -37,7 +37,7 @@ TEST(Population, CalculatesMeanAndVariance){
 
 TEST(Population, CalculatesAdaptationMeanAndVariance){
   int n = 4;
-  double costs [] = {10, 5, 6, 7};
+  int costs [] = {10, 5, 6, 7};
   Population p;
   for(int i = 0; i < n; i++){
     Individual * next = new Individual(10);

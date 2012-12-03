@@ -11,7 +11,7 @@ TEST(KBestSelector, WorksAsExpected){
 
   for(int i = 0; i < n ; i++){
     Individual * next = new Individual(10);   
-    next->set_cost(sin(5.0 * i));
+    next->set_cost(100.0 * sin(5.0 * i));
     pop.add(next);
   }
 

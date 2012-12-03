@@ -8,7 +8,7 @@ void BestOfReplacement::operator()
 {
   using std::make_pair;
 
-  std::vector< std::pair<double, Individual *> > pairs;
+  std::vector< std::pair<int, Individual *> > pairs;
   
   for(unsigned int i = 0; i < children.size(); i++)
     pairs.push_back(make_pair(children[i]->cost(), children[i]));

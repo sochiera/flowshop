@@ -63,11 +63,11 @@ void  Individual::randomize(){
 }
 
 
-double Individual::cost() const{
+int Individual::cost() const{
   return cost_;
 }
 
-void Individual::set_cost(double cost){
+void Individual::set_cost(int cost){
   cost_ = cost;
 }
 
