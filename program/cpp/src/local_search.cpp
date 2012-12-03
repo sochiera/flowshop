@@ -46,6 +46,10 @@ LocalSearch::Result SimulatedAnnealing::operator () (const P * Ind){
 }
 
 
+GradualSinglePointOperator::GradualSinglePointOperator (double effectiveness){
+	Effectiveness = effectiveness;
+}
+
 LocalSearch::Result GradualSinglePointOperator::operator () (const P * Ind){
 	P min(*Ind);
 	std::vector<P> Betters;
@@ -68,3 +72,15 @@ LocalSearch::Result GradualSinglePointOperator::operator () (const P * Ind){
 }
 
 
+void SimpleStrategy::operator () (AlgorithmState & state, 
+      std::vector<Individual *> & children){
+
+	GradualSinglePointOperator ls(0.87);
+	for(unsigned int i = 0; i < children.size(); i++){
+		LocalSearch::Result r = ls(children[i]);
+		*(children[i]) = r.first;
+		if(state.isBestSet() && r.second < state.Best()) state.SetBest(r.second);
+	}
+
+
+}
