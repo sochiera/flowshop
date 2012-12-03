@@ -18,7 +18,7 @@ class LocalSearch{
     P insert(const P * Ind, const int elemIdx, const int i);
 
     virtual Result operator() 
-      (P * Ind) = 0;
+      (const P * Ind) = 0;
 };
 
 
@@ -37,7 +37,7 @@ class GradualSinglePointOperator : public LocalSearch{
 
   public:  
     GradualSinglePointOperator(double effectiveness = 1.0);
-    Result operator() 
+    virtual Result operator() 
       (const P * a);
 
 
@@ -49,9 +49,14 @@ class GradualSinglePointOperator : public LocalSearch{
 class LocalSearchStrategy{
   public:
     virtual void operator() (AlgorithmState & state, 
-      std::vector<Individual *> & children) const = 0;
+      std::vector<Individual *> & children) = 0;
 };
 
+class SimpleStrategy : public LocalSearchStrategy{
+  public:
+    void operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children);
+};
 
 #endif
   
