@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstdlib>
 #include <local_search.h>
+#include <iostream>
 
 typedef Individual P;
 
@@ -52,6 +53,7 @@ LocalSearch::Result GradualSinglePointOperator::operator ()
 	for(int e = 0; e < n; e++){
 		for(int j = 0; j < n; j++){
 			P temp = insert(Ind, e, j);
+			std::cout << temp << std::endl;
 			if(temp < min){
 				Betters.push_back(temp);
 			}
