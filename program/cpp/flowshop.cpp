@@ -13,6 +13,7 @@
 #include <adaptation.h>
 #include <solver.h>
 #include <termination.h>
+#include <local_search.h>
 
 
 
@@ -113,12 +114,14 @@ int main(int argc, char ** argv){
   BestOfReplacement replacement_strategy; 
   IdentityScaler is;
 
+  LaziestStrategy ls;
+
   FlowshopSolver solver(
     parent_selector, 
     crossover_strategy,
     mutation_strategy,
     replacement_strategy,
-    is
+    is, ls
   );
 
   NumIterationsCondition term(1000);

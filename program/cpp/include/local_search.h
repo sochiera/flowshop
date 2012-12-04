@@ -32,10 +32,21 @@ class GradualSinglePointOperator : public LocalSearch{
 };
 
 
+
+
+
+
 class LocalSearchStrategy{
   public:
     virtual void operator() (AlgorithmState & state, 
       std::vector<Individual *> & children) const = 0;
+};
+
+
+class LaziestStrategy : public LocalSearchStrategy{
+  public:
+    void operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children) const {}
 };
 
 

@@ -10,6 +10,7 @@
 #include <termination.h>
 #include <adaptation.h>
 #include <instance.h>
+#include <local_search.h>
 
 
 struct IterationInfo{
@@ -27,13 +28,15 @@ class FlowshopSolver{
       const CrossoverStrategy & crossover,
       const MutationStrategy & mutation,
       const ReplacementStrategy & replacement,
-      const AdaptationScaler & fadaptation
+      const AdaptationScaler & fadaptation,
+      const LocalSearchStrategy & local
       )
     : parent_selector(selector), 
       crossover_strategy(crossover),
       mutation_strategy(mutation), 
       replacement_strategy(replacement),
-      adaptation(fadaptation)
+      adaptation(fadaptation),
+      local_search(local)
     {}
 
     void run(
@@ -54,6 +57,7 @@ class FlowshopSolver{
     const MutationStrategy & mutation_strategy;
     const ReplacementStrategy & replacement_strategy;  
     const AdaptationScaler & adaptation;
+    const LocalSearchStrategy & local_search;
 
     std::vector<IterationInfo> iterations_;
 

@@ -33,6 +33,8 @@ void FlowshopSolver::run(
     // mutation
     mutation_strategy(state, children);
 
+    local_search(state, children);
+
     // evaluate children
     for(unsigned int i = 0; i < children.size(); i++){
       double c = instance.evaluate(children[i]); 
