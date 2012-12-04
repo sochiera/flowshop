@@ -4,35 +4,44 @@
 #include <individual.h>
 #include <algorithm_state.h>
 #include <cstdlib>
+#include <instance.h>
 
 
 class LocalSearch{
   public:
+    LocalSearch(const FlowshopInstance & instance)
+      : instance_(instance) {};
+
     typedef std::pair<Individual, Individual> Result;	
     Individual insert(const Individual * Ind, int elemIdx, int i) const;
     virtual Result operator() (const Individual * Ind) const = 0;
+  
+  protected:
+    const FlowshopInstance & instance_;
 };
+
 
 
 class SimulatedAnnealing : public LocalSearch{
   public:  
+    SimulatedAnnealing(const FlowshopInstance & instance)
+      : LocalSearch(instance) {}
+
     Result operator() (const Individual * a) const;
 };
 
 
 
-
 class GradualSinglePointOperator : public LocalSearch{
   public:  
-    GradualSinglePointOperator(double effectiveness = 1.0);
+    GradualSinglePointOperator(const FlowshopInstance & instance, double effectiveness = 1.0)
+      : LocalSearch(instance), Effectiveness(effectiveness) {} 
+      
     virtual Result operator() (const Individual * a) const;
 
   private:
     double Effectiveness;
 };
-
-
-
 
 
 

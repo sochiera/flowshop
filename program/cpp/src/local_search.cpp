@@ -38,11 +38,6 @@ LocalSearch::Result SimulatedAnnealing::operator ()
 }
 
 
-GradualSinglePointOperator::GradualSinglePointOperator (double effectiveness){
-	Effectiveness = effectiveness;
-}
-
-
 LocalSearch::Result GradualSinglePointOperator::operator () 
   (const P * Ind) const
 {
