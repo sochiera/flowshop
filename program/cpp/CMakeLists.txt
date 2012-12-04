@@ -67,3 +67,6 @@ add_custom_target(
 
 add_executable(random random.cpp)
 target_link_libraries(random flowshoplib)
+
+add_executable(smart_random smart_random.cpp)
+target_link_libraries(smart_random flowshoplib)

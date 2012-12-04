@@ -42,17 +42,17 @@ int main(int argc, char ** argv){
   srand(time(0));
   const FlowshopInstance & instance = bc.instance(instance_index);
 
-  int best = 20000000;
+  int best = 200000;
 
-  localsearch GradualSinglePointOperator(instance);
+  GradualSinglePointOperator localsearch(instance, 0.99);
 
-  for(int i = 0; i < 10000000; i++){
+  for(int i = 0; i < 100000; i++){
     Individual Ind(instance.num_tasks());
     Ind.randomize();
-    int val = instance.evaluate(&randomInd);
+    int val = instance.evaluate(&Ind);
     while(true){
-      Crossover::Result r = localsearch(&Ind)
-      int val2 = int val = instance.evaluate(&(r.second));
+      Crossover::Result r = localsearch(&Ind);
+      int val2 = instance.evaluate(&(r.second));
       if(val2 < val){
         i++;
         Ind = r.second;
@@ -64,8 +64,8 @@ int main(int argc, char ** argv){
     }
     val = instance.evaluate(&Ind);
     if(val < best) best = val;
-    if((i/50000)*50000 == i) printf("%d\n", best);
+    if((i/500)*500 == i) printf("%d\n", best);
   }
-  printf("\n\n\nbest foundsolution: %d, feasible solution: %d\n", best, instance.feasible_solution());
+  printf("\n\n\nbest found solution: %d, feasible solution: %d\n", best, instance.feasible_solution());
   return 0;
 }

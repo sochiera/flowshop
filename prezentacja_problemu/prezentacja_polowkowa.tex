@@ -1,0 +1,89 @@
+\documentclass[10pt]{beamer}
+\usetheme{Warsaw}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{parskip}
+\usepackage{latexsym,gensymb,amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{url}
+
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title[Flow Shop Scheduling Problem]{Flow~Shop~Scheduling~Problem}
+\author[Krzysztof Chrobak\and Jan Sochiera]{Krzysztof~Chrobak \and Jan~Sochiera}
+	
+
+\institute[Algorytmy Ewolucyjne 2012]{\normalsize Algorytmy Ewolucyjne 2012}
+\subject{Computational Sciences}
+
+
+\begin{document}
+
+\frame{
+\titlepage
+}
+
+
+\section{Definicja problemu}
+\frame{
+  \frametitle{Definicja problemu}
+
+  \begin{itemize}
+    \item<1-> $n$ zadań
+    \item<2-> $m$ maszyn
+    \item<3-> Każde zadanie musi być wykonane na każdej maszynie
+    \item<4-> Każda maszyna musi wykonaywać zadania w tej samej kolejności
+    \item<5-> Jedno zadanie nie może być wykonywane jednocześnie na więcej niż jednej maszynie
+  \end{itemize}
+}
+
+
+\section{Opis algorytmu}
+\frame
+{
+  \frametitle{Opis algorytmu}
+	\begin{itemize}
+    \item<1-> zmodyfikowany algorytm SGA
+    \item<2-> Operator krzyżowania PMX (chcemy przetestować inne)
+    \item<3-> Wybór rodziców metodą ruletki
+    \item<4-> Mutacje
+    \item<5-> Przesukiwanie lokalne
+  \end{itemize}
+}
+
+\section{Przeszukiwanie lokalne}
+\frame
+{
+  \frametitle{Przeszukiwanie lokalne}
+	\begin{itemize}
+    \item<1-> Single Point Operator - dla jednego elementu permutacji znajdujemy najlepsze położenie wśród innych.
+    \item<2-> Stopniowanie przeszukiwania lokalnego - zapamiętujemy najlepszy znaleziony, ale osobnika zastępujemy innym wybranym z lepszych od niego, ale niekoniecznie najlepszym.
+  \end{itemize}
+	
+}
+
+\frame
+{
+  \frametitle{Przeszukiwanie lokalne}
+  Co planujemy:  
+	\begin{itemize}
+    \item<1-> Multi Single Point Operator - dla wielu elementu permutacji znajdujemy najlepsze położenie wśród innych.
+    \item<2-> Zmiana operatora w wypadku zbieżności do minimum lokalnego.
+  \end{itemize}
+	
+}
+
+\end{document}
+
+
+
+
+
+
+
+
