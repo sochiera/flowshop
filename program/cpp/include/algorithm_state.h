@@ -11,14 +11,14 @@ class AlgorithmState{
     void inc_iteration(); 
     Population & population();   
     const Population & population() const;
-    const Individual Best() const;
-    void SetBest(Individual Ind);
-    int isBestSet() const; 
+
+    const int best() const;
+    void set_best_if_better(const Individual & Ind);
 
   private:
     Population population_;
     int iteration_;
-    Individual best_found_;
+    int best_solution_;
 };
 
 #endif

@@ -8,7 +8,7 @@
 
 typedef Individual P;
 
-P LocalSearch::insert(const P * Ind, const int elemIdx, const int i){
+P LocalSearch::insert(const P * Ind, int elemIdx, int i) const{
   P t(*Ind);
   int x = t[elemIdx];
   if(elemIdx > i){
@@ -27,18 +27,9 @@ P LocalSearch::insert(const P * Ind, const int elemIdx, const int i){
 }
 
 
-P transpose(const P * Ind, int a, int b){
-
-  	if(a > b){
-    	std::swap(a,b);
-	}
-	Individual J(*Ind);
-  	std::swap(J[a],J[b]);
-  	return J;
-}  
-
-
-LocalSearch::Result SimulatedAnnealing::operator () (const P * Ind){
+LocalSearch::Result SimulatedAnnealing::operator () 
+  (const P * Ind) const
+{
 	Result r;
 	r.first = *Ind;
 	r.second = *Ind;
@@ -50,7 +41,10 @@ GradualSinglePointOperator::GradualSinglePointOperator (double effectiveness){
 	Effectiveness = effectiveness;
 }
 
-LocalSearch::Result GradualSinglePointOperator::operator () (const P * Ind){
+
+LocalSearch::Result GradualSinglePointOperator::operator () 
+  (const P * Ind) const
+{
 	P min(*Ind);
 	std::vector<P> Betters;
 	const int n = min.size();
@@ -73,14 +67,11 @@ LocalSearch::Result GradualSinglePointOperator::operator () (const P * Ind){
 
 
 void SimpleStrategy::operator () (AlgorithmState & state, 
-      std::vector<Individual *> & children){
-
-	GradualSinglePointOperator ls(0.87);
+      std::vector<Individual *> & children) const
+{
 	for(unsigned int i = 0; i < children.size(); i++){
-		LocalSearch::Result r = ls(children[i]);
+		LocalSearch::Result r = local_search_(children[i]);
 		*(children[i]) = r.first;
-		if(state.isBestSet() && r.second < state.Best()) state.SetBest(r.second);
+    state.set_best_if_better(r.second);
 	}
-
-
 }

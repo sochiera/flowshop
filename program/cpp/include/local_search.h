@@ -5,41 +5,27 @@
 #include <algorithm_state.h>
 #include <cstdlib>
 
-typedef Individual P;
-
 
 class LocalSearch{
   public:
-
     typedef std::pair<Individual, Individual> Result;	
-
-    P transpose(const P * Ind, int a, int b);
-
-    P insert(const P * Ind, const int elemIdx, const int i);
-
-    virtual Result operator() 
-      (const P * Ind) = 0;
+    Individual insert(const Individual * Ind, int elemIdx, int i) const;
+    virtual Result operator() (const Individual * Ind) const = 0;
 };
 
 
 class SimulatedAnnealing : public LocalSearch{
-
   public:  
-    Result operator() 
-      (const P * a);
-
+    Result operator() (const Individual * a) const;
 };
 
 
 
 
 class GradualSinglePointOperator : public LocalSearch{
-
   public:  
     GradualSinglePointOperator(double effectiveness = 1.0);
-    virtual Result operator() 
-      (const P * a);
-
+    virtual Result operator() (const Individual * a) const;
 
   private:
     double Effectiveness;
@@ -49,13 +35,20 @@ class GradualSinglePointOperator : public LocalSearch{
 class LocalSearchStrategy{
   public:
     virtual void operator() (AlgorithmState & state, 
-      std::vector<Individual *> & children) = 0;
+      std::vector<Individual *> & children) const = 0;
 };
+
 
 class SimpleStrategy : public LocalSearchStrategy{
   public:
+    SimpleStrategy(const LocalSearch & local) :
+      local_search_(local) {}
+
     void operator() (AlgorithmState & state, 
-      std::vector<Individual *> & children);
+      std::vector<Individual *> & children) const;
+
+  private:
+    const LocalSearch & local_search_;
 };
 
 #endif

@@ -16,8 +16,8 @@
 
 
 
-const int num_parents = 10000;
-const int num_individuals = 20000;
+const int num_parents = 1000;
+const int num_individuals = 2000;
 
 const double mutation_probability = 0.01;
 
@@ -121,8 +121,9 @@ int main(int argc, char ** argv){
     is
   );
 
-  NumIterationsCondition term(100);
+  NumIterationsCondition term(1000);
   solver.run(bc.instance(instance_index), term, num_individuals);
+  printf("\n");
 
   // save results
   save_results(instance.feasible_solution(), solver.solution(), instance_index, test_set_name);
