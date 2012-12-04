@@ -44,17 +44,25 @@ int main(int argc, char ** argv){
 
   int best = 20000000;
 
-  localsearch GradualSinglePointOperator();
+  localsearch GradualSinglePointOperator(instance);
 
   for(int i = 0; i < 10000000; i++){
-    Individual randomInd(instance.num_tasks());
-    randomInd.randomize();
+    Individual Ind(instance.num_tasks());
+    Ind.randomize();
     int val = instance.evaluate(&randomInd);
     while(true){
-      localsearch
-      int val2 = 
+      Crossover::Result r = localsearch(&Ind)
+      int val2 = int val = instance.evaluate(&(r.second));
+      if(val2 < val){
+        i++;
+        Ind = r.second;
+        val = val2;
+      }
+      else{
+        break;
+      }
     }
-    val = instance.evaluate(&randomInd);
+    val = instance.evaluate(&Ind);
     if(val < best) best = val;
     if((i/50000)*50000 == i) printf("%d\n", best);
   }

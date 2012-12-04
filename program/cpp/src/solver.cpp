@@ -31,15 +31,16 @@ void FlowshopSolver::run(
       crossover_strategy(state, parents);
 
     // mutation
-    mutation_strategy(state, children);
 
-    local_search(state, children);
+    mutation_strategy(state, children);
 
     // evaluate children
     for(unsigned int i = 0; i < children.size(); i++){
       double c = instance.evaluate(children[i]); 
       children[i]->set_cost(c);
     }
+
+    local_search(state, children);
 
     // replacement
     replacement_strategy(state, children);

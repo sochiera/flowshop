@@ -16,8 +16,8 @@
 
 TEST(insert, LocalSearch){
   Individual mom("07243165");
-
-  GradualSinglePointOperator ls;
+  const FlowshopInstance instance(0,0,0);
+  GradualSinglePointOperator ls(instance);
   Individual Child1 = ls.insert(&mom, 0, 7);
   Individual Child2 = ls.insert(&mom, 7, 0);
   Individual Child3 = ls.insert(&mom, 2, 5);
@@ -42,16 +42,14 @@ TEST(localsearch, LocalSearch){
   srand(time(0));
   const FlowshopInstance & instance = bc.instance(instance_index);
 
-  GradualSinglePointOperator ls(0.8);
+  GradualSinglePointOperator ls(instance, 0.8);
 
   Individual randomInd(instance.num_tasks());
   randomInd.randomize();
+  randomInd.set_cost(instance.evaluate(&randomInd));
 
   Crossover::Result r = ls(&randomInd);
 
-  std::cout << randomInd << std::endl << r.first << std::endl << r.second << std::endl;
-
-
-  ASSERT_LE(r.first, randomInd);
-  ASSERT_LE(r.second, r.first);	
+  ASSERT_LT(r.first, randomInd);
+  ASSERT_LT(r.second, r.first);	
 }
