@@ -13,7 +13,7 @@
 #include <iostream>
 
 
-TEST(localsearch, LocalSearch){
+TEST(GradialSinglePointOperator, FindsBetterSolutions){
 
   const char * filename = "tai20_10.txt.in";
   const int instance_index = 0;
