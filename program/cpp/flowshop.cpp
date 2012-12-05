@@ -125,7 +125,7 @@ int main(int argc, char ** argv){
     is, ls
   );
 
-  NumIterationsCondition term(20);
+  NumIterationsCondition term(3);
   solver.run(bc.instance(instance_index), term, num_individuals);
   printf("\n");
 

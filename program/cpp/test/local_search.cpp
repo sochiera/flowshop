@@ -30,9 +30,6 @@ TEST(insert, LocalSearch){
 TEST(localsearch, LocalSearch){
 
   const char * filename = "tai20_10.txt.in";
-  char * test_set_name = strdup(filename);
-  int l = strlen(filename);
-  test_set_name[l-7] = 0;
   const int instance_index = 0;
 
   BenchmarkCollection bc;
