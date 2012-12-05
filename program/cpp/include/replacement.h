@@ -19,4 +19,10 @@ class BestOfReplacement : public ReplacementStrategy{
       std::vector<Individual *> & children) const;
 };
 
+class TournamentReplacement : public ReplacementStrategy{
+  public:
+    void operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children) const;
+};
+
 #endif
