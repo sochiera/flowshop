@@ -90,3 +90,21 @@ void Individual::set_scaled_adaptation(double v) {
 bool Individual::operator < (const Individual & other) const{
   return cost_ < other.cost_;
 }
+
+
+void Individual::insert(int elemIdx, int i){
+  Individual & t = *this;
+  int x = t[elemIdx];
+  if(elemIdx > i){
+    for(int j = elemIdx; j > i; j--){
+      t[j] = t[j-1];
+    }
+    t[i] = x;
+  }
+  if(elemIdx < i){
+    for(int j = elemIdx; j < i; j++){
+      t[j] = t[j+1];
+    }
+    t[i] = x;
+  }
+}

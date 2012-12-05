@@ -11,19 +11,7 @@ typedef Individual P;
 
 P LocalSearch::insert(const P * Ind, int elemIdx, int i) const{
   P t(*Ind);
-  int x = t[elemIdx];
-  if(elemIdx > i){
-    for(int j = elemIdx; j > i; j--){
-      t[j] = t[j-1];
-    }
-    t[i] = x;
-  }
-  if(elemIdx < i){
-    for(int j = elemIdx; j < i; j++){
-      t[j] = t[j+1];
-    }
-    t[i] = x;
-  }
+  t.insert(elemIdx, i);
   return t;
 }
 

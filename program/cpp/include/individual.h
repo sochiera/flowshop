@@ -16,6 +16,7 @@ class Individual : public std::vector<int>{
     bool valid() const;
 
     void swap(int i, int j);
+    void insert(int i, int j);
     void randomize();
 
     int cost() const;

@@ -13,20 +13,6 @@
 #include <iostream>
 
 
-
-TEST(insert, LocalSearch){
-  Individual mom("07243165");
-  const FlowshopInstance instance(0,0,0);
-  GradualSinglePointOperator ls(instance);
-  Individual Child1 = ls.insert(&mom, 0, 7);
-  Individual Child2 = ls.insert(&mom, 7, 0);
-  Individual Child3 = ls.insert(&mom, 2, 5);
-  ASSERT_EQ(Individual("72431650"), Child1);
-  ASSERT_EQ(Individual("50724316"), Child2);
-  ASSERT_EQ(Individual("07431265"), Child3);
-}
-
-
 TEST(localsearch, LocalSearch){
 
   const char * filename = "tai20_10.txt.in";
