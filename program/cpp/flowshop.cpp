@@ -17,7 +17,7 @@
 
 
 
-const int num_parents = 1000;
+const int num_parents = 2000;
 const int num_individuals = 2000;
 
 const double mutation_probability = 0.01;
@@ -103,18 +103,19 @@ int main(int argc, char ** argv){
   printf("number of machines: %d\n", instance.num_machines());
   printf("best known solution: %d\n", instance.feasible_solution());
 
-  KBestSelector parent_selector(num_parents);
+  RouletteSelector parent_selector(num_parents);
+  RankingScaler is(1);
   
   PMX pmx;
   RandomCrossoverStrategy crossover_strategy(pmx);
 
-  PermutationShift ps; 
+  RandomPermutationCrossover ps; 
   RandomMutationStrategy mutation_strategy(ps, mutation_probability);
 
   BestOfReplacement replacement_strategy; 
-  IdentityScaler is;
 
-  LaziestStrategy ls;
+  GradualSinglePointOperator gsp(bc.instance(instance_index), 0.5);
+  SimpleStrategy ls(gsp);
 
   FlowshopSolver solver(
     parent_selector, 
@@ -124,7 +125,7 @@ int main(int argc, char ** argv){
     is, ls
   );
 
-  NumIterationsCondition term(1000);
+  NumIterationsCondition term(20);
   solver.run(bc.instance(instance_index), term, num_individuals);
   printf("\n");
 

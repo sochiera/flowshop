@@ -82,12 +82,12 @@ double Population::variance() const{
 }
 
 
-double Population::best() const{
+int Population::best() const{
   return individuals_[0]->cost();
 }
 
 
-double Population::worst() const{
+int Population::worst() const{
   return individuals_.back()->cost();
 }
 

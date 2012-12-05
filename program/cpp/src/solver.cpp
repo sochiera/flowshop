@@ -31,7 +31,6 @@ void FlowshopSolver::run(
       crossover_strategy(state, parents);
 
     // mutation
-
     mutation_strategy(state, children);
 
     // evaluate children
@@ -51,7 +50,7 @@ void FlowshopSolver::run(
     // one more iteration...
     state.inc_iteration();
 
-    printf("\033[1Gcurrent iteration : %5d best: %lf",
+    printf("\033[1Gcurrent iteration : %5d best: %d",
       state.iteration(), state.population().best());
     fflush(stdout);
 
@@ -81,5 +80,5 @@ void FlowshopSolver::save_iteration_info(){
 
 
 double FlowshopSolver::solution() const{
-  return state.population().best();
+  return std::min(state.best(), state.population().best());
 }

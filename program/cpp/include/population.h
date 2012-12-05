@@ -17,8 +17,8 @@ class Population{
 
     double mean() const;
     double variance() const;
-    double best() const;
-    double worst() const;
+    int best() const;
+    int worst() const;
     int size() const;
 
     double adaptation_mean() const;
