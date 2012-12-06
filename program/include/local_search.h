@@ -72,5 +72,3 @@ class SimpleStrategy : public LocalSearchStrategy{
 };
 
 #endif
-  
-

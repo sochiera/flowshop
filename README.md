@@ -17,6 +17,13 @@ TODO
   * RPC - KCH
   * szkielet algorytmu - KCH - zrobione
 
+Algorytm
+========
+   
+  Parametry:
+    n - wielkość populacji
+    m - ilość rodziców
+   
 
   
 Potrzebne biblioteki i programy
