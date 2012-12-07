@@ -114,7 +114,7 @@ int main(int argc, char ** argv){
 
   BestOfReplacement replacement_strategy; 
 
-  GradualSinglePointOperator gsp(bc.instance(instance_index), 0.5);
+  GradualSinglePointOperator gsp(bc.instance(instance_index), 0.1);
   SimpleStrategy ls(gsp);
 
   FlowshopSolver solver(
@@ -125,7 +125,7 @@ int main(int argc, char ** argv){
     is, ls
   );
 
-  NumIterationsCondition term(3);
+  NumIterationsCondition term(50);
   solver.run(bc.instance(instance_index), term, num_individuals);
   printf("\n");
 

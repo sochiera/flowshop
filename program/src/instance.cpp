@@ -40,6 +40,15 @@ int FlowshopInstance::operator() (int machine, int task) const{
 }
 
 
+void print_mat(int rows, int cols, int ** mat){
+  for(int r = 0; r < rows; r++){
+    for(int c = 0; c < cols; c++)
+      printf("%5d", mat[r][c]);
+    printf("\n");
+  }
+}
+
+
 void FlowshopInstance::update_cost(AlgorithmState & state) const{
   Population & P = state.population();
   for(int i = 0; i < P.size(); i++){
@@ -51,30 +60,121 @@ void FlowshopInstance::update_cost(AlgorithmState & state) const{
 
 int FlowshopInstance::evaluate(const Individual * individual) const{
   const FlowshopInstance & T = *this;
-  const Individual & pi = *individual;
+  const Individual & p = *individual;
  
-  int ** b = new int * [num_machines_];
+  int ** e = new int * [num_machines_];
   for(int i = 0; i < num_machines(); i++)
-    b[i] = new int [num_tasks_];
+    e[i] = new int [num_tasks_];
 
-  b[0][0] = 0;
+  e[0][0] = T(0, p[0]);
   for(int t = 1; t < num_tasks_; t++)
-    b[0][t] = b[0][t-1] + T(0, pi[t]);
+    e[0][t] = e[0][t-1] + T(0, p[t]);
   for(int m = 1; m < num_machines_; m++)
-    b[m][0] = b[m-1][0] + T(m-1, pi[0]);
+    e[m][0] = e[m-1][0] + T(m, p[0]);
   
   for(int m = 1; m < num_machines_; m++)
     for(int t = 1; t < num_tasks_; t++)
-      b[m][t] = std::max(
-        b[m][t-1] + T(m, pi[t-1]), 
-        b[m-1][t] + T(m-1, pi[t]));
- 
-  int cost = b[num_machines_ - 1][num_tasks_ - 1] + 
-    T(num_machines_ - 1, pi[num_tasks_ - 1]);
+      e[m][t] = std::max(e[m-1][t], e[m][t-1]) + T(m, p[t]);
+
+  int cost = e[num_machines_ - 1][num_tasks_ - 1];
 
   for(int i = 0; i < num_machines(); i++)
-    delete [] b[i];
-  delete [] b;
+    delete [] e[i];
+  delete [] e;
 
   return cost;
 }
+
+
+std::vector<int> 
+FlowshopInstance::evaluate_all_insertions(const Individual * individual) const
+{
+  const FlowshopInstance & T = *this;
+
+  int ** e = new int * [num_machines_];
+  int ** q = new int * [num_machines_];
+  int ** f = new int * [num_machines_];
+  for(int i = 0; i < num_machines(); i++){
+    e[i] = new int [num_tasks_];
+    q[i] = new int [num_tasks_];
+    f[i] = new int [num_tasks_];
+  }
+
+  // prepare individual
+  const int n = num_tasks_ - 1;
+  Individual p(*individual);
+
+  // E
+  e[0][0] = T(0, p[0]);
+  for(int m = 1; m < num_machines_; m++)
+    e[m][0] = e[m-1][0] + T(m, p[0]);
+
+  for(int t = 1; t < n; t++)
+    e[0][t] = e[0][t-1] + T(0, p[t]);
+
+  for(int m = 1; m < num_machines_; m++)
+    for(int t = 1; t < n; t++)
+      e[m][t] = std::max(e[m-1][t], e[m][t-1]) + 
+        T(m, p[t]);
+ 
+  // Q
+  const int lastm = num_machines_ - 1;
+  const int lastt = n - 1;
+  q[lastm][lastt] = T(lastm, p[lastt]);
+  for(int m = lastm; m >= 0; m--)
+    q[m][lastt+1] = 0;
+  for(int t = lastt - 1; t >= 0; t--)
+    q[lastm][t] = q[lastm][t+1] + T(lastm, p[t]);
+  for(int m = lastm - 1; m >= 0; m--)
+    for(int t = lastt; t >= 0; t--)
+      q[m][t] = std::max(q[m+1][t], q[m][t+1]) + T(m, p[t]);
+ 
+    
+  // F
+  f[0][0] = T(0, p[n]);
+  for(int m = 1; m < num_machines_; m++)
+    f[m][0] = f[m-1][0] + T(m, p[n]);
+  for(int t = 1; t <= n; t++)
+    f[0][t] = e[0][t-1] + T(0, p[n]);
+  for(int m = 1; m < num_machines_; m++)
+    for(int t = 1; t <= n; t++)
+      f[m][t] = std::max(f[m-1][t], e[m][t-1]) + T(m, p[n]);
+
+
+/*
+  // print debug info
+  for(int m = 0; m < num_machines_; m++){
+    for(int t = 0; t <= n; t++)
+      printf("%5d", T(m, p[t]));
+    printf("\n");
+  }
+  printf("e:\n");
+  print_mat(num_machines_, n, e);
+  printf("q:\n");
+  print_mat(num_machines_, n, q);
+*/
+
+
+
+  // check all possible places to insert
+  std::vector<int> costs;
+  for(int t = 0; t <= n; t++){
+    int cost = 0;
+    for(int m = 0; m < num_machines_; m++)
+      cost = std::max(cost, f[m][t] + q[m][t]);
+    costs.push_back(cost);
+  }
+
+  for(int i = 0; i < num_machines(); i++){
+    delete [] e[i];
+    delete [] q[i];
+    delete [] f[i];
+  }
+  delete [] e;
+  delete [] q;
+  delete [] f;
+
+  return costs;
+}
+
+
