@@ -1,6 +1,9 @@
 #include <replacement.h>
 #include <algorithm>
 #include <vector>
+#include <utility>
+#include <map>
+#include <set>
 
 
 void BestOfReplacement::operator() 
@@ -33,43 +36,55 @@ void BestOfReplacement::operator()
 }
 
 
-void TournamentReplacement::operator() 
-  (AlgorithmState & state, std::vector<Individual *> & children) const
+void FamilyReplacement::add_with_cost(
+  std::vector< std::pair<int, Individual *> > & v, Individual * n) const
 {
-  using std::make_pair;
+  v.push_back(std::make_pair(n->cost(), n)); 
+}
 
-  std::vector< std::pair<int, Individual *> > pairs;
-  
-  for(unsigned int i = 0; i < children.size(); i++)
-    pairs.push_back(make_pair(children[i]->cost(), children[i]));
 
+
+void FamilyReplacement::operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children) const
+{
+  using namespace std;
+  typedef Individual * IP;
+  typedef map< pair<IP, IP>, vector<IP> > SYF;
+
+  SYF families;
+ 
+  set< IP > single;
   Population & p = state.population();
   for(int i = 0; i < p.size(); i++)
-    pairs.push_back(make_pair(p[i]->cost(), p[i]));
-
-  if(pairs.size() %2 != 0) {
-    delete pairs[pairs.size()-1].second;
-    pairs.pop_back();
-  }
-  std::random_shuffle(pairs.begin(), pairs.end());
-  
-  const unsigned int n = p.size();
+    single.insert(p[i]);
   p.clear();
 
-  for(unsigned int i = 0; pairs.size() < 2*n; i++){
-    pairs.push_back(pairs[i]);
+  for(unsigned int i = 0; i < children.size(); i++){
+    IP m = const_cast<IP>(children[i]->parent(0));
+    IP d = const_cast<IP>(children[i]->parent(1));
+    single.erase(m);
+    single.erase(d);
+    IP u = min(m, d);
+    IP v = max(m, d);
+    families[make_pair(u, v)].push_back(children[i]);
   }
 
-  for(unsigned int i = 0; i < pairs.size(); i+=2){
-    Individual * a = pairs[i].second;
-    Individual * b = pairs[i+1].second;
-    if(pairs[i].first < pairs[i+1].first){
-      p.add(a);
-      delete b;
-    }
-    else{
-      p.add(b);
-      delete a;
-    }
+  for(set<IP>::iterator i = single.begin(); i != single.end(); i++){
+    p.add(*i); 
+  }
+
+  for(SYF::iterator i = families.begin(); i != families.end(); i++){
+    vector< pair< int, IP> > family; 
+    add_with_cost(family, i->first.first);
+    add_with_cost(family, i->first.second);
+    add_with_cost(family, i->second[0]);
+    add_with_cost(family, i->second[1]);
+
+    std::sort(family.begin(), family.end());
+    p.add(family[0].second);
+    p.add(family[1].second);
+
+    delete family[2].second;
+    delete family[3].second;
   }
 }

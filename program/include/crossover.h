@@ -65,6 +65,17 @@ class Composition : public Crossover{
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
 class CrossoverStrategy{
   public:
     CrossoverStrategy(const Crossover & cross) : cross_(cross) {}
@@ -80,9 +91,21 @@ class CrossoverStrategy{
 
 class RandomCrossoverStrategy : public CrossoverStrategy{
   public:
-    RandomCrossoverStrategy(const Crossover & cross) :
-      CrossoverStrategy(cross) {}
+    RandomCrossoverStrategy(const Crossover & cross) 
+      : CrossoverStrategy(cross) {}
     
+    virtual std::vector<Individual *> operator() (
+      const AlgorithmState & state, 
+      std::vector<const Individual *> & parents) const;
+};
+
+
+class RandomPairCrossoverStrategy : public CrossoverStrategy{
+  public:
+    RandomPairCrossoverStrategy(const Crossover & cross) 
+      : CrossoverStrategy(cross) {}
+
+
     virtual std::vector<Individual *> operator() (
       const AlgorithmState & state, 
       std::vector<const Individual *> & parents) const;

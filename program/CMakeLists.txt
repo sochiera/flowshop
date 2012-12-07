@@ -12,7 +12,6 @@ include_directories(include)
 
 
 set(SOURCES
-
   src/random.cpp 
   src/individual.cpp
   src/composition.cpp
@@ -49,6 +48,8 @@ set(TESTS
   test/best_of_replacement.cpp
   test/benchmark_collection.cpp
   test/local_search.cpp
+  test/crossover.cpp
+  test/replacement.cpp
 )
 
 
