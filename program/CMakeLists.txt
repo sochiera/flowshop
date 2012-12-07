@@ -63,7 +63,7 @@ target_link_libraries(flowshop flowshoplib)
 
 add_custom_target(
   copy_bindings_test ALL
-  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/../../benchmark/* ${CMAKE_CURRENT_BINARY_DIR}/)
+  COMMAND cp  ${CMAKE_CURRENT_SOURCE_DIR}/../benchmark/* ${CMAKE_CURRENT_BINARY_DIR}/)
 
 add_executable(random random.cpp)
 target_link_libraries(random flowshoplib)

@@ -8,9 +8,10 @@
 class FlowshopInstance{
   public:
     FlowshopInstance(int num_machines, int num_tasks, int feasible_solution);
+    
     virtual ~FlowshopInstance();
     int evaluate(const Individual * individual) const; 
-
+    std::vector<int> evaluateAfterInsertions(const int, const Individual *) const;
     void update_cost(AlgorithmState & state) const;
 
     int & operator() (int machine, int task);
