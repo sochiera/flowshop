@@ -11,8 +11,11 @@ TEST(UX, Crossover){
   indices.push_back(3);
 
   UX ux(2);
+  Individual child = ux.cross(indices, &dad, &mom);
   
-  ASSERT_EQ(Individual("31204"), ux.cross(indices, &dad, &mom));
+  ASSERT_EQ(Individual("31204"), child);
+  ASSERT_EQ(&mom, child.parent(0));
+  ASSERT_EQ(&dad, child.parent(1));
 }
 
 TEST(UX, BigRandom){

@@ -5,7 +5,10 @@
 
 Individual::Individual(int size)
   : std::vector<int>(size) 
-{}
+{
+  parents_[0] = 0;
+  parents_[1] = 0;
+}
 
 
 Individual::Individual(const char * code)
@@ -107,4 +110,16 @@ void Individual::insert(int elemIdx, int i){
     }
     t[i] = x;
   }
+}
+
+
+const Individual * Individual::parent(int i) const{
+  return parents_[i];
+}
+
+
+void Individual::set_parents(const Individual * a, const Individual * b)
+{
+  parents_[0] = a;
+  parents_[1] = b;
 }

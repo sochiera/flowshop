@@ -58,5 +58,7 @@ P PMX::cross(int a, int b, const P * m, const P * d) const {
     if(child[i] == -1)
       child[i] = dad[i];
 
+  child.set_parents(m, d);
+
   return child;
 }

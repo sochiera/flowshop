@@ -42,7 +42,8 @@ P OX::cross(int a, int b, const P * m, const P * d) const{
     child[(n - b + a + i) % n] = dad[j];
     was[dad[j]] = true;
   }
-
+  
+  child.set_parents(m, d);
   assert(child.valid());
   
   return child;
