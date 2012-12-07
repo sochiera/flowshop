@@ -33,8 +33,36 @@ TEST(Instance, CalculatesIndividualCost){
     for(int t = 0; t < tasks; t++)
       ASSERT_EQ(cost[m][t], instance(m, t));
   
-  ASSERT_FLOAT_EQ(16.0, instance.evaluate(&ind));
+  ASSERT_FLOAT_EQ(solution, instance.evaluate(&ind));
 }
+
+
+TEST(Instance, CalculatesIndividualCost2){
+  Individual ind("0123");
+  
+  double cost[4][4] = {
+    {2, 3, 2, 1},
+    {1, 1, 2, 1},
+    {3, 2, 1, 1},
+    {1, 1, 3, 1}
+  };
+
+  const int tasks = 4;
+  const int machines = 4;
+  const int solution = 14.0;
+
+  FlowshopInstance instance(machines, tasks, solution);
+  for(int m = 0; m < machines; m++)
+    for(int t = 0; t < tasks; t++)
+      instance(m, t) = cost[m][t];
+
+  for(int m = 0; m < machines; m++)
+    for(int t = 0; t < tasks; t++)
+      ASSERT_EQ(cost[m][t], instance(m, t));
+  
+  ASSERT_FLOAT_EQ(solution, instance.evaluate(&ind));
+}
+
 
 
 TEST(Instance, HandlesBigData){

@@ -22,6 +22,9 @@ class FlowshopInstance{
     int feasible_solution() const;
   
   private:
+    FlowshopInstance(const FlowshopInstance & instance);
+    const FlowshopInstance & operator=(const FlowshopInstance & other);
+
     int * data_;
     int num_machines_;
     int num_tasks_;

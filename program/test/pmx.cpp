@@ -5,11 +5,15 @@
 TEST(PMX, Crossover){
   Individual mom("8473625190");
   Individual dad("0123456789");
-  Individual child("0743625189");
+  Individual expected_child("0743625189");
 
   PMX pmx;
 
-  ASSERT_EQ(child, pmx.cross(3, 8, &mom, &dad));
+  Individual child = pmx.cross(3, 8, &mom, &dad);
+
+  ASSERT_EQ(expected_child, child);
+  ASSERT_EQ(&mom, child.parent(0));
+  ASSERT_EQ(&dad, child.parent(1));
 }
 
 

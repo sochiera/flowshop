@@ -24,7 +24,8 @@ P Composition::cross(const P * m, const P * d) const{
   for(int i = 0; i < n; i++){
     child[i] = mom[dad[i]];
   }
-
+  
+  child.set_parents(m, d);
   assert(child.valid());
 
   return child;

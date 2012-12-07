@@ -28,10 +28,15 @@ class Individual : public std::vector<int>{
     double scaled_adaptation() const;
     void set_scaled_adaptation(double scaled);
 
+    const Individual * parent(int i) const;
+    void set_parents(const Individual * a, const Individual * b);
+
   private:
     int cost_;
     double adaptation_;
     double scaled_adaptation_;
+
+    const Individual * parents_[2];
 };
 
 

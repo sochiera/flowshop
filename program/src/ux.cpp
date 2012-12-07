@@ -64,5 +64,7 @@ P UX::cross(const std::vector<int> & ind, const P * m, const P * d) const{
       child[i] = dad[i];
   }
 
+  child.set_parents(m, d);
+
   return child;
 }

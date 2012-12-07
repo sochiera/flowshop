@@ -1,6 +1,7 @@
 #include <crossover.h>
 #include <random.h>
 #include <algorithm>
+#include <cassert>
 
 
 std::vector<Individual *> RandomCrossoverStrategy::operator() (
@@ -25,3 +26,25 @@ std::vector<Individual *> RandomCrossoverStrategy::operator() (
   return children;
 }
 
+
+
+
+std::vector<Individual *> RandomPairCrossoverStrategy::operator()(
+  const AlgorithmState & state, 
+  std::vector<const Individual *> & parents) const
+{
+  assert( parents.size() % 2 == 0 );
+  std::random_shuffle(parents.begin(), parents.end());
+  std::vector<Individual *> children;
+  for(unsigned int i = 0; i < parents.size() / 2; i++){
+    const Individual * mom = parents[2*i];
+    const Individual * dad = parents[2*i + 1];
+    Crossover::Result r = cross_(mom, dad);
+    Individual * a = new Individual(r.first);
+    Individual * b = new Individual(r.second);
+    children.push_back(a);
+    children.push_back(b);
+  }
+
+  return children;
+}

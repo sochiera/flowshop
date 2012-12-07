@@ -19,10 +19,17 @@ class BestOfReplacement : public ReplacementStrategy{
       std::vector<Individual *> & children) const;
 };
 
-class TournamentReplacement : public ReplacementStrategy{
+
+class FamilyReplacement : public ReplacementStrategy{
   public:
     void operator() (AlgorithmState & state, 
       std::vector<Individual *> & children) const;
+
+  public:
+    void add_with_cost(std::vector< std::pair<int, Individual *> > & , 
+      Individual * n) const;
 };
+
+
 
 #endif
