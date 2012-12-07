@@ -114,14 +114,19 @@ std::vector<int> FlowshopInstance::evaluateAfterInsertions(const int _k, const I
     e[0][i] = 0;
     
 
-  for(int i = 1; i < k; i++){
+  for(int i = 1; i <= k; i++){
     for(int j = 1; j <= m; j++){
       e[i][j] = std::max(e[i][j-1], e[i-1][j]) + T(j-1,p[i-1]);
-      printf("%3d ", e[i][j]);
     }
+  }
+for(int j = 1; j <= m; j++){
+ for(int i = 1; i <= k; i++){
+  
+      printf("%3d ", e[i][j]);
+  }
     printf("\n");
   }
- 
+ printf("\n");
 
   for(int i = 0; i <= m+1; i++)
     q[k][i] = 0;
@@ -129,27 +134,46 @@ std::vector<int> FlowshopInstance::evaluateAfterInsertions(const int _k, const I
   for(int i = 0; i <= n; i++)
     q[i][m+1] = 0;
 
-  for(int i = k-1; i > 0; i--){
+  for(int i = k; i > 0; i--){
     for(int j = m; j > 0; j--){
-      q[i][j] = std::max(q[i][j+1], q[i+1][j]) + T(j-1,p[i-1]);
-      printf("%3d ", q[i][j]);
+      q[i][j] = e[n][m] - e[i][j] + T(j-1,p[i-1]);
     }
-    printf("\n");
   }
 
+
+for(int j = 1; j <= m; j++){
+ for(int i = 1; i <= k; i++){
+  
+      printf("%3d ", q[i][j]);
+  }
+    printf("\n");
+  }
+ printf("\n");
+
+printf("\n");
   for(int i = 0; i <= n; i++)
     f[i][0] = 0;  
 
   for(int i = 1; i <= k; i++){
     for(int j = 1; j <= m; j++){
-      f[i][j] = std::max(f[i][j-1], e[i-1][j]) + T(j-1,p[k-1]);
+      f[i][j] = std::max(f[i][j-1], e[i-1][j])
+              + T(j-1,p[k-1]);
     }
   }
   
+for(int j = 1; j <= m; j++){
+ for(int i = 1; i <= k; i++){
+  
+      printf("%3d ", f[i][j]);
+  }
+    printf("\n");
+  }
+ printf("\n");
+
   std::vector<int> M;
   M.clear();
 
-  for(int i = 1; i <= k; i++){
+  for(int i = 1; i <= n; i++){
     int maks = 0;
     for(int j = 1; j <= m; j++){
       maks = std::max((f[i][j] + q[i][j]), maks);

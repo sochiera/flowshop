@@ -102,13 +102,46 @@ TEST(Instance, AfterInsertionsCostsSmall){
   
   std::vector<int> M = instance.evaluateAfterInsertions(2, &a);
 
-std::cout << M[0] << " " << M[1] << " " << M[2] << "\n" << 
+/*std::cout << M[0] << " " << M[1] << " " << M[2] << "\n" << 
 instance.evaluate(&a) << " " << instance.evaluate(&b) << " " << instance.evaluate(&c) << " " 
 << instance.evaluate(&d) << " " << instance.evaluate(&e) << " " << instance.evaluate(&f);
-
+*/
 //  ASSERT_EQ(16, M[1]);
 }
 
+TEST(Instance, Blabal2){
+  Individual a("0123");
+  
+  double cost[4][4] = {
+    {2, 3, 2, 1},
+    {1, 1, 2, 1},
+    {3, 2, 1, 1},
+    {1, 1, 3, 1}
+  };
+
+  const int tasks = 4;
+  const int machines = 4;
+  const int solution = 14.0;
+
+  FlowshopInstance instance(machines, tasks, solution);
+  for(int m = 0; m < machines; m++)
+    for(int t = 0; t < tasks; t++)
+      instance(m, t) = cost[m][t];
+
+  for(int m = 0; m < machines; m++)
+    for(int t = 0; t < tasks; t++)
+      ASSERT_EQ(cost[m][t], instance(m, t));
+
+  std::vector<int> M = instance.evaluateAfterInsertions(3, &a);
+  
+  for(int j = 0; j < 4; j++){
+    Individual b = a;
+    b.insert(3, j);
+    std::cout << instance.evaluate(&b)- M[j] << "\n";
+  }
+}
+
+/*
 TEST(Instance, AfterInsertionsCostsBig){
   const int n = 20;
   Individual a(n);
@@ -133,3 +166,5 @@ TEST(Instance, AfterInsertionsCostsBig){
     }
   }
 }
+
+*/
