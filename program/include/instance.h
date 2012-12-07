@@ -8,6 +8,7 @@
 class FlowshopInstance{
   public:
     FlowshopInstance(int num_machines, int num_tasks, int feasible_solution);
+    
     virtual ~FlowshopInstance();
 
     int evaluate(const Individual * individual) const; 

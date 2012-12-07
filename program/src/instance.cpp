@@ -177,4 +177,3 @@ FlowshopInstance::evaluate_all_insertions(const Individual * individual) const
   return costs;
 }
 
-

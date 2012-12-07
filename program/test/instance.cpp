@@ -1,5 +1,15 @@
 #include <instance.h>
+#include <individual.h>
+#include <benchmark_collection.h>
+#include <parent_selector.h>
+#include <crossover.h>
+#include <mutation.h>
+#include <replacement.h>
+#include <adaptation.h>
+#include <solver.h>
+#include <termination.h>
 #include <gtest/gtest.h>
+#include <iostream>
 
 TEST(Instance, CalculatesIndividualCost){
   Individual ind("210");
@@ -109,3 +119,4 @@ TEST(Instance, HandlesBigData){
   FlowshopInstance instance(100, 10000, 10000.0);
   instance.evaluate(&ind);
 }
+
