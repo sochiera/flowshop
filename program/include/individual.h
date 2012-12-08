@@ -13,6 +13,7 @@ class Individual : public std::vector<int>{
 
     bool operator == (const Individual & other) const;
     bool operator < (const Individual & other) const;
+    bool operator <= (const Individual & other) const;
     bool valid() const;
 
     void swap(int i, int j);

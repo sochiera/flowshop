@@ -36,3 +36,29 @@ TEST(GradialSinglePointOperator, FindsBetterSolutions){
   ASSERT_LT(r.first, randomInd);
   ASSERT_LT(r.second, r.first);	
 }
+
+
+TEST(SinglePointOperator, FindsBetterSolutions){
+
+  const char * filename = "tai20_10.txt.in";
+  const int instance_index = 0;
+
+  BenchmarkCollection bc;
+  bc.load(filename);
+  srand(time(0));
+  const FlowshopInstance & instance = bc.instance(instance_index);
+
+  SinglePointOperator ls(instance);
+
+  Individual randomInd(instance.num_tasks());
+  randomInd.randomize();
+  randomInd.set_cost(instance.evaluate(&randomInd));
+
+  Crossover::Result r = ls(&randomInd);
+
+  ASSERT_LE(r.first.cost(), randomInd.cost());
+  ASSERT_LE(r.second, r.first);	
+}
+
+
+

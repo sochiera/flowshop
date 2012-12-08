@@ -113,8 +113,8 @@ int main(int argc, char ** argv){
   RandomMutationStrategy mutation_strategy(ps, mutation_probability);
 
   BestOfReplacement replacement_strategy; 
-
-  GradualSinglePointOperator gsp(bc.instance(instance_index), 0.1);
+  
+  SinglePointOperator gsp(instance);
   SimpleStrategy ls(gsp);
 
   FlowshopSolver solver(

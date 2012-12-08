@@ -94,6 +94,10 @@ bool Individual::operator < (const Individual & other) const{
   return cost_ < other.cost_;
 }
 
+bool Individual::operator <= (const Individual & other) const{
+  return cost_ <= other.cost_;
+}
+
 
 void Individual::insert(int elemIdx, int i){
   Individual & t = *this;
