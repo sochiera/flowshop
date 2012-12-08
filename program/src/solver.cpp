@@ -24,7 +24,7 @@ void FlowshopSolver::run(
   // evaluate individuals, sort them etc.
   update_population(instance);
 
-  while( !termination(state) ){
+  while( !termination(state) && solution() > instance.feasible_solution()){
     // select parents
     std::vector<const Individual *> parents = 
       parent_selector(state);

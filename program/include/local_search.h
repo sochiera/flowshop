@@ -69,15 +69,30 @@ class SinglePointOperator : public LocalSearch{
 
 
 
+
+
+
+
+
+
 class LocalSearchStrategy{
   public:
+    LocalSearchStrategy(const LocalSearch & ls)
+      : local_search_(ls) {}
+    
     virtual void operator() (AlgorithmState & state, 
       std::vector<Individual *> & children) const = 0;
+ 
+  protected:
+    const LocalSearch & local_search_;
 };
 
 
 class LaziestStrategy : public LocalSearchStrategy{
   public:
+    LaziestStrategy(const LocalSearch & ls)
+      : LocalSearchStrategy(ls) {}
+
     void operator() (AlgorithmState & state, 
       std::vector<Individual *> & children) const {}
 };
@@ -86,13 +101,20 @@ class LaziestStrategy : public LocalSearchStrategy{
 class SimpleStrategy : public LocalSearchStrategy{
   public:
     SimpleStrategy(const LocalSearch & local) :
-      local_search_(local) {}
+      LocalSearchStrategy(local) {}
 
     void operator() (AlgorithmState & state, 
       std::vector<Individual *> & children) const;
+};
 
-  private:
-    const LocalSearch & local_search_;
+
+class ParallelSearchStrategy : public LocalSearchStrategy{
+  public: 
+    ParallelSearchStrategy(const LocalSearch & local) 
+      : LocalSearchStrategy(local) {}
+
+    void operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children) const;
 };
 
 #endif

@@ -21,7 +21,7 @@
 int main(int argc, char ** argv){
 
   if(argc != 3){
-    printf("usage: ./flowshop problem_set problem_index\n");
+    printf("usage: ./taboo_search problem_set problem_index\n");
     return -1;
   }
   const char * filename = argv[1];
@@ -44,16 +44,17 @@ int main(int argc, char ** argv){
 
   int best = 200000;
 
-  TabooSearch ls(instance, 18, 20);
+  TabooSearch ls(instance, 1000, 800);
 
-  for(int i = 0; i < 2; i++){
+  for(int i = 0; i < 1000; i++){
     Individual Ind(instance.num_tasks());
     Ind.randomize();
     LocalSearch::Result r = ls(&Ind);
     int val = instance.evaluate(&(r.second));
     if(val < best) best = val;
-    printf("%d\n", best);
+    printf("best: %d found %d\n", best, val);
   }
+
   printf("\n\n\nbest found solution: %d, feasible solution: %d\n", best, instance.feasible_solution());
   return 0;
 }

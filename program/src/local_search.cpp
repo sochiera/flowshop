@@ -169,12 +169,31 @@ LocalSearch::Result SinglePointOperator::operator ()
 }
 
 
+
+
+
+
 void SimpleStrategy::operator () (AlgorithmState & state, 
       std::vector<Individual *> & children) const
 {
 	for(unsigned int i = 0; i < children.size(); i++){
 		LocalSearch::Result r = local_search_(children[i]);
 		*(children[i]) = r.first;
+    state.set_best_if_better(r.second);
+	}
+}
+
+
+
+void ParallelSearchStrategy::operator () (AlgorithmState & state, 
+      std::vector<Individual *> & children) const
+{
+  #pragma omp parallel for
+	for(unsigned int i = 0; i < children.size(); i++){
+		LocalSearch::Result r = local_search_(children[i]);
+		*(children[i]) = r.first;
+    
+    #pragma omp critical
     state.set_best_if_better(r.second);
 	}
 }

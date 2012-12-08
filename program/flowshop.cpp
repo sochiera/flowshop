@@ -17,11 +17,11 @@
 
 
 
-const int num_parents = 100;
-const int num_individuals = 100;
+const int num_parents = 1000;
+const int num_individuals = 1000;
 
 
-const double mutation_probability = 0.00;
+const double mutation_probability = 0.05;
 
 
 void save_results(int aim, int result, int problem, const char * filename){
@@ -115,9 +115,8 @@ int main(int argc, char ** argv){
 
   FamilyReplacement replacement_strategy; 
   
-  //TabooSearch gsp(instance, 800, 50);
   SinglePointOperator gsp(instance);
-  SimpleStrategy ls(gsp);
+  ParallelSearchStrategy ls(gsp);
 
   FlowshopSolver solver(
     parent_selector, 
@@ -127,7 +126,7 @@ int main(int argc, char ** argv){
     is, ls
   );
 
-  NumIterationsCondition term(30);
+  NumIterationsCondition term(1000);
   solver.run(bc.instance(instance_index), term, num_individuals);
   printf("\n");
 

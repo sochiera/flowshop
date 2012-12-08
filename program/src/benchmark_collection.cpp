@@ -53,7 +53,7 @@ void BenchmarkCollection::read_instance(IntStream & in){
   int tasks, machines, seed, upper_bound, lower_bound; 
   in >> tasks >> machines >> seed >> upper_bound >> lower_bound;
   
-  FlowshopInstance * inst = new FlowshopInstance(machines, tasks, lower_bound);
+  FlowshopInstance * inst = new FlowshopInstance(machines, tasks, upper_bound);
   FlowshopInstance & instance = * inst;
   for(int m = 0; m < machines; m++)
     for(int t = 0; t < tasks; t++)
