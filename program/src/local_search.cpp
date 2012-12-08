@@ -7,6 +7,7 @@
 #include <local_search.h>
 #include <iostream>
 #include <bitset>
+#include <queue>
 
 typedef Individual P;
 
@@ -31,11 +32,19 @@ LocalSearch::Result TabooSearch::operator ()
   (const P * Ind) const
 {
 
+
 	Individual x(*Ind);
+	int bestVal = instance_.evaluate(&x);
+
 	const int n = x.size();
 	std::bitset<maxCost> * taboo = new std::bitset<maxCost>;
 	std::vector<int> * _M = new std::vector<int>;
 	std::vector<std::pair<int, std::pair<int, int> > > * M = new std::vector<std::pair<int, std::pair<int, int> > >;
+	std::queue<int> * q = new std::queue<int>;
+
+	Result r;
+	r.second = x;
+
 	for (int i = 0; i < NumIterations; ++i)
 	{
 		M->clear();
@@ -52,21 +61,34 @@ LocalSearch::Result TabooSearch::operator ()
 			}
 		}
 		std::sort(M->begin(), M->end());
+
+		if(bestVal > (*M)[0].first){
+			r.second = x;
+			r.second.insert(((*M)[0]).second.first, ((*M)[0]).second.second);
+			bestVal = (*M)[0].first;
+		}
+
 		bool flague = false;
 		for (unsigned int i = 0; i < M->size(); ++i){
 			if(!flague && !(*taboo)[(*M)[i].first]){
 				x.insert(((*M)[i]).second.first, ((*M)[i]).second.second);
 				flague = true;
 			}
-			(*taboo)[(*M)[i].first] = 1;
+			if(!(*taboo)[(*M)[i].first]){
+				q->push(i);
+				(*taboo)[i] = 1;
+				if(q->size() > TabooSize){
+					(*taboo)[q->front()] = 0;
+					q->pop();
+				}
+			}
 		}
 	}
+	delete q;
 	delete taboo;
 	delete M;
 	delete _M;
-	Result r;
 	r.first = x;
-	r.second = x;
 	return r;
 }
 
