@@ -43,7 +43,8 @@ void RandomPermutationCrossover::operator () (Individual * a) const{
 
 
 	Composition c;
-  *a = c.cross(&randPerm, a);
+  Individual res = c.cross(&randPerm, a);
+  std::copy(res.begin(), res.end(), a->begin());
 }
 
 
@@ -67,7 +68,6 @@ void PermutationShift::operator () (Individual * a) const{
 	std::copy(shiftedPerm.begin(), shiftedPerm.end(), a->begin());
 
 	assert( a->valid() );
-
 }
 
 

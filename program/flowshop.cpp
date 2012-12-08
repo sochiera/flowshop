@@ -18,7 +18,7 @@
 
 
 const int num_parents = 100;
-const int num_individuals = 400;
+const int num_individuals = 100;
 
 const double mutation_probability = 0.01;
 
@@ -114,8 +114,8 @@ int main(int argc, char ** argv){
 
   FamilyReplacement replacement_strategy; 
   
-  TabooSearch gsp(instance, 800, 50);
-  //SinglePointOperator gsp(instance);
+  //TabooSearch gsp(instance, 800, 50);
+  SinglePointOperator gsp(instance);
   SimpleStrategy ls(gsp);
 
   FlowshopSolver solver(
@@ -126,7 +126,7 @@ int main(int argc, char ** argv){
     is, ls
   );
 
-  NumIterationsCondition term(500);
+  NumIterationsCondition term(30);
   solver.run(bc.instance(instance_index), term, num_individuals);
   printf("\n");
 
