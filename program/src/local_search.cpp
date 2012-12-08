@@ -62,6 +62,24 @@ LocalSearch::Result TabooSearch::operator ()
 		}
 		std::sort(M->begin(), M->end());
 
+
+
+
+		//debug info
+/*		for(int i = 0; i < 30; i++){
+			std::cout << (*M)[i].first << " " << (*M)[i].second.first << " "  <<  (*M)[i].second.second << "\n";
+		}
+		std::cout << "\n";  
+		for(int asas = 0; asas < maxCost; asas++){
+			if((*taboo)[asas])  std::cout << asas <<" ";
+		}
+
+		std::cout << "\n" << q->size() <<"\n\n";
+*/
+
+
+
+
 		if(bestVal > (*M)[0].first){
 			r.second = x;
 			r.second.insert(((*M)[0]).second.first, ((*M)[0]).second.second);
@@ -73,8 +91,8 @@ LocalSearch::Result TabooSearch::operator ()
 			if(!flague && !(*taboo)[(*M)[k].first]){
 				x.insert(((*M)[k]).second.first, ((*M)[k]).second.second);
 				flague = true;
-			}
-			if(!(*taboo)[(*M)[k].first]){
+//			}
+//			if(!(*taboo)[(*M)[k].first]){
 				q->push(k);
 				(*taboo)[k] = 1;
 				if(q->size() > TabooSize){

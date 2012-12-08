@@ -44,9 +44,9 @@ int main(int argc, char ** argv){
 
   int best = 200000;
 
-  TabooSearch ls(instance, 1000, 70);
+  TabooSearch ls(instance, 18, 20);
 
-  for(int i = 0; i < 1000; i++){
+  for(int i = 0; i < 2; i++){
     Individual Ind(instance.num_tasks());
     Ind.randomize();
     LocalSearch::Result r = ls(&Ind);

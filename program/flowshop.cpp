@@ -18,9 +18,9 @@
 
 
 const int num_parents = 100;
-const int num_individuals = 400;
+const int num_individuals = 200;
 
-const double mutation_probability = 0.01;
+const double mutation_probability = 0.00;
 
 
 void save_results(int aim, int result, int problem, const char * filename){
@@ -114,7 +114,7 @@ int main(int argc, char ** argv){
 
   FamilyReplacement replacement_strategy; 
   
-  TabooSearch gsp(instance, 800, 50);
+  TabooSearch gsp(instance, 1000, 20);
   //SinglePointOperator gsp(instance);
   SimpleStrategy ls(gsp);
 
@@ -126,7 +126,7 @@ int main(int argc, char ** argv){
     is, ls
   );
 
-  NumIterationsCondition term(500);
+  NumIterationsCondition term(100);
   solver.run(bc.instance(instance_index), term, num_individuals);
   printf("\n");
 
