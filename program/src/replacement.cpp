@@ -4,6 +4,8 @@
 #include <utility>
 #include <map>
 #include <set>
+#include <cassert>
+#include <iostream>
 
 
 void BestOfReplacement::operator() 
@@ -39,6 +41,7 @@ void BestOfReplacement::operator()
 void FamilyReplacement::add_with_cost(
   std::vector< std::pair<int, Individual *> > & v, Individual * n) const
 {
+  assert(n->valid());
   v.push_back(std::make_pair(n->cost(), n)); 
 }
 
@@ -66,6 +69,7 @@ void FamilyReplacement::operator() (AlgorithmState & state,
     single.erase(d);
     IP u = min(m, d);
     IP v = max(m, d);
+    assert(u < v);
     families[make_pair(u, v)].push_back(children[i]);
   }
 
@@ -73,14 +77,16 @@ void FamilyReplacement::operator() (AlgorithmState & state,
     p.add(*i); 
   }
 
+
   for(SYF::iterator i = families.begin(); i != families.end(); i++){
+    assert(i->second.size() == 2);
     vector< pair< int, IP> > family; 
-    add_with_cost(family, i->first.first);
-    add_with_cost(family, i->first.second);
     add_with_cost(family, i->second[0]);
     add_with_cost(family, i->second[1]);
-
+    add_with_cost(family, i->first.first);
+    add_with_cost(family, i->first.second);
     std::sort(family.begin(), family.end());
+    
     p.add(family[0].second);
     p.add(family[1].second);
 

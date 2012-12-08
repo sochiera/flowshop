@@ -1,6 +1,7 @@
 #include <crossover.h>
 #include <algorithm>
 #include <random.h>
+#include <cassert>
 
 
 typedef Individual P;

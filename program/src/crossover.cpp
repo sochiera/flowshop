@@ -36,12 +36,21 @@ std::vector<Individual *> RandomPairCrossoverStrategy::operator()(
   assert( parents.size() % 2 == 0 );
   std::random_shuffle(parents.begin(), parents.end());
   std::vector<Individual *> children;
+
   for(unsigned int i = 0; i < parents.size() / 2; i++){
     const Individual * mom = parents[2*i];
     const Individual * dad = parents[2*i + 1];
     Crossover::Result r = cross_(mom, dad);
     Individual * a = new Individual(r.first);
     Individual * b = new Individual(r.second);
+
+    assert(mom != dad);
+    assert(mom == a->parent(0));
+    assert(dad == a->parent(1));
+    assert(mom == b->parent(1));
+    assert(dad == b->parent(0));
+    assert(a != b);
+
     children.push_back(a);
     children.push_back(b);
   }

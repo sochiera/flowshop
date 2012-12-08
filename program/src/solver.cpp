@@ -34,7 +34,7 @@ void FlowshopSolver::run(
       crossover_strategy(state, parents);
 
     // mutation
-    mutation_strategy(state, children);
+   // mutation_strategy(state, children);
 
     // evaluate children
     for(unsigned int i = 0; i < children.size(); i++){
