@@ -31,6 +31,20 @@ class SimulatedAnnealing : public LocalSearch{
 };
 
 
+class TabooSearch : public LocalSearch{
+  public:  
+    TabooSearch(const FlowshopInstance & instance, int numIterations, int tabooSize)
+      : LocalSearch(instance), NumIterations(numIterations), TabooSize(tabooSize) {}
+
+    Result operator() (const Individual * a) const;
+
+  private:
+
+    int NumIterations;
+    int TabooSize;
+    static const int maxCost = 100000;
+};
+
 
 class GradualSinglePointOperator : public LocalSearch{
   public:  

@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <local_search.h>
 #include <iostream>
+#include <bitset>
 
 typedef Individual P;
 
@@ -22,6 +23,50 @@ LocalSearch::Result SimulatedAnnealing::operator ()
 	Result r;
 	r.first = *Ind;
 	r.second = *Ind;
+	return r;
+}
+
+
+LocalSearch::Result TabooSearch::operator () 
+  (const P * Ind) const
+{
+
+	Individual x(*Ind);
+	const int n = x.size();
+	std::bitset<maxCost> * taboo = new std::bitset<maxCost>;
+	std::vector<int> * _M = new std::vector<int>;
+	std::vector<std::pair<int, std::pair<int, int> > > * M = new std::vector<std::pair<int, std::pair<int, int> > >;
+	for (int i = 0; i < NumIterations; ++i)
+	{
+		M->clear();
+		for(int j = 0; j < n; j++){
+			Individual temp(x);
+			temp.insert(j, n-1);
+			_M->clear();
+			*_M = instance_.evaluate_all_insertions(&temp);
+		
+			for (unsigned int k = 0; k < _M->size(); ++k){
+				std::pair<int, int> change(j, k);
+				std::pair<int, std::pair<int, int> >  p((*_M)[k], change);
+				M->push_back(p);
+			}
+		}
+		std::sort(M->begin(), M->end());
+		bool flague = false;
+		for (unsigned int i = 0; i < M->size(); ++i){
+			if(!flague && !(*taboo)[(*M)[i].first]){
+				x.insert(((*M)[i]).second.first, ((*M)[i]).second.second);
+				flague = true;
+			}
+			(*taboo)[(*M)[i].first] = 1;
+		}
+	}
+	delete taboo;
+	delete M;
+	delete _M;
+	Result r;
+	r.first = x;
+	r.second = x;
 	return r;
 }
 
