@@ -17,8 +17,8 @@
 
 
 
-const int num_parents = 2000;
-const int num_individuals = 2000;
+const int num_parents = 200;
+const int num_individuals = 400;
 
 const double mutation_probability = 0.01;
 
@@ -114,7 +114,7 @@ int main(int argc, char ** argv){
 
   BestOfReplacement replacement_strategy; 
   
-  SinglePointOperator gsp(instance);
+  TabooSearch gsp(instance, 100, 50);
   SimpleStrategy ls(gsp);
 
   FlowshopSolver solver(
