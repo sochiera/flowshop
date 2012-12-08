@@ -51,10 +51,20 @@ class GradualSinglePointOperator : public LocalSearch{
     GradualSinglePointOperator(const FlowshopInstance & instance, double effectiveness = 1.0)
       : LocalSearch(instance), Effectiveness(effectiveness) {} 
       
-    virtual Result operator() (const Individual * a) const;
+    Result operator() (const Individual * a) const;
 
   private:
     double Effectiveness;
+};
+
+
+
+class SinglePointOperator : public LocalSearch{
+  public:
+    SinglePointOperator(const FlowshopInstance & instance)
+      : LocalSearch(instance) {}
+
+    Result operator() (const Individual * a) const;
 };
 
 
