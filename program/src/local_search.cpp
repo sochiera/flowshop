@@ -69,14 +69,14 @@ LocalSearch::Result TabooSearch::operator ()
 		}
 
 		bool flague = false;
-		for (unsigned int i = 0; i < M->size(); ++i){
-			if(!flague && !(*taboo)[(*M)[i].first]){
-				x.insert(((*M)[i]).second.first, ((*M)[i]).second.second);
+		for (unsigned int k = 0; k < M->size(); ++k){
+			if(!flague && !(*taboo)[(*M)[k].first]){
+				x.insert(((*M)[k]).second.first, ((*M)[k]).second.second);
 				flague = true;
 			}
-			if(!(*taboo)[(*M)[i].first]){
-				q->push(i);
-				(*taboo)[i] = 1;
+			if(!(*taboo)[(*M)[k].first]){
+				q->push(k);
+				(*taboo)[k] = 1;
 				if(q->size() > TabooSize){
 					(*taboo)[q->front()] = 0;
 					q->pop();
