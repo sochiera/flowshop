@@ -62,6 +62,24 @@ LocalSearch::Result TabooSearch::operator ()
 		}
 		std::sort(M->begin(), M->end());
 
+
+
+
+		//debug info
+/*		for(int i = 0; i < 30; i++){
+			std::cout << (*M)[i].first << " " << (*M)[i].second.first << " "  <<  (*M)[i].second.second << "\n";
+		}
+		std::cout << "\n";  
+		for(int asas = 0; asas < maxCost; asas++){
+			if((*taboo)[asas])  std::cout << asas <<" ";
+		}
+
+		std::cout << "\n" << q->size() <<"\n\n";
+*/
+
+
+
+
 		if(bestVal > (*M)[0].first){
 			r.second = x;
 			r.second.insert(((*M)[0]).second.first, ((*M)[0]).second.second);
@@ -69,14 +87,14 @@ LocalSearch::Result TabooSearch::operator ()
 		}
 
 		bool flague = false;
-		for (unsigned int i = 0; i < M->size(); ++i){
-			if(!flague && !(*taboo)[(*M)[i].first]){
-				x.insert(((*M)[i]).second.first, ((*M)[i]).second.second);
+		for (unsigned int k = 0; k < M->size(); ++k){
+			if(!flague && !(*taboo)[(*M)[k].first]){
+				x.insert(((*M)[k]).second.first, ((*M)[k]).second.second);
 				flague = true;
-			}
-			if(!(*taboo)[(*M)[i].first]){
-				q->push(i);
-				(*taboo)[i] = 1;
+//			}
+//			if(!(*taboo)[(*M)[k].first]){
+				q->push(k);
+				(*taboo)[k] = 1;
 				if(q->size() > TabooSize){
 					(*taboo)[q->front()] = 0;
 					q->pop();

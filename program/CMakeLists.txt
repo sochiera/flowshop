@@ -71,3 +71,6 @@ target_link_libraries(random flowshoplib)
 
 add_executable(smart_random smart_random.cpp)
 target_link_libraries(smart_random flowshoplib)
+
+add_executable(taboo_search taboo_search.cpp)
+target_link_libraries(taboo_search flowshoplib)

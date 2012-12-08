@@ -20,7 +20,8 @@
 const int num_parents = 100;
 const int num_individuals = 100;
 
-const double mutation_probability = 0.01;
+
+const double mutation_probability = 0.00;
 
 
 void save_results(int aim, int result, int problem, const char * filename){
