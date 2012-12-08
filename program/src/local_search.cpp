@@ -88,7 +88,7 @@ LocalSearch::Result TabooSearch::operator ()
 	delete taboo;
 	delete M;
 	delete _M;
-	r.first = x;
+	r.first = r.second;
 	return r;
 }
 
