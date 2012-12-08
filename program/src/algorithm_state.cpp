@@ -3,7 +3,7 @@
 #include <algorithm>
 
 AlgorithmState::AlgorithmState(){
-  iteration_ = 0;  
+  iteration_ = 1;  
 }
 
 

@@ -36,7 +36,9 @@ class FlowshopSolver{
       mutation_strategy(mutation), 
       replacement_strategy(replacement),
       adaptation(fadaptation),
-      local_search(local)
+      local_search(local),
+      secondary_replacement_ptr(0),
+      secondary_period(0)
     {}
 
     void run(
@@ -48,6 +50,7 @@ class FlowshopSolver{
     const std::vector<IterationInfo> & iterations() const;
 
     double solution() const;
+    void set_secondary_replacement(const ReplacementStrategy & rep, int period);
 
   private:
     AlgorithmState state;
@@ -58,6 +61,9 @@ class FlowshopSolver{
     const ReplacementStrategy & replacement_strategy;  
     const AdaptationScaler & adaptation;
     const LocalSearchStrategy & local_search;
+
+    const ReplacementStrategy * secondary_replacement_ptr;
+    int secondary_period;
 
     std::vector<IterationInfo> iterations_;
 

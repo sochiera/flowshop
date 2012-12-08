@@ -10,6 +10,9 @@ void FlowshopSolver::run(
   int population_size
 )
 {
+  const ReplacementStrategy & secondary_replacement = 
+    * secondary_replacement_ptr;
+
   // generate random population
   for(int i = 0; i < population_size; i++){
     Individual * next = new Individual(instance.num_tasks());
@@ -42,7 +45,16 @@ void FlowshopSolver::run(
     local_search(state, children);
 
     // replacement
-    replacement_strategy(state, children);
+    if(!secondary_replacement_ptr){
+      replacement_strategy(state, children);
+    }
+    else{
+      if(state.iteration() % secondary_period == 0)
+        secondary_replacement(state, children);
+      else
+        replacement_strategy(state, children);
+    }
+
 
     // evaluate again
     update_population(instance);
@@ -81,4 +93,12 @@ void FlowshopSolver::save_iteration_info(){
 
 double FlowshopSolver::solution() const{
   return std::min(state.best(), state.population().best());
+}
+
+
+void FlowshopSolver::set_secondary_replacement
+  (const ReplacementStrategy & rep, int period)
+{
+  secondary_replacement_ptr = &rep;
+  secondary_period = period;
 }
