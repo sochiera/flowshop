@@ -47,12 +47,16 @@ int main(int argc, char ** argv){
 
   int best = std::numeric_limits<int>::max();
   int start = time(0);
+  #pragma omp parallel for
   for(int i = 0; i < num_individuals; i++){
     Individual randomInd(instance.num_tasks());
     randomInd.randomize();
     int val = instance.evaluate(&randomInd);
-    if(val < best) best = val;
-    if((i/50000)*50000 == i) printf("%d\n", best);
+    #pragma omp critical
+    {
+      if(val < best) best = val;
+      if((i/50000)*50000 == i) printf("%d\n", best);
+    }
   }
   int duration = time(0) - start;
 

@@ -17,7 +17,7 @@
 #include <sstream>
 
 
-
+const int num_iterations = 1000;
 
 
 int main(int argc, char ** argv){
@@ -49,18 +49,27 @@ int main(int argc, char ** argv){
 
   int best = std::numeric_limits<int>::max();
 
-  TabooSearch ls(instance, 1000, 800);
+  TabooSearch ls(instance, num_iterations, 800);
 
-  int processed = 0;
   int start = time(0);
-  while(processed < num_individuals){
+
+  // each local search adds
+  const int n = instance.num_tasks();
+  const int per_local_search = num_iterations * (n - 1) * n;
+  const int needed_iterations = num_individuals / per_local_search;
+   
+  #pragma omp parallel for
+  for(int i = 0; i < needed_iterations; i++){
     Individual Ind(instance.num_tasks());
     Ind.randomize();
     LocalSearch::Result r = ls(&Ind);
-    processed += r.num_processed;
     int val = instance.evaluate(&(r.second));
-    if(val < best) best = val;
-    printf("best: %d found :%d\n", best, val);
+    
+    #pragma omp critical
+    {
+      if(val < best) best = val;
+      printf("best: %d found :%d\n", best, val);
+    }
   }
   int duration = time(0) - start;
 
