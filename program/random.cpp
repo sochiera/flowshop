@@ -13,6 +13,7 @@
 #include <adaptation.h>
 #include <solver.h>
 #include <termination.h>
+#include <limits>
 
 
 
@@ -20,8 +21,8 @@
 
 int main(int argc, char ** argv){
 
-  if(argc != 3){
-    printf("usage: ./flowshop problem_set problem_index\n");
+  if(argc != 5){
+    printf("usage: ./random problem_set problem_index execution_index num_individuals\n");
     return -1;
   }
   const char * filename = argv[1];
@@ -29,6 +30,8 @@ int main(int argc, char ** argv){
   int l = strlen(filename);
   test_set_name[l-7] = 0;
   const int instance_index = atoi(argv[2]);
+  const int execution_index = atoi(argv[3]);
+  const int num_individuals = atoi(argv[4]);
 
   BenchmarkCollection bc;
   try{
@@ -42,15 +45,26 @@ int main(int argc, char ** argv){
   srand(time(0));
   const FlowshopInstance & instance = bc.instance(instance_index);
 
-  int best = 20000000;
-
-  for(int i = 0; i < 100000000; i++){
+  int best = std::numeric_limits<int>::max();
+  int start = time(0);
+  for(int i = 0; i < num_individuals; i++){
     Individual randomInd(instance.num_tasks());
     randomInd.randomize();
     int val = instance.evaluate(&randomInd);
     if(val < best) best = val;
     if((i/50000)*50000 == i) printf("%d\n", best);
   }
-  printf("\n\n\nbest foundsolution: %d, feasible solution: %d\n", best, instance.feasible_solution());
+  int duration = time(0) - start;
+
+  printf("\n\n\nbest founds olution: %d, feasible solution: %d\n", best, instance.feasible_solution());
+
+  // save results
+  std::stringstream fname;
+  fname << test_set_name << "_" << instance_index << "_" << execution_index << ".random";
+  FILE * out = fopen(fname.str().c_str(), "w");
+  fprintf(out, "best random solution : %d\n", best);
+  fprintf(out, "time (s) : %d\n", duration);
+  fclose(out);
+
   return 0;
 }
