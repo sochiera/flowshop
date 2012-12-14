@@ -54,7 +54,7 @@ TEST(SinglePointOperator, FindsBetterSolutions){
   randomInd.randomize();
   randomInd.set_cost(instance.evaluate(&randomInd));
 
-  Crossover::Result r = ls(&randomInd);
+  LocalSearch::Result r = ls(&randomInd);
 
   ASSERT_LE(r.first.cost(), randomInd.cost());
   ASSERT_LE(r.second, r.first);	

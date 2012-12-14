@@ -12,7 +12,18 @@ class LocalSearch{
     LocalSearch(const FlowshopInstance & instance)
       : instance_(instance) {};
 
-    typedef std::pair<Individual, Individual> Result;	
+    struct Result{
+      Individual first;
+      Individual second;
+      int num_processed;
+
+      Result(const Individual & f, const Individual & s, int n) 
+        : first(f), second(s), num_processed(n) {}
+
+      Result() : num_processed(0) {}
+    };
+
+
     Individual insert(const Individual * Ind, int elemIdx, int i) const;
     virtual Result operator() (const Individual * Ind) const = 0;
   

@@ -31,8 +31,6 @@ LocalSearch::Result SimulatedAnnealing::operator ()
 LocalSearch::Result TabooSearch::operator () 
   (const P * Ind) const
 {
-
-
 	Individual x(*Ind);
 	int bestVal = instance_.evaluate(&x);
 
@@ -44,7 +42,6 @@ LocalSearch::Result TabooSearch::operator ()
 
 	Result r;
 	r.second = x;
-
 	for (int i = 0; i < NumIterations; ++i)
 	{
 		M->clear();
@@ -53,6 +50,7 @@ LocalSearch::Result TabooSearch::operator ()
 			temp.insert(j, n-1);
 			_M->clear();
 			*_M = instance_.evaluate_all_insertions(&temp);
+      r.num_processed += _M->size();
 		
 			for (unsigned int k = 0; k < _M->size(); ++k){
 				std::pair<int, int> change(j, k);
@@ -61,23 +59,6 @@ LocalSearch::Result TabooSearch::operator ()
 			}
 		}
 		std::sort(M->begin(), M->end());
-
-
-
-
-		//debug info
-/*		for(int i = 0; i < 30; i++){
-			std::cout << (*M)[i].first << " " << (*M)[i].second.first << " "  <<  (*M)[i].second.second << "\n";
-		}
-		std::cout << "\n";  
-		for(int asas = 0; asas < maxCost; asas++){
-			if((*taboo)[asas])  std::cout << asas <<" ";
-		}
-
-		std::cout << "\n" << q->size() <<"\n\n";
-*/
-
-
 
 
 		if(bestVal > (*M)[0].first){
@@ -91,8 +72,6 @@ LocalSearch::Result TabooSearch::operator ()
 			if(!flague && !(*taboo)[(*M)[k].first]){
 				x.insert(((*M)[k]).second.first, ((*M)[k]).second.second);
 				flague = true;
-//			}
-//			if(!(*taboo)[(*M)[k].first]){
 				q->push(k);
 				(*taboo)[k] = 1;
 				if(q->size() > TabooSize){
@@ -144,11 +123,13 @@ LocalSearch::Result SinglePointOperator::operator ()
   int best_k = 0;
   int best_j = 0;
   int best_val = 1000000000;
+  int processed = 0;
   
   for(int k = 0; k < n; k++){
     P father(*ind);
     father.insert(k, n-1);
     std::vector<int> costs = instance_.evaluate_all_insertions(&father);
+    processed += costs.size();
     
     int bi = 0;
     for(unsigned int i = 1; i < costs.size(); i++)
@@ -165,7 +146,7 @@ LocalSearch::Result SinglePointOperator::operator ()
   res.insert(best_k, n-1);
   res.insert(n-1, best_j);
   res.set_cost(best_val);
-  return std::make_pair(res, res);
+  return Result(res, res, processed);
 }
 
 
@@ -180,6 +161,7 @@ void SimpleStrategy::operator () (AlgorithmState & state,
 		LocalSearch::Result r = local_search_(children[i]);
 		*(children[i]) = r.first;
     state.set_best_if_better(r.second);
+    state.inc_processed(r.num_processed);
 	}
 }
 
@@ -194,6 +176,9 @@ void ParallelSearchStrategy::operator () (AlgorithmState & state,
 		*(children[i]) = r.first;
     
     #pragma omp critical
-    state.set_best_if_better(r.second);
-	}
+    {
+      state.set_best_if_better(r.second);
+	    state.inc_processed(r.num_processed);
+    }
+  }
 }

@@ -28,8 +28,8 @@ int AlgorithmState::processed() const{
   return processed_;
 }
 
-void AlgorithmState::inc_processed(){
-  processed_ ++; 
+void AlgorithmState::inc_processed(int delta){
+  processed_ += delta;
 }
 
 

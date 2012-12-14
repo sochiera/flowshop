@@ -22,7 +22,6 @@ void ProportionalImmigrationOperator::operator()
   double amt = max_amount_ * (1 - d) + min_amount_ * d;
 
   const int n = st.population().size() * amt;
-  printf("%d\n", n);
   replace_worst_with_random(n, st, instance);
 }
 
@@ -36,6 +35,7 @@ void ImmigrationOperator::replace_worst_with_random(
   std::vector<Individual *> immigrants;
   for(int i = P.size() - n; i < P.size(); i++){
     Individual * next = new Individual(instance.num_tasks());
+    st.inc_processed();
     next->randomize();
     next->set_cost(instance.evaluate(next));
     immigrants.push_back(next);

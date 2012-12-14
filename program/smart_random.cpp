@@ -51,7 +51,7 @@ int main(int argc, char ** argv){
     Ind.randomize();
     int val = instance.evaluate(&Ind);
     while(true){
-      Crossover::Result r = localsearch(&Ind);
+      LocalSearch::Result r = localsearch(&Ind);
       int val2 = instance.evaluate(&(r.second));
       if(val2 < val){
         i++;

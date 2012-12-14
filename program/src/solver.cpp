@@ -17,6 +17,7 @@ void FlowshopSolver::run(
   // generate random population
   for(int i = 0; i < population_size; i++){
     Individual * next = new Individual(instance.num_tasks());
+    state.inc_processed();
     next->randomize();
     next->set_cost(instance.evaluate(next));
     state.population().add(next);
@@ -24,8 +25,8 @@ void FlowshopSolver::run(
   
   // evaluate individuals, sort them etc.
   update_population(instance);
-
-  while( !termination(state)){
+  
+  while( !termination(state) && solution() > instance.feasible_solution()){
     // select parents
     std::vector<const Individual *> parents = 
       parent_selector(state);
@@ -40,6 +41,7 @@ void FlowshopSolver::run(
     // evaluate children
     for(unsigned int i = 0; i < children.size(); i++){
       double c = instance.evaluate(children[i]); 
+      state.inc_processed();
       children[i]->set_cost(c);
     }
 
@@ -67,8 +69,11 @@ void FlowshopSolver::run(
     // one more iteration...
     state.inc_iteration();
 
-    printf("current iteration : %5d best: %d diversity : %lf\n",
-      state.iteration(), state.population().best(), state.population().diversity());
+    printf("current iteration : %5d best: %d diversity : %lf processed : %d  \n",
+      state.iteration(), 
+      state.population().best(), 
+      state.population().diversity(),
+      state.processed());
     fflush(stdout);
 
     save_iteration_info();
@@ -91,13 +96,14 @@ void FlowshopSolver::save_iteration_info(){
   IterationInfo info;
   info.cost_mean = state.population().mean();
   info.cost_variance = state.population().variance();
-  info.cost_variance = sqrt(state.population().variance());
+  info.cost_sdev = sqrt(state.population().variance());
   info.best_cost = state.population().best();
+  info.diversity = state.population().diversity();
   iterations_.push_back(info);
 }
 
 
-double FlowshopSolver::solution() const{
+int FlowshopSolver::solution() const{
   return std::min(state.best(), state.population().best());
 }
 
@@ -107,4 +113,13 @@ void FlowshopSolver::set_secondary_replacement
 {
   secondary_replacement_ptr = &rep;
   secondary_period = period;
+}
+
+
+int FlowshopSolver::processed() const{
+  return state.processed();
+}
+
+int FlowshopSolver::num_iterations() const{
+  return state.iteration();
 }

@@ -19,7 +19,7 @@
 
 const int num_parents = 1000;
 const int num_individuals = 1000;
-const int num_iterations = 10000;
+const int num_iterations = 1000;
 
 const double max_immigrant_ratio = 0.3;
 const int num_immigrant_search_iterations = 5;
@@ -27,7 +27,7 @@ const int num_immigrant_search_iterations = 5;
 const double mutation_probability = 0.05;
 
 
-void save_results(int aim, int result, int time, int inum, int problem, 
+void save_results(int aim, int result, int time, int inum, int num_it, int problem, 
   const char * filename, int execution_number)
 {
   std::stringstream name;
@@ -35,6 +35,9 @@ void save_results(int aim, int result, int time, int inum, int problem,
   FILE * out = fopen(name.str().c_str(), "w");
   fprintf(out, "best known solution: %d\n", aim);
   fprintf(out, "our solution: %d\n", result);
+  fprintf(out, "time (s): %d\n", time);
+  fprintf(out, "iterations: %d\n", num_it);
+  fprintf(out, "number of processed individuals: %d\n", inum);
   fclose(out);
 }
 
@@ -46,13 +49,14 @@ void save_progress(const std::vector<IterationInfo> & iterations,
   sname <<  problem_name << "_" << problem << "_" << execution_number << ".progress";
   std::string name = sname.str();
   FILE * out = fopen(name.c_str(), "w");
-  fprintf(out, "# iteration best mean variance\n");
+  fprintf(out, "# iteration best mean sdev diversity\n");
   for(unsigned int i = 0; i < iterations.size(); i++){
-    fprintf(out, "%d %lf %lf %lf\n", 
+    fprintf(out, "%d %lf %lf %lf %lf\n", 
       i,
       iterations[i].best_cost, 
       iterations[i].cost_mean, 
-      iterations[i].cost_sdev);
+      iterations[i].cost_sdev,
+      iterations[i].diversity);
   }
   fclose(out);
 
@@ -145,8 +149,9 @@ int main(int argc, char ** argv){
   printf("time = %d\n", duration);
 
   // save results
-  int num_ind = 0;
-  save_results(instance.feasible_solution(), solver.solution(), duration, num_ind ,
+  int num_ind = solver.processed();
+  int num_it = solver.num_iterations();
+  save_results(instance.feasible_solution(), solver.solution(), duration, num_ind, num_it,
                instance_index, test_set_name, execution_number);
   save_progress(solver.iterations(), instance_index, 
                 test_set_name, execution_number);

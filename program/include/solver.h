@@ -18,6 +18,7 @@ struct IterationInfo{
   double cost_mean;
   double cost_variance;
   double cost_sdev;
+  double diversity;
   double best_cost;
 };
 
@@ -53,7 +54,10 @@ class FlowshopSolver{
 
     const std::vector<IterationInfo> & iterations() const;
 
-    double solution() const;
+    int solution() const;
+    int processed() const;
+    int num_iterations() const;
+
     void set_secondary_replacement(const ReplacementStrategy & rep, int period);
 
   private:

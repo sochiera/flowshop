@@ -11,7 +11,7 @@ class AlgorithmState{
     void inc_iteration(); 
 
     int processed() const;
-    void inc_processed();
+    void inc_processed(int delta = 1);
     Population & population();   
     const Population & population() const;
 
