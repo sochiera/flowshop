@@ -19,11 +19,17 @@
 
 const int num_parents = 1000;
 const int num_individuals = 1000;
+const int num_iterations = 10000;
+
+const double max_immigrant_ratio = 0.3;
+const int num_immigrant_search_iterations = 5;
 
 const double mutation_probability = 0.05;
 
 
-void save_results(int aim, int result, int problem, const char * filename, int execution_number){
+void save_results(int aim, int result, int time, int inum, int problem, 
+  const char * filename, int execution_number)
+{
   std::stringstream name;
   name << filename << "_" << problem << "_" << execution_number << ".solution";
   FILE * out = fopen(name.str().c_str(), "w");
@@ -111,7 +117,6 @@ int main(int argc, char ** argv){
   RandomPairCrossoverStrategy crossover_strategy(pmx);
 
   RandomPermutationCrossover ps; 
-  //ProportionalMutationStrategy mutation_strategy(ps, 0.01, 0.1);
 	RandomMutationStrategy mutation_strategy(ps, mutation_probability);
 
   FamilyReplacement replacement_strategy; 
@@ -119,7 +124,8 @@ int main(int argc, char ** argv){
   SinglePointOperator gsp(instance);
   ParallelSearchStrategy ls(gsp);
 
-  ProportionalImmigrationOperator immigration(0.0, 0.3, ls, 5);
+  ProportionalImmigrationOperator immigration(0.0, max_immigrant_ratio, 
+    ls, num_immigrant_search_iterations);
 
   FlowshopSolver solver(
     parent_selector, 
@@ -130,18 +136,17 @@ int main(int argc, char ** argv){
     immigration
   );
 
-  NumIterationsCondition term(10000);
+  NumIterationsCondition term(num_iterations);
 
   int start = time(0);
   solver.run(bc.instance(instance_index), term, num_individuals);
   int duration = time(0) - start;
   
-  
   printf("time = %d\n", duration);
 
   // save results
-
-  save_results(instance.feasible_solution(), solver.solution(), 
+  int num_ind = 0;
+  save_results(instance.feasible_solution(), solver.solution(), duration, num_ind ,
                instance_index, test_set_name, execution_number);
   save_progress(solver.iterations(), instance_index, 
                 test_set_name, execution_number);
