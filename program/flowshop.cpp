@@ -24,9 +24,9 @@ const int num_individuals = 1000;
 const double mutation_probability = 0.05;
 
 
-void save_results(int aim, int result, int problem, const char * filename){
+void save_results(int aim, int result, int problem, const char * filename, int execution_number){
   std::stringstream name;
-  name << filename << "_" << problem << ".solution";
+  name << filename << "_" << problem << "_" << execution_number << ".solution";
   FILE * out = fopen(name.str().c_str(), "w");
   fprintf(out, "best known solution: %d\n", aim);
   fprintf(out, "our solution: %d\n", result);
@@ -35,10 +35,10 @@ void save_results(int aim, int result, int problem, const char * filename){
 
 
 void save_progress(const std::vector<IterationInfo> & iterations, 
-  int problem, const char * problem_name)
+  int problem, const char * problem_name, int execution_number)
 {
   std::stringstream sname;
-  sname <<  problem_name << "_" << problem << ".progress";
+  sname <<  problem_name << "_" << problem << "_" << execution_number << ".progress";
   std::string name = sname.str();
   FILE * out = fopen(name.c_str(), "w");
   fprintf(out, "# iteration best mean variance\n");
@@ -75,8 +75,8 @@ void save_progress(const std::vector<IterationInfo> & iterations,
 
 int main(int argc, char ** argv){
 
-  if(argc != 3){
-    printf("usage: ./flowshop problem_set problem_index\n");
+  if(argc != 4){
+    printf("usage: ./flowshop problem_set problem_index execution_number\n");
     return -1;
   }
 
@@ -87,6 +87,7 @@ int main(int argc, char ** argv){
   int l = strlen(filename);
   test_set_name[l-7] = 0;
   const int instance_index = atoi(argv[2]);
+  const int execution_number = atoi(argv[3]);
 
   BenchmarkCollection bc;
   try{
@@ -135,8 +136,9 @@ int main(int argc, char ** argv){
   printf("\n");
 
   // save results
-  save_results(instance.feasible_solution(), solver.solution(), instance_index, test_set_name);
-  save_progress(solver.iterations(), instance_index, test_set_name);
+
+  save_results(instance.feasible_solution(), solver.solution(), instance_index, test_set_name, execution_number);
+  save_progress(solver.iterations(), instance_index, test_set_name, execution_number);
 
   free(test_set_name);
 
