@@ -61,6 +61,7 @@ void FlowshopSolver::run(
     update_population(instance);
 
     immigration(state, instance);
+
     update_population(instance);
 
     // one more iteration...

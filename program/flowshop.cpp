@@ -20,7 +20,6 @@
 const int num_parents = 1000;
 const int num_individuals = 1000;
 
-
 const double mutation_probability = 0.05;
 
 
@@ -120,7 +119,7 @@ int main(int argc, char ** argv){
   SinglePointOperator gsp(instance);
   ParallelSearchStrategy ls(gsp);
 
-  ProportionalImmigrationOperator immigration(0.0, 0.03, ls, 5);
+  ProportionalImmigrationOperator immigration(0.0, 0.3, ls, 5);
 
   FlowshopSolver solver(
     parent_selector, 
@@ -131,14 +130,21 @@ int main(int argc, char ** argv){
     immigration
   );
 
-  NumIterationsCondition term(1000);
+  NumIterationsCondition term(10000);
+
+  int start = time(0);
   solver.run(bc.instance(instance_index), term, num_individuals);
-  printf("\n");
+  int duration = time(0) - start;
+  
+  
+  printf("time = %d\n", duration);
 
   // save results
 
-  save_results(instance.feasible_solution(), solver.solution(), instance_index, test_set_name, execution_number);
-  save_progress(solver.iterations(), instance_index, test_set_name, execution_number);
+  save_results(instance.feasible_solution(), solver.solution(), 
+               instance_index, test_set_name, execution_number);
+  save_progress(solver.iterations(), instance_index, 
+                test_set_name, execution_number);
 
   free(test_set_name);
 
