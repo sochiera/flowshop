@@ -60,6 +60,22 @@ class RandomMutationStrategy : public MutationStrategy{
 };
 
 
+class ProportionalMutationStrategy : public MutationStrategy{
+  public:
+    ProportionalMutationStrategy(Mutation & mutation, double min_prob, double max_prob) :
+      MutationStrategy(mutation),
+			min_prob_(min_prob),
+			max_prob_(max_prob)
+		{}
+
+    virtual void operator() (AlgorithmState & state, 
+      std::vector<Individual *> & children) const;
+  
+  private:
+		double min_prob_;
+		double max_prob_;
+};
+
 #endif
   
 

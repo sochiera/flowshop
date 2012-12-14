@@ -9,6 +9,9 @@ class AlgorithmState{
     AlgorithmState();
     int iteration() const; 
     void inc_iteration(); 
+
+    int processed() const;
+    void inc_processed();
     Population & population();   
     const Population & population() const;
 
@@ -18,6 +21,7 @@ class AlgorithmState{
   private:
     Population population_;
     int iteration_;
+    int processed_;
     int best_solution_;
 };
 

@@ -17,6 +17,8 @@ class Population{
 
     double mean() const;
     double variance() const;
+    double dissipation() const;
+    double diversity() const;
     int best() const;
     int worst() const;
     int size() const;
@@ -26,6 +28,7 @@ class Population{
     double worst_adaptation() const;
 
     void add(Individual * individual);
+    void swap(int i, Individual * individual);
     void clear();
     
     bool needs_update() const;
@@ -40,6 +43,7 @@ class Population{
     double variance_;
     double best_;
     double worst_;
+    double diversity_;
 
     double adaptation_mean_;
     double adaptation_variance_;

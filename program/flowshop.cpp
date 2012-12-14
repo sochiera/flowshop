@@ -47,11 +47,11 @@ void save_progress(const std::vector<IterationInfo> & iterations,
       i,
       iterations[i].best_cost, 
       iterations[i].cost_mean, 
-      iterations[i].cost_variance);
+      iterations[i].cost_sdev);
   }
   fclose(out);
 
-  const char * titles[] = {"Best", "Mean", "Variance"};
+  const char * titles[] = {"Best", "Mean", "Sdev"};
   const char * colors[] = {"red", "green", "blue"};
 
   sname << ".gplt";
@@ -111,19 +111,23 @@ int main(int argc, char ** argv){
   RandomPairCrossoverStrategy crossover_strategy(pmx);
 
   RandomPermutationCrossover ps; 
-  RandomMutationStrategy mutation_strategy(ps, mutation_probability);
+  //ProportionalMutationStrategy mutation_strategy(ps, 0.01, 0.1);
+	RandomMutationStrategy mutation_strategy(ps, mutation_probability);
 
   FamilyReplacement replacement_strategy; 
   
   SinglePointOperator gsp(instance);
   ParallelSearchStrategy ls(gsp);
 
+  ProportionalImmigrationOperator immigration(0.0, 0.03, ls, 5);
+
   FlowshopSolver solver(
     parent_selector, 
     crossover_strategy,
     mutation_strategy,
     replacement_strategy,
-    is, ls
+    is, ls,
+    immigration
   );
 
   NumIterationsCondition term(1000);

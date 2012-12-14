@@ -2,6 +2,9 @@
 #include <algorithm>
 #include <stat_utils.h>
 #include <iostream>
+#include <cmath>
+#include <set>
+#include <cstdio>
 
 
 
@@ -15,6 +18,10 @@ Population::Population(){
 void Population::add(Individual * individual){
   needs_update_ = true;
   individuals_.push_back(individual);
+}
+
+void Population::swap(int i, Individual * individual){
+  individuals_[i] = individual;
 }
 
 
@@ -33,6 +40,14 @@ inline double sq(double x){
 }
 
 
+struct IndDiffCmp{
+  bool operator () (const Individual * a, const Individual * b) const{
+    return std::lexicographical_compare(a->begin(), a->end(), b->begin(), b->end()); 
+  }
+};
+
+
+
 void Population::update_stats(){
   if(!size())
     return;
@@ -41,6 +56,7 @@ void Population::update_stats(){
  
   best_ = individuals_.front()->cost();
   worst_ = individuals_.back()->cost();
+
 
   double * tmp = new double[size()];
 
@@ -67,6 +83,13 @@ void Population::update_stats(){
     adaptation_variance_ = mav.second;
   }
 
+  std::set<Individual *, IndDiffCmp> different;
+  for(int i = 0; i < size(); i++){
+    different.insert(individuals_[i]);
+  }
+
+  diversity_ = double(different.size()) / size();
+
   needs_update_ = false;
   delete [] tmp;
 }
@@ -81,6 +104,14 @@ double Population::variance() const{
   return variance_;
 }
 
+double Population::diversity() const{
+  return diversity_;
+}
+
+
+double Population::dissipation() const{
+  return sqrt(variance_) / mean_;
+}
 
 int Population::best() const{
   return individuals_[0]->cost();

@@ -1,9 +1,12 @@
 #include <algorithm_state.h>
 #include <individual.h>
 #include <algorithm>
+#include <limits>
 
 AlgorithmState::AlgorithmState(){
   iteration_ = 1;  
+  processed_ ++;
+  best_solution_ = std::numeric_limits<int>::max();
 }
 
 
@@ -19,6 +22,14 @@ void AlgorithmState::inc_iteration() {
 
 Population & AlgorithmState::population(){
   return population_;
+}
+
+int AlgorithmState::processed() const{
+  return processed_;
+}
+
+void AlgorithmState::inc_processed(){
+  processed_ ++; 
 }
 
 

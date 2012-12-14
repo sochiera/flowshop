@@ -7,68 +7,69 @@
 #include <cstdlib>
 #include <iostream>
 #include <crossover.h>
+#include <cmath>
 
 typedef Individual P;
 
 RandomPermutationCrossover::RandomPermutationCrossover(double c){
-	Constancy = c;
+  Constancy = c;
 }
 
 
 void RandomPermutationCrossover::operator () (Individual * a) const{
-	const int n = a->size();
-	P randPerm(n);
-	std::vector<int> vConst;
-	std::vector<int> vDiff;
+  const int n = a->size();
+  P randPerm(n);
+  std::vector<int> vConst;
+  std::vector<int> vDiff;
 
-	for(int i = 0; i < n; i++){
+  for(int i = 0; i < n; i++){
 
-		if(randbool(Constancy)) vConst.push_back(i);
-		else vDiff.push_back(i);
-	}
+    if(randbool(Constancy)) vConst.push_back(i);
+    else vDiff.push_back(i);
+  }
 
-	std::random_shuffle ( vDiff.begin(), vDiff.end() );
+  std::random_shuffle ( vDiff.begin(), vDiff.end() );
 
-	unsigned int vc = 0;
-	unsigned int vd = 0;
-	for(int i = 0; i < n; i++){
-		if(vc < vConst.size() && vConst[vc] == i){
-			randPerm[i] = vConst[vc];
-			vc++;
-		}
-		else{
-			randPerm[i] = vDiff[vd];
-			vd++;
-		}
-	}
+  unsigned int vc = 0;
+  unsigned int vd = 0;
+  for(int i = 0; i < n; i++){
+    if(vc < vConst.size() && vConst[vc] == i){
+      randPerm[i] = vConst[vc];
+      vc++;
+    }
+    else{
+      randPerm[i] = vDiff[vd];
+      vd++;
+    }
+  }
 
 
-	Composition c;
+  Composition c;
   Individual res = c.cross(&randPerm, a);
   std::copy(res.begin(), res.end(), a->begin());
 }
 
 
 PermutationShift::PermutationShift(double s){
-	Shift = s;
+  Shift = s;
 }
 
 void PermutationShift::operator () (Individual * a) const{
-	const int n = a->size();
-	
-	const int s = (int)((float)(n) * Shift);
-	const int shift = randint(1, 2*s);
+  const int n = a->size();
+  
+  const int s = (int)((float)(n) * Shift);
+  const int shift = randint(1, 2*s);
 
-	P shiftedPerm(n);
+  P shiftedPerm(n);
 
-	for(int i = 0; i < n; i++){
-		int x = (i + shift >=  n) ? (i+shift - n) : (i+shift);
-		shiftedPerm[i] = (*a)[x];
-	}
+  for(int i = 0; i < n; i++){
+    int x = (i + shift >=  n) ? (i+shift - n) : (i+shift);
+    shiftedPerm[i] = (*a)[x];
+  }
 
-	std::copy(shiftedPerm.begin(), shiftedPerm.end(), a->begin());
+  std::copy(shiftedPerm.begin(), shiftedPerm.end(), a->begin());
 
-	assert( a->valid() );
+  assert( a->valid() );
 }
 
 
@@ -80,4 +81,16 @@ void RandomMutationStrategy::operator() (AlgorithmState & state,
     if(randbool(p_))
       mutation_(children[i]);
 }
+
+
+void ProportionalMutationStrategy::operator() (AlgorithmState & state, 
+  std::vector<Individual *> & children) const
+{
+  double d = state.population().dissipation();
+  double p = min_prob_ * d + max_prob_ * (1 - d);
+  for(unsigned int i = 0; i < children.size(); i++)
+    if(randbool(p))
+      mutation_(children[i]);
+}
+
 

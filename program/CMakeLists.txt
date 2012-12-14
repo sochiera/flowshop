@@ -31,6 +31,7 @@ set(SOURCES
   src/local_search.cpp
   src/replacement.cpp
   src/benchmark_collection.cpp
+  src/immigration.cpp
 )
 
 

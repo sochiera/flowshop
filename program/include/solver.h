@@ -11,11 +11,13 @@
 #include <adaptation.h>
 #include <instance.h>
 #include <local_search.h>
+#include <immigration.h>
 
 
 struct IterationInfo{
   double cost_mean;
   double cost_variance;
+  double cost_sdev;
   double best_cost;
 };
 
@@ -29,7 +31,8 @@ class FlowshopSolver{
       const MutationStrategy & mutation,
       const ReplacementStrategy & replacement,
       const AdaptationScaler & fadaptation,
-      const LocalSearchStrategy & local
+      const LocalSearchStrategy & local,
+      const ImmigrationOperator & imm
       )
     : parent_selector(selector), 
       crossover_strategy(crossover),
@@ -38,7 +41,8 @@ class FlowshopSolver{
       adaptation(fadaptation),
       local_search(local),
       secondary_replacement_ptr(0),
-      secondary_period(0)
+      secondary_period(0),
+      immigration(imm)
     {}
 
     void run(
@@ -64,6 +68,8 @@ class FlowshopSolver{
 
     const ReplacementStrategy * secondary_replacement_ptr;
     int secondary_period;
+
+    const ImmigrationOperator & immigration;
 
     std::vector<IterationInfo> iterations_;
 
