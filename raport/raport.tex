@@ -41,7 +41,7 @@ Problem jest w całości definiowany przez następujące dane:
   \item macierz $T$, w której $T_{ij}$ to czas przetwarzania $j$-tego zadania na $i$-tej maszynie
 \end{itemize}
 
-\subsection{Przestrzeń przeszukiwań}
+\subsection{Przestrzeń przeszukiwania}
 Łatwo zauważyć, że przebieg całego procesu odpowiadającego danej instancji problemu flow shop
 jest w całości zdefiniowany przez kolejność zadań na pierwszej maszynie, ponieważ na każdej innej
 zadania będą wykonywane dokładnie w tym samym porządku. Wynika ztąd, że przestrzenią poszukiwań jest
@@ -225,15 +225,68 @@ bez żadnych opcji wyświetli krótką instrukcję obsługi.
 
 
 
-\section{Otrzymane wyniki}
+
+
+\section{Wyniki}
+\subsection{Parametry algorytmu}
+
+\begin{table}[H]
+\caption{Wartości parametrów algorytmu}
+\label{parametry}
+\begin{center}
+\begin{tabular}{|l|l|}
+  \hline
+  parametr & wartość \\
+  \hline
+  rozmiar populacji & 1000 \\
+  ilość rodziców & 1000 \\
+  prawdopodobieństwo mutacji & 0.05 \\
+  $\alpha$ & 0.3 \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
 \subsection{Jakość rozwiązań}
+TODO
+
 \subsection{Działanie algorytmu}
+W każdej iteracji algorytmu zapisywaliśmy średnią wartość funkcji $makespan$ dla całej populacji
+oraz dla najlepszego osobnika. Wykres \ref{progress} przedstawia jak zmieniają się te wartości 
+podczas jednego uruchomienia algorytmu dla trudnego problemu ($m = 20$, $n = 500$). Widać na nim
+że mimo że postęp jest coraz wolniejszy, to algorytm nie pozwala by średnia wartość stała się równa
+najlepszej, tym samym zabezpieczając populację przed staniem się zbiorem kopii jednego osobnika.
+
+Poniższy wykres \ref{diversity} przedstawia wartość współczynnika różnorodności w zależności od numeru iteracji.
+Widać na nim, że algorytm stara się utrzymać możliwie wysoką wartość tego wskaźnika, lecz z czasem
+wylosowanie osobnika, który różnił by się od wszystkich istniejących i jednocześnie miał na tyle
+dobrą wartość funkcji $makespan$, by przetrwać proces selekcji jest coraz trudniejsze.
+
+\begin{figure}[H]
+\caption{Przebieg działania algorytmu}
+\label{progress}
+\begin{center}
+  \includegraphics{progres.eps}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Różnorodność populacji}
+\label{diversity}
+\begin{center}
+  \includegraphics{diversity.eps}
+\end{center}
+\end{figure}
+
+
+
 
 
 \section{Wnioski}  
 \subsection{Zbieżność algorytmu}
-Wykresy TODO pokazują, że o ile jakość znalezionego rozwiązania z czasem polepsza się coraz wolniej, to
-różnorodność populacji utrzymuje się na stałym poziomie. Oznacza to, że nasz algorytm jest odporny na utykanie
+Wykresy \ref{progress}, \ref{diversity} pokazują, że o ile jakość znalezionego rozwiązania z czasem polepsza się 
+coraz wolniej, to różnorodność populacji . Oznacza to, że nasz algorytm jest odporny na utykanie
 w minimach lokalnych, i nie przestanie działać z powodu zdominowania populacji przez jednego osobnika. Jest to
 zasługa strategii zastępowania i losowej imigracji, które chronią różnorodność populacji.
 
