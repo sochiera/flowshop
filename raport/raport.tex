@@ -44,8 +44,8 @@ Problem jest w całości definiowany przez następujące dane:
 \subsection{Przestrzeń przeszukiwania}
 Łatwo zauważyć, że przebieg całego procesu odpowiadającego danej instancji problemu flow shop
 jest w całości zdefiniowany przez kolejność zadań na pierwszej maszynie, ponieważ na każdej innej
-zadania będą wykonywane dokładnie w tym samym porządku. Wynika ztąd, że przestrzenią poszukiwań jest
-$S_n$ : zbiór wszystkich permutacji zbioru $n$-elementowego. Oczywiście $|S_n| = n!$, więc dla $n>10$
+zadania będą wykonywane dokładnie w tym samym porządku. Wynika stąd, że przestrzenią poszukiwań jest
+$S_n$ : zbiór wszystkich permutacji zbioru $n$-elementowego. Oczywiście $|S_n| = n!$, więc dla $n>15$
 przeszukanie całej przestrzeni staje się niepraktyczne.
 
 \subsection{Funkcja celu}
@@ -54,10 +54,10 @@ definiujemy jako czas od rozpoczęcia wykonywania pierwszego zadania na pierwsze
 zakończenia wykonywania ostatniego zadania na ostatniej maszynie.
 
 \subsection{Rozkład wartości $makespan(\pi)$}
-Dla instancji problemu, gdzie $n$ jest duże przestrzeń przeszukiwań jest tak ogromna, że trudno
+Dla instancji problemu gdzie $n$ jest duże, przestrzeń przeszukiwań jest tak ogromna, że trudno
 cokolwiek powiedzieć o rozkładzie wartości $makespan$, dlatego postanowiliśmy sprawdzić jak ta funkcja
 zachowuje się dla $n = 10$, gdzie możliwe jest policzenie jej wartości dla każdego $\pi \in S_n$.
-W naszym eksperymencie przyjęliśmy $m = TODO$, a $T_{ij}$ wylosowaliśmy z rozkładem jednostajnym 
+W naszym eksperymencie przyjęliśmy $m = 10$, a $T_{ij}$ wylosowaliśmy z rozkładem jednostajnym 
 z przedziału $[10, 20]$. Jakość rozwiązania $Q$ definiujemy jako:
 $$ Q(\pi) = \frac{makespan(\pi)}{makespan(\pi_{opt})}$$
 gdzie $\pi_{opt}$ to optymalne szeregowanie zadań dla tej instancji.
@@ -248,8 +248,98 @@ bez żadnych opcji wyświetli krótką instrukcję obsługi.
 \end{table}
 
 
+
+
+
 \subsection{Jakość rozwiązań}
-TODO
+
+Jakość naszych rozwiązań porównaliśmy z najlepszymi znanymi rozwiązaniami do
+użytych przez nas benchmarków \cite{inst} oraz wynikami algorytmu oceniającego
+tyle losowych osobników, ile zdoła w czasie równym czasowi działania algorytmu
+ewolucyjnego.  W tabeli \ref{best} znajdują się otrzymane przez nas wyniki
+(uruchamialiśmy oba algorytmy 20 razy).  Widać że nasz algorytm spisuje się
+zdecydowanie lepiej, niż losowe błądzenie po przestrzeni przeszukiwania. Dla
+małych przypadków algorytm ewolucyjny znajduje optymalne rozwiązanie problemu,
+w przeciwieństwie do losowania, któremu nie udaje się to nigdy. Dla większych
+testów algorytm ewolucyjny nie znajduje rozwiązania optymalnego, ale zbliża się do
+niego zdecydowanie bardziej niż losowanie.
+
+Nasz algorytm ma jeszcze jedną przewagę nad losowym - systematyczne
+przeglądanie $S_n$ pozwala na szybsze obliczanie wartości funkcji celu, przez
+co jest w stanie przejrzeć $n$ razy więcej osobników w tym samym czasie.
+
+Tabela \ref{mean} zawiera podobne dane, ale dla średniej z 20 uruchomień każdego
+algorytmu. Widać w niej, że algorytm ewolucyjny radzi sobie lepiej, dając rozwiązania
+o mniejszej wartości funkcji $makespan$ i jest bardziej przewidywalny, bo odchylenie
+standardowe jego wyników również jest mniejsze.
+
+Nazwy kolumn w obu tabelach:
+\begin{description}
+  \item[$n$] ilość zadań 
+  \item[$m$] ilość maszyn 
+  \item[$id$] numer instancji zgodnie z \cite{inst}
+  \item[$opt$] najlepsze znane rozwiązanie
+  \item[$opt_{ev}$] najlepsze rozwiązanie znalezione przez algorytm ewolucyjny
+  \item[$opt_{random}$] najlepsze rozwiązanie znalezione przez losowanie
+  \item[$Q_{ev}$] jakość rozwiązania ewolucyjnego 
+  \item[$Q_{random}$] jakość rozwiązania losowego
+
+  \item[$\overline{opt_{ev}}$] średnie najlepsze rozwiązanie znalezione przez algorytm ewolucyjny
+  \item[$\overline{opt_{random}}$] średnie najlepsze rozwiązanie znalezione przez losowanie
+  \item[$Dopt_{ev}$] odchylenie standardowe najlepszych rozwiązań algorytmu ewolucyjnego
+  \item[$Dopt_{random}$] odchylenie standardowe najlepszych rozwiązań algorytmu losowego
+\end{description}
+
+
+\begin{table}[H]
+\caption{Najlepsze znalezione rozwiązanie}
+\label{best}
+\begin{center}
+\begin{tabular}{|l|l|l|l||l|l||l|l|}
+  \hline
+  $n$ & $m$ & $id$ & $opt$ & $opt_{ev}$ & $opt_{random}$ & $Q_{ev}$ & $Q_{random}$ \\
+  \hline
+  20 & 5 & 0 & 1278 & 1278 & 1296 & 1.0 & 1.014 \\
+  20 & 10 & 0 & 1582 & 1582 & 1657 & 1.0 & 1.047 \\
+  20 & 20 & 0 & 2297 & 2297 & 2381 & 1.0 & 1.036 \\
+  50 & 5 & 0 & 2724 & 2724 & 2744 & 1.0 & 1.007 \\
+  50 & 10 & 0 & 3025 & 3025 & 3293 & 1.0 & 1.088 \\
+  50 & 20 & 0 & 3875 & 3893 & 4315 & 1.004 & 1.113 \\
+  100 & 10 & 0 & 5770 & 5770 & 6242 & 1.0 & 1.081 \\
+  100 & 20 & 0 & 6286 & 6304 & 7112 & 1.002 & 1.131 \\
+  200 & 10 & 0 & 10868 & 10872 & 11403 & 1.001 & 1.049 \\
+  500 & 20 & 0 & 26189 & 26249 & 28806 & 1.002 & 1.099 \\
+  500 & 20 & 1 & 26629 & 26700 & 29169 & 1.002 & 1.095 \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\caption{Średnie najlepsze znalezione rozwiązanie}
+\label{mean}
+\begin{center}
+\begin{tabular}{|l|l|l|l||l|l||l|l|}
+  \hline
+  $n$ & $m$ & $id$ & $\overline{opt_{ev}}$ & $\overline{opt_{random}}$ & $Dopt_{ev}$ & $Dopt_{random}$ \\
+  \hline
+  20 & 5 & 0 & 1278.0 & 1296.8 & 0.0 & 0.314 \\
+  20 & 10 & 0 & 1582.4 & 1675.6 & 0.942809041582 & 8.53 \\
+  20 & 20 & 0 & 2297.4 & 2407.2 & 0.666 & 13.219 \\
+  50 & 5 & 0 & 2724.0 & 2753.4 & 0.0 & 5.209 \\
+  50 & 10 & 0 & 3036.8 & 3342.2 & 4.565 & 19.048 \\
+  50 & 20 & 0 & 3896.4 & 4342.8 & 3.8 & 13.464 \\
+  100 & 10 & 0 & 5776.0 & 6264.6 & 6.236 & 14.605 \\
+  100 & 20 & 0 & 6319.4 & 7143.6 & 11.275 & 18.499 \\
+  200 & 10 & 0 & 10876.4 & 11436.8 & 6.128 & 16.251 \\
+  500 & 20 & 0 & 26284.6 & 28858.4 & 15.114 & 29.295 \\
+  500 & 20 & 1 & 26738.2 & 29266.2 & 21.183 & 47.115 \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
 
 \subsection{Działanie algorytmu}
 W każdej iteracji algorytmu zapisywaliśmy średnią wartość funkcji $makespan$ dla całej populacji
@@ -258,7 +348,7 @@ podczas jednego uruchomienia algorytmu dla trudnego problemu ($m = 20$, $n = 500
 że mimo że postęp jest coraz wolniejszy, to algorytm nie pozwala by średnia wartość stała się równa
 najlepszej, tym samym zabezpieczając populację przed staniem się zbiorem kopii jednego osobnika.
 
-Poniższy wykres \ref{diversity} przedstawia wartość współczynnika różnorodności w zależności od numeru iteracji.
+Wykres \ref{diversity} przedstawia wartość współczynnika różnorodności w zależności od numeru iteracji.
 Widać na nim, że algorytm stara się utrzymać możliwie wysoką wartość tego wskaźnika, lecz z czasem
 wylosowanie osobnika, który różnił by się od wszystkich istniejących i jednocześnie miał na tyle
 dobrą wartość funkcji $makespan$, by przetrwać proces selekcji jest coraz trudniejsze.
@@ -270,6 +360,7 @@ dobrą wartość funkcji $makespan$, by przetrwać proces selekcji jest coraz tr
   \includegraphics{progres.eps}
 \end{center}
 \end{figure}
+
 
 \begin{figure}[H]
 \caption{Różnorodność populacji}
@@ -286,7 +377,7 @@ dobrą wartość funkcji $makespan$, by przetrwać proces selekcji jest coraz tr
 \section{Wnioski}  
 \subsection{Zbieżność algorytmu}
 Wykresy \ref{progress}, \ref{diversity} pokazują, że o ile jakość znalezionego rozwiązania z czasem polepsza się 
-coraz wolniej, to różnorodność populacji . Oznacza to, że nasz algorytm jest odporny na utykanie
+coraz wolniej, to różnorodność populacji jest utrzymywana na wysokim poziomie. Oznacza to, że nasz algorytm jest odporny na utykanie
 w minimach lokalnych, i nie przestanie działać z powodu zdominowania populacji przez jednego osobnika. Jest to
 zasługa strategii zastępowania i losowej imigracji, które chronią różnorodność populacji.
 
