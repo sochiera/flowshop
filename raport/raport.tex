@@ -3,6 +3,7 @@
 \usepackage{polski}
 \usepackage{a4wide}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
 
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -56,8 +57,13 @@ Dla instancji problemu, gdzie $n$ jest duże przestrzeń przeszukiwań jest tak 
 cokolwiek powiedzieć o rozkładzie wartości $makespan$, dlatego postanowiliśmy sprawdzić jak ta funkcja
 zachowuje się dla $n = 10$, gdzie możliwe jest policzenie jej wartości dla każdego $\pi \in S_n$.
 W naszym eksperymencie przyjeliśmy $m = TODO$, a $T_{ij}$ wylosowaliśmy z rozkładem jednostajnym 
-z przedziału $[10, 20]$. Powtórzyliśmy eksperyment 30 razy i sporządziliśmy histogram otrzymanych
-wyników, który można zobaczyć na wykresie 1 TODO;
+z przedziału $[10, 20]$. Jakość rozwiązania $Q$ definiujemy jako:
+$$ Q(\pi) = \frac{makespan(\pi)}{makespan(\pi_{opt})}$$
+gdzie $\pi_{opt}$ to optymalne szeregowanie zadań dla tej instancji.
+
+Na wykresie TODO można zobaczyć histogram dla $Q$. Na wykresie TODO znajduje się logarytmiczny wykres 
+"dystrybuanty" (\% populacji o wartości $Q$ mniejszej niż ta na osi $x$) tej wartości. Widać na nim, że 
+o ile 
 
 
 
@@ -200,11 +206,18 @@ bez żadnych opcji wyświetli krótką instrukcję obsługi.
 \section{Wnioski}
 
 
+
+
 \begin{thebibliography}{}
 \bibitem{tai90} 
 Éric D. Taillard. 
 Some efficient heuristic methods for the flow shop sequencing problem. 
 European Journal of Operational Research, 47(1):65-74, July 1990.
+\href{http://mistic.heig-vd.ch/taillard/articles.dir/Taillard1990.pdf}{pdf}
+
+\bibitem{inst}
+\url{http://mistic.heig-vd.ch/taillard/problemes.dir/ordonnancement.dir/ordonnancement.html}
+
 \end{thebibliography}
 
 
