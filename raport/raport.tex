@@ -8,7 +8,11 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{epstopdf}
 \usepackage{algpseudocode}
+\usepackage{float}
 
 
 \title{Algorytm ewolucyjny dla problemu flow shop}
@@ -16,10 +20,7 @@
 
 \begin{document}
 \maketitle
-\newpage
-
-\section{Wstęp}
-
+\tableofcontents
 
 \section{Problem}
 \subsection{Definicja}
@@ -37,18 +38,18 @@ Problem jest w całości definiowany przez następujące dane:
 \begin{itemize}
   \item $n$ - ilość zadań
   \item $m$ - ilość maszyn 
-  \item macierz $T$, w której $T_{ij}$ to czas przetwarania $j$-tego zadania na $i$-tej maszynie
+  \item macierz $T$, w której $T_{ij}$ to czas przetwarzania $j$-tego zadania na $i$-tej maszynie
 \end{itemize}
 
 \subsection{Przestrzeń przeszukiwań}
 Łatwo zauważyć, że przebieg całego procesu odpowiadającego danej instancji problemu flow shop
 jest w całości zdefiniowany przez kolejność zadań na pierwszej maszynie, ponieważ na każdej innej
-zadania będą wykonywane dokładnie w tym samym porządku. Wynika z tąd, że przestrzenią poszukiwań jest
-$S_n$ : zbiór wszystkich permutacji zbioru $n$ elementowego. Oczywiście $|S_n| = n!$, więc dla $n>10$
+zadania będą wykonywane dokładnie w tym samym porządku. Wynika ztąd, że przestrzenią poszukiwań jest
+$S_n$ : zbiór wszystkich permutacji zbioru $n$-elementowego. Oczywiście $|S_n| = n!$, więc dla $n>10$
 przeszukanie całej przestrzeni staje się niepraktyczne.
 
 \subsection{Funkcja celu}
-W naszym projekcie przyjeliśmy, że funkcją celu będzie  $ makespan : S_n \rightarrow \mathbb{R} $, który
+W naszym projekcie przyjęliśmy, że funkcją celu będzie  $ makespan : S_n \rightarrow \mathbb{R} $, który
 definiujemy jako czas od rozpoczęcia wykonywania pierwszego zadania na pierwszej maszynie do 
 zakończenia wykonywania ostatniego zadania na ostatniej maszynie.
 
@@ -56,14 +57,32 @@ zakończenia wykonywania ostatniego zadania na ostatniej maszynie.
 Dla instancji problemu, gdzie $n$ jest duże przestrzeń przeszukiwań jest tak ogromna, że trudno
 cokolwiek powiedzieć o rozkładzie wartości $makespan$, dlatego postanowiliśmy sprawdzić jak ta funkcja
 zachowuje się dla $n = 10$, gdzie możliwe jest policzenie jej wartości dla każdego $\pi \in S_n$.
-W naszym eksperymencie przyjeliśmy $m = TODO$, a $T_{ij}$ wylosowaliśmy z rozkładem jednostajnym 
+W naszym eksperymencie przyjęliśmy $m = TODO$, a $T_{ij}$ wylosowaliśmy z rozkładem jednostajnym 
 z przedziału $[10, 20]$. Jakość rozwiązania $Q$ definiujemy jako:
 $$ Q(\pi) = \frac{makespan(\pi)}{makespan(\pi_{opt})}$$
 gdzie $\pi_{opt}$ to optymalne szeregowanie zadań dla tej instancji.
 
-Na wykresie TODO można zobaczyć histogram dla $Q$. Na wykresie TODO znajduje się logarytmiczny wykres 
-"dystrybuanty" (\% populacji o wartości $Q$ mniejszej niż ta na osi $x$) tej wartości. Widać na nim, że 
-o ile 
+Na wykresie \ref{rozklad} można zobaczyć histogram dla $Q$. Na wykresie \ref{dystrybuanta} znajduje 
+się logarytmiczny wykres "dystrybuanty" (\% populacji o wartości $Q$ mniejszej niż ta na osi $x$) tej 
+wartości. Widać na nim, że wraz ze spadkiem $Q$ drastycznie maleje ilość osobników, dla których $makespan$
+przyjmuje właśnie takie wartości.
+
+
+\begin{figure}[H]
+\caption{Rozkład $Q$}
+\label{rozklad}
+\begin{center}
+  \includegraphics{histogram.eps}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Dystrybuanta $Q$}
+\label{dystrybuanta}
+\begin{center}
+  \includegraphics{dystrybuanta.eps}
+\end{center}
+\end{figure}
 
 
 
@@ -78,8 +97,11 @@ i zwiększanie różnorodności populacji poprzez dodawanie losowych imigrantów
   \item[mutation\_probability] prawdopodobieństwo mutacji
   \item[$\alpha$] parametr imigracji
 \end{description}
-Pseudokod:
+Pseudokod algorytmu znajduje się na listingu~\ref{algorytm}
 
+\begin{algorithm}[H]
+\caption{Algorytm ewolucyjny dla problemu flow shop}
+\label{algorytm}
 \begin{algorithmic}
   \State $P \gets RandomPopulation(population\_size)$
   \State $EvaluatePopulation(P, instance)$
@@ -92,9 +114,10 @@ Pseudokod:
     \State $Population \gets AddImigrants(Population, instance, \alpha)$
   \EndWhile
 \end{algorithmic}
+\end{algorithm}
 
 \subsection{Ocena osobników $EvaluatePopulation$}
-Pojedyńczego osobnika można ocenić przy pomocy prostego algorytmu dynamicznego, korzystającego
+Pojedynczego osobnika można ocenić przy pomocy prostego algorytmu dynamicznego, korzystającego
 z następujących zależności ($E[i,j]$ to czas zakończenia wykonywania $j$-tego w kolejności zadania
 na $i$-tej maszynie, przy kolejności zadań $\pi$):
 $$ E[1, 1] = t_{1,\pi(1)} $$
@@ -121,7 +144,7 @@ się również, że warto pozwalać wszystkim osobnikom wziąć udział w reprod
 
 \subsection{Krzyżowanie $Crossover$}
 Osobniki wybrane do reprodukcji są losowo kojarzone w pary, tak że każdy ma dokładnie jednego partnera.
-Do krzyżowania użylismy prostego operatora PMX.
+Do krzyżowania użyliśmy prostego operatora PMX.
 
 \subsection{Mutacja $Mutate$}
 Z pewnym małym prawdopodobieństwem (po kilku eksperymentach ustaliliśmy tą wartość na 5\%) każde dziecko jest
@@ -133,6 +156,9 @@ zbieżność, to algorytm będzie miał tendencję do utykania w minimach lokaln
 to ewolucja nie będzie w stanie w rozsądnym czasie znaleźć dobrego rozwiązania. Czas obliczania tego kroku
 decyduje też o czasie działania całego algorytmu, bo polega on na przeszukaniu pewnego otoczenia osobnika
 w poszukiwaniu lepszego niż on sam sąsiada. Zdecydowaliśmy się na następujący schemat przeszukiwania lokalnego:
+\begin{algorithm}[H]
+\caption{Przeszukiwanie lokalne}
+\label{localsearch}
 \begin{algorithmic}
   \For {$i \gets 1 \ldots |Children|$}
     \State $I \gets Children[i]$
@@ -151,10 +177,11 @@ w poszukiwaniu lepszego niż on sam sąsiada. Zdecydowaliśmy się na następuj�
     \State $Children[i] = best$
   \EndFor
 \end{algorithmic}
+\end{algorithm}
 Czyli mówiąc krótko dla każdego dziecka próbujemy włożyć $j$-te zadanie na $k$-tą pozycję dla 
 wszystkich sensownych $j$ i $k$. Złożoność obliczeniowa takiego podejścia przy zastosowaniu algorytmu
-oceny przytoczonego wcześniej to $O(n^3k|Children|)$, ale przy zastosowaniu sprytniejszego algorytmu
-z pracy \cite{tai90}, można ją zredukować do $O(n^2k|Children|)$.
+oceny przytoczonego wcześniej to $O(mn^3|Children|)$, ale przy zastosowaniu sprytniejszego algorytmu
+z pracy \cite{tai90}, można ją zredukować do $O(mn^2|Children|)$.
 
 \subsection{Zastępowanie $Replace$}
 Aby uniemożliwić najlepszym osobnikom zdominowanie populacji po kilku iteracjach, użyliśmy schematu
@@ -198,12 +225,56 @@ bez żadnych opcji wyświetli krótką instrukcję obsługi.
 
 
 
-
 \section{Otrzymane wyniki}
+\subsection{Jakość rozwiązań}
+\subsection{Działanie algorytmu}
+
+
+\section{Wnioski}  
+\subsection{Zbieżność algorytmu}
+Wykresy TODO pokazują, że o ile jakość znalezionego rozwiązania z czasem polepsza się coraz wolniej, to
+różnorodność populacji utrzymuje się na stałym poziomie. Oznacza to, że nasz algorytm jest odporny na utykanie
+w minimach lokalnych, i nie przestanie działać z powodu zdominowania populacji przez jednego osobnika. Jest to
+zasługa strategii zastępowania i losowej imigracji, które chronią różnorodność populacji.
+
+\subsection{Ograniczenia na wielkość problemu}
+\subsubsection{Pamięciowe}
+W wypadku naszego algorytmu ograniczeniem jest wyłącznie czas jego działania, ponieważ
+pamięć zużywana na przechowywanie populacji jest niezmienna w czasie i proporcjonalna do
+$n \cdot population\_size$, co nie stanowi żadnego problemu dla współczesnych komputerów.
+\subsubsection{Czasowe}
+Złożoność pojedynczej iteracji jest zdominowana przez czas przeszukiwania lokalnego, który wynosi
+$O(mn^2|Children|)$, zatem złożoność całego algorytmu to $O(smn^2|Children|)$, gdzie $s$ to ilość iteracji.
+Trudno powiedzieć, jaka jest górna granica rozmiaru rozwiązywalnego problemu, ponieważ przeszukiwanie 
+lokalne jest zaimplementowane równolegle, czyli stała ukryta w notacji $O$ jest odwrotnie proporcjonalna
+do liczby procesorów komputera na którym uruchamiamy algorytm. W tabeli \ref{sredniaiteracja} znajdują się 
+średnie czasy wykonania iteracji algorytmu dla 1000 osobników i różnych problemów, na komputerze wyposażonym w:
+\begin{itemize}
+  \item Procesor Intel i7 $8 \times \text{3.4 GHz}$
+  \item 16 GB pamięci RAM
+\end{itemize}
+
+\begin{table}[H]
+\caption{Średni czas iteracji dla 1000 osobników}
+\label{sredniaiteracja}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+  \hline
+  n & m & średni czas iteracji \\
+  \hline
+  500 & 20 & 7.3 s \\
+  200 & 20 & 1.27 s \\
+  200 & 10 & 0.72 s \\
+  100 & 20 & 0.36 s \\
+  100 & 10 & 0.18 s \\
+  100 & 5 & 0.09 s \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 
 
-\section{Wnioski}
 
 
 
