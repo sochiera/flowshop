@@ -331,12 +331,12 @@ przeszukiwania lokalnego (ten proces jest niezależny dla każdego osobnika).
 
 \frametitle{Działanie algorytmu}
 W każdej iteracji algorytmu zapisywaliśmy średnią wartość funkcji $makespan$ dla całej populacji
-oraz dla najlepszego osobnika. Wykres \ref{progress} przedstawia jak zmieniają się te wartości 
+oraz dla najlepszego osobnika. Wykres progress przedstawia jak zmieniają się te wartości 
 podczas jednego uruchomienia algorytmu dla trudnego problemu ($m = 20$, $n = 500$). Widać na nim
 że mimo że postęp jest coraz wolniejszy, to algorytm nie pozwala by średnia wartość stała się równa
 najlepszej, tym samym zabezpieczając populację przed staniem się zbiorem kopii jednego osobnika.
 
-Wykres \ref{diversity} przedstawia wartość współczynnika różnorodności w zależności od numeru iteracji.
+Wykres diversity przedstawia wartość współczynnika różnorodności w zależności od numeru iteracji.
 Widać na nim, że algorytm stara się utrzymać możliwie wysoką wartość tego wskaźnika, lecz z czasem
 wylosowanie osobnika, który różnił by się od wszystkich istniejących i jednocześnie miał na tyle
 dobrą wartość funkcji $makespan$, by przetrwać proces selekcji jest coraz trudniejsze.
@@ -346,7 +346,7 @@ dobrą wartość funkcji $makespan$, by przetrwać proces selekcji jest coraz tr
 
 \frame{
 \frametitle{Zbieżność algorytmu}
-Wykresy \ref{progress}, \ref{diversity} pokazują, że o ile jakość znalezionego rozwiązania z czasem polepsza się 
+Wykresy progress, diversity pokazują, że o ile jakość znalezionego rozwiązania z czasem polepsza się 
 coraz wolniej, to różnorodność populacji jest utrzymywana na wysokim poziomie. Oznacza to, że nasz algorytm jest odporny na utykanie
 w minimach lokalnych, i nie przestanie działać z powodu zdominowania populacji przez jednego osobnika. Jest to
 zasługa strategii zastępowania i losowej imigracji, które chronią różnorodność populacji.
